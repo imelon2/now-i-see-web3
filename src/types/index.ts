@@ -1,8 +1,9 @@
-import type { AbiFunction, AbiEvent } from "viem";
+import type { Abi } from "viem";
 
 // ─── ABI Archive ───────────────────────────────────────────────────────────────
 
-export type AbiItem = AbiFunction | AbiEvent;
+// viem Abi 배열의 요소 타입 (function | event | error | constructor | fallback | receive)
+export type AbiItem = Abi[number];
 
 // ─── Transaction ───────────────────────────────────────────────────────────────
 

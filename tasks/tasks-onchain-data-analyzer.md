@@ -51,15 +51,15 @@
   - [x] 1.6 전역 스타일에 모노스페이스 폰트(예: `JetBrains Mono`, `Fira Code`)를 적용하고 기본 개발자 친화 테마(다크 배경, 고대비 텍스트)를 설정한다
   - [x] 1.7 공통 TypeScript 타입을 `src/types/index.ts`에 정의한다 (예: `DecodedCalldata`, `DecodedEvent`, `DecodedError`, `TxInfo`, `WidgetType`)
 
-- [ ] 2.0 멀티체인 구성 및 공통 유틸리티
-  - [ ] 2.1 `src/lib/chains/chainList.ts`를 생성하고 PRD 명세에 따라 `viem`의 `defineChain`으로 `dkargoWarehouse`, `dkargo` 커스텀 체인을 정의한다
-  - [ ] 2.2 `supportedChains` 배열을 `chainList.ts`에 export한다 (mainnet, sepolia, arbitrum, arbitrumSepolia, kaia, polygon, dkargoWarehouse, dkargo, localhost, base, baseSepolia, avalanche)
-  - [ ] 2.3 `src/lib/utils/viemClient.ts`를 생성하고 체인을 받아 viem `createPublicClient`를 반환하는 팩토리 함수를 구현한다
-  - [ ] 2.4 `src/lib/utils/multiRace.ts`를 생성하고 PRD에 명시된 `multiRace<T>` 함수를 그대로 구현한다
-  - [ ] 2.5 `src/lib/utils/abiArchive.ts`를 생성하고 function selector(4바이트)를 받아 ABI archive URL을 계산한 뒤 `axios`로 조회하는 `fetchAbiBySelector` 함수를 구현한다 (URL 형식: `archive/function/{selector[2..4]}/{selector[4..6]}/abi.json`)
-  - [ ] 2.6 `fetchAbiBySelector`에 인메모리 `Map` 캐시를 추가해 동일 selector 재조회를 방지한다
-  - [ ] 2.7 `src/lib/utils/hex.ts`를 생성하고 `isValidHex` (0x 형식 유효성 검증), `truncateHex` (앞 10자 + … + 뒤 8자 형태 축약) 함수를 구현한다
-  - [ ] 2.8 `src/lib/utils/decoder.ts`를 생성하고 viem의 `decodeFunctionData`, `decodeEventLog`, `decodeErrorResult`를 래핑하는 공통 디코딩 함수들을 구현한다 (디코딩 실패 시 null 반환, 예외 미전파)
+- [x] 2.0 멀티체인 구성 및 공통 유틸리티
+  - [x] 2.1 `src/lib/chains/chainList.ts`를 생성하고 PRD 명세에 따라 `viem`의 `defineChain`으로 `dkargoWarehouse`, `dkargo` 커스텀 체인을 정의한다
+  - [x] 2.2 `supportedChains` 배열을 `chainList.ts`에 export한다 (mainnet, sepolia, arbitrum, arbitrumSepolia, kaia, polygon, dkargoWarehouse, dkargo, localhost, base, baseSepolia, avalanche)
+  - [x] 2.3 `src/lib/utils/viemClient.ts`를 생성하고 체인을 받아 viem `createPublicClient`를 반환하는 팩토리 함수를 구현한다
+  - [x] 2.4 `src/lib/utils/multiRace.ts`를 생성하고 PRD에 명시된 `multiRace<T>` 함수를 그대로 구현한다
+  - [x] 2.5 `src/lib/utils/abiArchive.ts`를 생성하고 function selector(4바이트)를 받아 ABI archive URL을 계산한 뒤 `axios`로 조회하는 `fetchAbiBySelector` 함수를 구현한다 (URL 형식: `archive/function/{selector[2..4]}/{selector[4..6]}/abi.json`)
+  - [x] 2.6 `fetchAbiBySelector`에 인메모리 `Map` 캐시를 추가해 동일 selector 재조회를 방지한다
+  - [x] 2.7 `src/lib/utils/hex.ts`를 생성하고 `isValidHex` (0x 형식 유효성 검증), `truncateHex` (앞 10자 + … + 뒤 8자 형태 축약) 함수를 구현한다
+  - [x] 2.8 `src/lib/utils/decoder.ts`를 생성하고 viem의 `decodeFunctionData`, `decodeEventLog`, `decodeErrorResult`를 래핑하는 공통 디코딩 함수들을 구현한다 (디코딩 실패 시 null 반환, 예외 미전파)
 
 - [ ] 3.0 트랜잭션 분석 페이지 구현
   - [ ] 3.1 `src/components/widgets/TransactionSearch.tsx`를 생성하고 트랜잭션 해시 입력 필드와 검색 버튼 UI를 구현한다
