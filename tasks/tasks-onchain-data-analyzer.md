@@ -23,9 +23,9 @@
 
 ### Notes
 
-- 단위 테스트는 테스트 대상 코드 파일 옆에 위치시킵니다 (예: `decoder.ts`와 `decoder.test.ts` 동일 디렉토리).
-- `npx jest [경로]` 로 테스트를 실행합니다. 경로 없이 실행하면 Jest 설정에 따라 모든 테스트를 실행합니다.
+- 이 프로젝트는 단위 테스트를 작성하지 않습니다.
 - 프레임워크는 Next.js (App Router) + TypeScript를 기준으로 합니다.
+- 정적 배포: `next.config.ts`에 `output: 'export'` 설정 적용.
 - ABI archive URL 형식: `https://raw.githubusercontent.com/imelon2/abi-archive-trie/refs/heads/main/archive/function/{prefix}/{suffix}/abi.json`
 
 ## Instructions for Completing Tasks
@@ -61,16 +61,16 @@
   - [x] 2.7 `src/lib/utils/hex.ts`를 생성하고 `isValidHex` (0x 형식 유효성 검증), `truncateHex` (앞 10자 + … + 뒤 8자 형태 축약) 함수를 구현한다
   - [x] 2.8 `src/lib/utils/decoder.ts`를 생성하고 viem의 `decodeFunctionData`, `decodeEventLog`, `decodeErrorResult`를 래핑하는 공통 디코딩 함수들을 구현한다 (디코딩 실패 시 null 반환, 예외 미전파)
 
-- [ ] 3.0 트랜잭션 분석 페이지 구현
-  - [ ] 3.1 `src/components/widgets/TransactionSearch.tsx`를 생성하고 트랜잭션 해시 입력 필드와 검색 버튼 UI를 구현한다
-  - [ ] 3.2 검색 시 `supportedChains` 전체를 대상으로 `multiRace`를 사용해 병렬 `getTransaction` 조회를 수행하는 로직을 구현한다
-  - [ ] 3.3 조회 성공 시 체인 이름과 함께 기본 트랜잭션 정보(hash, from, to, value, nonce, blockNumber, status)를 패널에 표시한다
-  - [ ] 3.4 트랜잭션에 `input` 데이터가 존재하면 앞 4바이트(function selector)를 추출하여 `fetchAbiBySelector`로 ABI를 조회한다
-  - [ ] 3.5 ABI 조회 성공 시 `src/components/widgets/DecodedCalldataView.tsx`를 구현하고 함수명, 함수 시그니처, 파라미터(이름·타입·값) 목록을 구조화하여 표시한다
-  - [ ] 3.6 ABI 조회 실패 시 "ABI를 찾을 수 없음" 메시지와 function selector를 추정 정보로 표시하고, `src/components/widgets/RawCalldataView.tsx`에서 원본 calldata hex를 그대로 보여준다
-  - [ ] 3.7 `getTransactionReceipt`로 receipt를 조회하고 logs 배열이 존재하면 각 log의 topics[0](event topic)으로 ABI를 조회한다
-  - [ ] 3.8 `src/components/widgets/EventLogView.tsx`를 구현하고 ABI 조회 성공 시 이벤트명, indexed 여부, 파라미터(이름·타입·값)를 구조화하여 표시한다; 실패 시 원본 topics와 data hex를 표시한다
-  - [ ] 3.9 디코딩된 결과와 원본 hex 데이터를 나란히 볼 수 있도록 레이아웃을 구성한다 (탭 또는 좌우 분할)
+- [x] 3.0 트랜잭션 분석 페이지 구현
+  - [x] 3.1 `src/components/widgets/TransactionSearch.tsx`를 생성하고 트랜잭션 해시 입력 필드와 검색 버튼 UI를 구현한다
+  - [x] 3.2 검색 시 `supportedChains` 전체를 대상으로 `multiRace`를 사용해 병렬 `getTransaction` 조회를 수행하는 로직을 구현한다
+  - [x] 3.3 조회 성공 시 체인 이름과 함께 기본 트랜잭션 정보(hash, from, to, value, nonce, blockNumber, status)를 패널에 표시한다
+  - [x] 3.4 트랜잭션에 `input` 데이터가 존재하면 앞 4바이트(function selector)를 추출하여 `fetchAbiBySelector`로 ABI를 조회한다
+  - [x] 3.5 ABI 조회 성공 시 `src/components/widgets/DecodedCalldataView.tsx`를 구현하고 함수명, 함수 시그니처, 파라미터(이름·타입·값) 목록을 구조화하여 표시한다
+  - [x] 3.6 ABI 조회 실패 시 "ABI를 찾을 수 없음" 메시지와 function selector를 추정 정보로 표시하고, `src/components/widgets/RawCalldataView.tsx`에서 원본 calldata hex를 그대로 보여준다
+  - [x] 3.7 `getTransactionReceipt`로 receipt를 조회하고 logs 배열이 존재하면 각 log의 topics[0](event topic)으로 ABI를 조회한다
+  - [x] 3.8 `src/components/widgets/EventLogView.tsx`를 구현하고 ABI 조회 성공 시 이벤트명, indexed 여부, 파라미터(이름·타입·값)를 구조화하여 표시한다; 실패 시 원본 topics와 data hex를 표시한다
+  - [x] 3.9 디코딩된 결과와 원본 hex 데이터를 나란히 볼 수 있도록 레이아웃을 구성한다 (탭 또는 좌우 분할)
 
 - [ ] 4.0 Calldata Decoder 페이지 구현
   - [ ] 4.1 `src/app/calldata-decoder/page.tsx`를 생성하고 0x 형식 calldata 입력 텍스트 영역과 디코딩 버튼을 배치한다
