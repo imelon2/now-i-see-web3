@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const LINKS = [
-  { href: "/", label: "TX Analyzer" },
+  { href: "/tx-analyzer", label: "TX Analyzer" },
   { href: "/calldata-decoder", label: "Calldata Decoder" },
   { href: "/error-decoder", label: "Error Decoder" },
 ];
@@ -34,12 +34,13 @@ export function NavBar() {
           key={href}
           href={href}
           style={{
-            color: pathname === href ? "var(--foreground)" : "var(--muted)",
+            color: pathname.startsWith(href) ? "var(--foreground)" : "var(--muted)",
             textDecoration: "none",
             fontSize: 13,
-            fontWeight: pathname === href ? 600 : 400,
-            borderBottom:
-              pathname === href ? "2px solid var(--accent)" : "2px solid transparent",
+            fontWeight: pathname.startsWith(href) ? 600 : 400,
+            borderBottom: pathname.startsWith(href)
+              ? "2px solid var(--accent)"
+              : "2px solid transparent",
             paddingBottom: 2,
           }}
         >
