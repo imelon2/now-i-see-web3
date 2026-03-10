@@ -56,6 +56,16 @@ export default function CalldataDecoderPage() {
   return (
     <main style={{ padding: 20 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          {/* Page intro */}
+          <div style={{ paddingBottom: 8, borderBottom: "1px solid var(--border)", marginBottom: "2rem" }}>
+            <h1 style={{ fontSize: "2em", fontWeight: 700, margin: "0 0 6px" }}>
+              Calldata Decoder
+            </h1>
+            <p style={{ color: "var(--muted)", fontSize: 14, margin: 0, lineHeight: 1.6 }}>
+              Easily decode Ethereum calldata with this tool. Enter hex data to see the decoded results.
+            </p>
+          </div>
+
           {/* Input panel */}
           <div className="panel">
             <div className="panel-header">

@@ -59,6 +59,18 @@ function TxAnalyzerContent() {
   return (
     <main style={{ padding: 20 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          {/* Page intro */}
+          <div style={{ paddingBottom: 8, borderBottom: "1px solid var(--border)", marginBottom: "2rem" }}>
+            <h1 style={{ fontSize: "2em", fontWeight: 700, margin: "0 0 6px" }}>
+              Transaction Analyzer
+            </h1>
+            <p style={{ color: "var(--muted)", fontSize: 14, margin: 0, lineHeight: 1.6 }}>
+              Analyze and decode EVM blockchain transaction data with our powerful tools.
+              Get detailed insights into transaction information, method calls, events, and batch data.
+              Built by choi.eth for EVM blockchain developers.
+            </p>
+          </div>
+
           {/* Search bar */}
           <div className="panel">
             <div className="panel-header">

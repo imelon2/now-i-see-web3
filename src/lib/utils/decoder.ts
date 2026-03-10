@@ -85,13 +85,17 @@ export async function decodeLog(log: Log): Promise<DecodedEvent | null> {
   const abiItems = await fetchAbiBySelector(topic0, "event");
   if (!abiItems || abiItems.length === 0) return null;
 
-  const abi = abiItems as Abi;
+  const eventItems = abiItems.filter((item) => item.type === "event");
+  if (eventItems.length === 0) return null;
+
+  const abi = eventItems as Abi;
 
   try {
     const decoded = decodeEventLog({
       abi,
-      data: log.data,
+      data: (log.data ?? "0x") as `0x${string}`,
       topics: log.topics as [signature: `0x${string}`, ...args: `0x${string}`[]],
+      strict: false,
     });
 
     const matchedEvent = abiItems.find(
@@ -119,7 +123,8 @@ export async function decodeLog(log: Log): Promise<DecodedEvent | null> {
       rawTopics: [...(log.topics ?? [])] as string[],
       rawData: log.data as string,
     };
-  } catch {
+  } catch (err) {
+    console.error("[decodeLog] failed:", topic0, err);
     return null;
   }
 }
