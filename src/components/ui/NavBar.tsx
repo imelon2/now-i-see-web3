@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const LINKS = [
-  { href: "/tx-analyzer", label: "TX Analyzer" },
+  { href: "/tx-analyzer", label: "Transaction Analyzer" },
   { href: "/calldata-decoder", label: "Calldata Decoder" },
   { href: "/error-decoder", label: "Error Decoder" },
 ];
