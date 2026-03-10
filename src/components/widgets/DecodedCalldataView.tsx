@@ -1,6 +1,5 @@
 import { CopyButton } from "@/components/ui/CopyButton";
 import { HexDisplay } from "@/components/ui/HexDisplay";
-import { formatParamValue } from "@/lib/utils/format";
 import { extractSelector } from "@/lib/utils/hex";
 import type { DecodedCalldata } from "@/types";
 
@@ -9,91 +8,126 @@ interface Props {
   decoded: DecodedCalldata | null;
 }
 
+/** JSON syntax highlight */
+function JsonHighlight({ json }: { json: string }) {
+  const highlighted = json.replace(
+    /("(?:\\u[a-fA-F0-9]{4}|\\[^u]|[^\\"])*"(?:\s*:)?|true|false|null|-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/g,
+    (match) => {
+      if (/^"/.test(match)) {
+        if (/:$/.test(match)) {
+          // key
+          return `<span style="color:var(--muted)">${match}</span>`;
+        }
+        // string value
+        return `<span style="color:var(--accent)">${match}</span>`;
+      }
+      if (match === "true" || match === "false") {
+        return `<span style="color:var(--success)">${match}</span>`;
+      }
+      if (match === "null") {
+        return `<span style="color:var(--muted)">${match}</span>`;
+      }
+      // number
+      return `<span style="color:var(--warning)">${match}</span>`;
+    }
+  );
+
+  return (
+    <pre
+      // eslint-disable-next-line react/no-danger
+      dangerouslySetInnerHTML={{ __html: highlighted }}
+      style={{
+        margin: 0,
+        fontSize: 14,
+        lineHeight: 1.7,
+        overflowX: "auto",
+        whiteSpace: "pre-wrap",
+        wordBreak: "break-all",
+        fontFamily: "var(--font-mono)",
+      }}
+    />
+  );
+}
+
 export function DecodedCalldataView({ calldata, decoded }: Props) {
   const selector = extractSelector(calldata);
+
+  if (!decoded) {
+    return (
+      <div className="panel" style={{ flex: 1 }}>
+        <div className="panel-header">
+          <span>Decoded Calldata</span>
+        </div>
+        <div className="panel-body">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              marginBottom: 10,
+              padding: "8px 12px",
+              background: "rgba(248,81,73,0.08)",
+              border: "1px solid rgba(248,81,73,0.3)",
+              borderRadius: 4,
+            }}
+          >
+            <span style={{ color: "var(--error)", fontSize: 14 }}>
+              ✗ ABI not found.
+            </span>
+          </div>
+          {selector && (
+            <div style={{ color: "var(--muted)", fontSize: 14 }}>
+              <span>Function Selector: </span>
+              <HexDisplay hex={selector} head={10} tail={0} />
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  const paramsJson = Object.fromEntries(
+    decoded.params.map((p) => [p.name, p.value])
+  );
+  const jsonStr = JSON.stringify(paramsJson, null, 2);
 
   return (
     <div className="panel" style={{ flex: 1 }}>
       <div className="panel-header">
         <span>Decoded Calldata</span>
-        {decoded && <CopyButton text={JSON.stringify(decoded, null, 2)} />}
+        <CopyButton text={jsonStr} />
       </div>
       <div className="panel-body">
-        {decoded ? (
-          <>
-            {/* 함수 시그니처 */}
-            <div
-              style={{
-                background: "var(--background)",
-                border: "1px solid var(--border)",
-                borderRadius: 4,
-                padding: "8px 12px",
-                marginBottom: 12,
-              }}
-            >
-              <div style={{ color: "var(--muted)", fontSize: 11, marginBottom: 4 }}>
-                Function
-              </div>
-              <code style={{ color: "var(--accent)", fontSize: 13 }}>
-                {decoded.signature}
-              </code>
-            </div>
+        {/* Function signature */}
+        <div
+          style={{
+            background: "var(--background)",
+            border: "1px solid var(--border)",
+            borderRadius: 4,
+            padding: "8px 12px",
+            marginBottom: 12,
+          }}
+        >
+          <span style={{ color: "var(--muted)", fontSize: 13 }}>Function </span>
+          <code style={{ color: "var(--accent)", fontSize: 15 }}>
+            {decoded.signature}
+          </code>
+        </div>
 
-            {/* 파라미터 테이블 */}
-            {decoded.params.length > 0 ? (
-              <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                <thead>
-                  <tr style={{ color: "var(--muted)", fontSize: 11 }}>
-                    <th style={{ textAlign: "left", padding: "4px 8px", borderBottom: "1px solid var(--border)", width: "25%" }}>Name</th>
-                    <th style={{ textAlign: "left", padding: "4px 8px", borderBottom: "1px solid var(--border)", width: "20%" }}>Type</th>
-                    <th style={{ textAlign: "left", padding: "4px 8px", borderBottom: "1px solid var(--border)" }}>Value</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {decoded.params.map((param, i) => (
-                    <tr key={i} style={{ borderBottom: "1px solid var(--border)" }}>
-                      <td style={{ padding: "6px 8px", color: "var(--foreground)" }}>
-                        {param.name}
-                      </td>
-                      <td style={{ padding: "6px 8px" }}>
-                        <code style={{ color: "var(--warning)", fontSize: 12 }}>
-                          {param.type}
-                        </code>
-                      </td>
-                      <td style={{ padding: "6px 8px", wordBreak: "break-all" }}>
-                        <code style={{ color: "var(--foreground)", fontSize: 12 }}>
-                          {formatParamValue(param.value)}
-                        </code>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <p style={{ color: "var(--muted)", fontSize: 12 }}>
-                파라미터 없음
-              </p>
-            )}
-          </>
-        ) : (
-          /* ABI 없음 */
-          <div>
-            <p
-              style={{
-                color: "var(--warning)",
-                fontSize: 12,
-                marginBottom: 8,
-              }}
-            >
-              ABI를 찾을 수 없습니다
-            </p>
-            {selector && (
-              <div style={{ color: "var(--muted)", fontSize: 12 }}>
-                <span>Function Selector: </span>
-                <HexDisplay hex={selector} head={10} tail={0} />
-              </div>
-            )}
+        {/* JSON output */}
+        {decoded.params.length > 0 ? (
+          <div
+            style={{
+              background: "var(--background)",
+              border: "1px solid var(--border)",
+              borderRadius: 4,
+              padding: "10px 12px",
+            }}
+          >
+            <JsonHighlight json={jsonStr} />
           </div>
+        ) : (
+          <p style={{ color: "var(--muted)", fontSize: 14 }}>No parameters</p>
         )}
       </div>
     </div>

@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { NavBar } from "@/components/ui/NavBar";
-import { DecodedCalldataView } from "@/components/widgets/DecodedCalldataView";
-import { RawCalldataView } from "@/components/widgets/RawCalldataView";
+import { CalldataResultSection } from "@/components/widgets/CalldataResultSection";
 import { decodeCalldata } from "@/lib/utils/decoder";
 import { isValidHex } from "@/lib/utils/hex";
 import type { DecodedCalldata } from "@/types";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
 type Status = "idle" | "decoding" | "done";
 
@@ -21,9 +20,7 @@ export default function CalldataDecoderPage() {
     setInput(value);
     const trimmed = value.trim();
     if (trimmed && !isValidHex(trimmed)) {
-      setValidationError(
-        "유효하지 않은 hex 문자열입니다. 0x로 시작하는 hex를 입력하세요."
-      );
+      setValidationError("Invalid hex string. Must start with 0x.");
     } else {
       setValidationError("");
     }
@@ -33,16 +30,16 @@ export default function CalldataDecoderPage() {
     const trimmed = input.trim();
 
     if (!trimmed) {
-      setValidationError("calldata를 입력하세요.");
+      setValidationError("Please enter calldata.");
       return;
     }
     if (!isValidHex(trimmed)) {
-      setValidationError("유효하지 않은 hex 문자열입니다. 0x로 시작해야 합니다.");
+      setValidationError("Invalid hex. Must start with 0x.");
       return;
     }
     if (trimmed.length < 10) {
       setValidationError(
-        "calldata가 너무 짧습니다. function selector(4바이트) 이상 입력하세요."
+        "Calldata too short. Enter at least 4 bytes (function selector)."
       );
       return;
     }
@@ -57,34 +54,23 @@ export default function CalldataDecoderPage() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-      <NavBar />
-
-      <main
-        style={{
-          flex: 1,
-          padding: 20,
-          maxWidth: 1200,
-          width: "100%",
-          margin: "0 auto",
-        }}
-      >
+    <main style={{ padding: 20 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          {/* 입력 패널 */}
+          {/* Input panel */}
           <div className="panel">
             <div className="panel-header">
               <span>Calldata Decoder</span>
             </div>
             <div className="panel-body">
               <textarea
-                placeholder="0x로 시작하는 calldata hex를 입력하세요 (예: 0xa9059cbb000...)"
+                placeholder="Enter calldata hex starting with 0x (e.g. 0xa9059cbb000...)"
                 value={input}
                 onChange={(e) => handleChange(e.target.value)}
                 rows={4}
                 style={{ resize: "vertical", minHeight: 80 }}
               />
               {validationError && (
-                <p style={{ color: "var(--error)", fontSize: 12, marginTop: 6 }}>
+                <p style={{ color: "var(--error)", fontSize: 14, marginTop: 6 }}>
                   {validationError}
                 </p>
               )}
@@ -106,24 +92,25 @@ export default function CalldataDecoderPage() {
                     minWidth: 80,
                   }}
                 >
-                  {status === "decoding" ? "디코딩 중…" : "Decode"}
+                  {status === "decoding" ? "Decoding…" : "Decode"}
                 </button>
               </div>
             </div>
           </div>
 
-          {/* 결과: 디코딩 + Raw 나란히 */}
+          {/* Loading */}
+          {status === "decoding" && (
+            <LoadingSpinner message="Fetching ABI and decoding…" />
+          )}
+
+          {/* Result */}
           {status === "done" && submittedCalldata && (
-            <div style={{ display: "flex", gap: 16, alignItems: "stretch" }}>
-              <DecodedCalldataView
-                calldata={submittedCalldata}
-                decoded={decoded}
-              />
-              <RawCalldataView calldata={submittedCalldata} />
-            </div>
+            <CalldataResultSection
+              calldata={submittedCalldata}
+              decoded={decoded}
+            />
           )}
         </div>
       </main>
-    </div>
   );
 }

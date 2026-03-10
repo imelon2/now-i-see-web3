@@ -7,7 +7,7 @@ import type { DecodedError } from "@/types";
 interface Props {
   errorData: string;
   decoded: DecodedError | null;
-  /** null인 경우의 실패 사유 구분 */
+  /** Reason for decode failure when decoded is null */
   failureReason?: "no-abi" | "decode-failed";
 }
 
@@ -16,8 +16,8 @@ export function ErrorDecoderPanel({ errorData, decoded, failureReason }: Props) 
 
   const failureMessage =
     failureReason === "decode-failed"
-      ? "ABI는 발견되었으나 디코딩에 실패했습니다."
-      : "ABI를 찾을 수 없습니다.";
+      ? "ABI found but decoding failed."
+      : "ABI not found.";
 
   return (
     <div className="panel" style={{ flex: 1 }}>
@@ -28,7 +28,7 @@ export function ErrorDecoderPanel({ errorData, decoded, failureReason }: Props) 
       <div className="panel-body">
         {decoded ? (
           <>
-            {/* error 시그니처 */}
+            {/* Error signature */}
             <div
               style={{
                 background: "var(--background)",
@@ -38,19 +38,19 @@ export function ErrorDecoderPanel({ errorData, decoded, failureReason }: Props) 
                 marginBottom: 12,
               }}
             >
-              <div style={{ color: "var(--muted)", fontSize: 11, marginBottom: 4 }}>
+              <div style={{ color: "var(--muted)", fontSize: 13, marginBottom: 4 }}>
                 Error
               </div>
-              <code style={{ color: "var(--error)", fontSize: 13 }}>
+              <code style={{ color: "var(--error)", fontSize: 15 }}>
                 {decoded.signature}
               </code>
             </div>
 
-            {/* 파라미터 테이블 */}
+            {/* Parameter table */}
             {decoded.params.length > 0 ? (
               <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead>
-                  <tr style={{ color: "var(--muted)", fontSize: 11 }}>
+                  <tr style={{ color: "var(--muted)", fontSize: 13 }}>
                     <th style={{ textAlign: "left", padding: "4px 8px", borderBottom: "1px solid var(--border)", width: "25%" }}>Name</th>
                     <th style={{ textAlign: "left", padding: "4px 8px", borderBottom: "1px solid var(--border)", width: "20%" }}>Type</th>
                     <th style={{ textAlign: "left", padding: "4px 8px", borderBottom: "1px solid var(--border)" }}>Value</th>
@@ -61,12 +61,12 @@ export function ErrorDecoderPanel({ errorData, decoded, failureReason }: Props) 
                     <tr key={i} style={{ borderBottom: "1px solid var(--border)" }}>
                       <td style={{ padding: "6px 8px" }}>{param.name}</td>
                       <td style={{ padding: "6px 8px" }}>
-                        <code style={{ color: "var(--warning)", fontSize: 12 }}>
+                        <code style={{ color: "var(--warning)", fontSize: 14 }}>
                           {param.type}
                         </code>
                       </td>
                       <td style={{ padding: "6px 8px", wordBreak: "break-all" }}>
-                        <code style={{ fontSize: 12 }}>
+                        <code style={{ fontSize: 14 }}>
                           {formatParamValue(param.value)}
                         </code>
                       </td>
@@ -75,11 +75,11 @@ export function ErrorDecoderPanel({ errorData, decoded, failureReason }: Props) 
                 </tbody>
               </table>
             ) : (
-              <p style={{ color: "var(--muted)", fontSize: 12 }}>파라미터 없음</p>
+              <p style={{ color: "var(--muted)", fontSize: 14 }}>No parameters</p>
             )}
           </>
         ) : (
-          /* 디코딩 실패 */
+          /* Decode failed */
           <div>
             <div
               style={{
@@ -93,13 +93,13 @@ export function ErrorDecoderPanel({ errorData, decoded, failureReason }: Props) 
                 borderRadius: 4,
               }}
             >
-              <span style={{ color: "var(--error)", fontSize: 12 }}>
+              <span style={{ color: "var(--error)", fontSize: 14 }}>
                 ✗ {failureMessage}
               </span>
             </div>
             {selector && (
-              <div style={{ color: "var(--muted)", fontSize: 12 }}>
-                <span>Error Selector (추정): </span>
+              <div style={{ color: "var(--muted)", fontSize: 14 }}>
+                <span>Error Selector: </span>
                 <HexDisplay hex={selector} head={10} tail={0} />
               </div>
             )}

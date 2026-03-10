@@ -1,0 +1,72 @@
+"use client";
+
+import { useState } from "react";
+import { CopyButton } from "@/components/ui/CopyButton";
+import { DecodedCalldataView } from "./DecodedCalldataView";
+import { RawCalldataView } from "./RawCalldataView";
+import type { DecodedCalldata } from "@/types";
+
+interface Props {
+  calldata: string;
+  decoded: DecodedCalldata | null;
+}
+
+export function CalldataResultSection({ calldata, decoded }: Props) {
+  const [rawOpen, setRawOpen] = useState(false);
+
+  if (!decoded) {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        <DecodedCalldataView calldata={calldata} decoded={null} />
+        <RawCalldataView calldata={calldata} />
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      <DecodedCalldataView calldata={calldata} decoded={decoded} />
+
+      {/* Raw Calldata toggle */}
+      <div className="panel">
+        <div
+          style={{
+            background: "var(--panel-header)",
+            padding: "8px 12px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <button
+            onClick={() => setRawOpen((v) => !v)}
+            style={{
+              flex: 1,
+              background: "transparent",
+              border: "none",
+              padding: 0,
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              color: "var(--muted)",
+              fontSize: 13,
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: "0.05em",
+              cursor: "pointer",
+              textAlign: "left",
+            }}
+          >
+            <span style={{ fontSize: 12 }}>{rawOpen ? "▼" : "▶"}</span>
+            Raw Calldata
+          </button>
+          <CopyButton text={calldata} />
+        </div>
+        {rawOpen && (
+          <div className="panel-body">
+            <RawCalldataView calldata={calldata} embedded />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

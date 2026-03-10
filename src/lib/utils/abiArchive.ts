@@ -7,21 +7,21 @@ const BASE_URL =
 const cache = new Map<string, AbiItem[]>();
 
 /**
- * function selector(0x포함 4바이트) 또는 event topic(0x포함 32바이트)으로
- * ABI archive에서 ABI 항목 목록을 조회합니다.
+ * Fetches ABI by function selector (4 bytes with 0x) or event topic (32 bytes with 0x)
+ * from the ABI archive.
  *
- * URL 형식: archive/{kind}/{selector[2..4]}/{selector[4..6]}/abi.json
+ * URL format: archive/{kind}/{selector[2..4]}/{selector[4..6]}/abi.json
  */
 export async function fetchAbiBySelector(
   selector: string,
-  kind: "function" | "event" = "function"
+  kind: "function" | "event" | "error" = "function"
 ): Promise<AbiItem[] | null> {
-  // selector는 최소 0x + 4자(2바이트 이상) 필요
+  // selector must be at least 0x + 4 chars (2 bytes)
   if (!selector.startsWith("0x") || selector.length < 6) return null;
 
-  const hex = selector.slice(2); // '0x' 제거
-  const prefix = hex.slice(0, 2); // 앞 1바이트
-  const suffix = hex.slice(2, 4); // 다음 1바이트
+  const hex = selector.slice(2); // strip '0x'
+  const prefix = hex.slice(0, 2); // first byte
+  const suffix = hex.slice(2, 4); // second byte
 
   const cacheKey = `${kind}:${prefix}${suffix}`;
   if (cache.has(cacheKey)) return cache.get(cacheKey)!;
@@ -34,7 +34,7 @@ export async function fetchAbiBySelector(
     cache.set(cacheKey, items);
     return items;
   } catch {
-    cache.set(cacheKey, []); // 실패도 캐싱하여 재조회 방지
+    cache.set(cacheKey, []); // cache failure to prevent retry
     return null;
   }
 }

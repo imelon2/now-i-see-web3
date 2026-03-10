@@ -87,19 +87,12 @@
   - [x] 5.5 디코딩 실패 시 실패 사실과 이유(ABI 없음, 형식 오류 등)를 명확히 표시하고 selector를 추정 정보로 보여준다
   - [x] 5.6 디코딩 결과 전체를 클립보드에 복사하는 버튼(`CopyButton`)을 제공한다
 
-- [ ] 6.0 드래그 앤 드롭 대시보드 구현
-  - [ ] 6.1 `react-grid-layout`의 `Responsive` + `WidthProvider`를 사용해 `src/components/Dashboard.tsx`의 기본 구조를 작성한다
-  - [ ] 6.2 지원 위젯 목록(`transaction search`, `decoded calldata view`, `raw calldata view`, `event log view`, `error decoder panel`)을 `WidgetType` 열거형으로 정의하고 위젯 추가 버튼/드롭다운 UI를 구현한다
-  - [ ] 6.3 각 위젯을 `react-grid-layout`의 grid item으로 등록하고 드래그 이동이 작동하도록 연결한다
-  - [ ] 6.4 각 위젯 패널 우상단에 제거(X) 버튼을 추가하고 클릭 시 레이아웃에서 해당 위젯을 제거하는 로직을 구현한다
-  - [ ] 6.5 `react-grid-layout`의 `resizable` 옵션을 활성화하여 위젯 크기 조절을 지원하고 최소 크기를 설정한다
-  - [ ] 6.6 레이아웃 변경(이동·크기 조절·추가·제거) 시 상태를 React state로 즉시 반영하고 렌더링이 안정적으로 유지되도록 한다
-  - [ ] 6.7 페이지 로딩 시 트랜잭션 검색 + calldata 뷰 + 이벤트 로그 뷰를 포함한 기본 개발자 친화 레이아웃을 제공한다
+- [~] 6.0 드래그 앤 드롭 대시보드 구현 (계획 취소)
 
-- [ ] 7.0 공통 UX 및 오류 처리
-  - [ ] 7.1 `src/components/ui/LoadingSpinner.tsx`를 구현하고 멀티체인 검색, ABI 조회 등 비동기 작업 중 로딩 상태를 표시한다
-  - [ ] 7.2 `src/components/ui/ErrorDisplay.tsx`를 구현하고 네트워크 오류, RPC 오류, ABI fetch 오류를 구분하여 다른 메시지로 표시한다
-  - [ ] 7.3 `src/components/ui/HexDisplay.tsx`를 구현하고 `truncateHex`로 축약 표시하되 `CopyButton`으로 전체 hex를 복사할 수 있게 한다
-  - [ ] 7.4 `src/components/ui/CopyButton.tsx`를 구현하고 `navigator.clipboard.writeText`로 지정 텍스트를 복사하며 복사 완료 시 시각적 피드백(체크 아이콘 전환)을 제공한다
-  - [ ] 7.5 모든 페이지에 공통 네비게이션 바(대시보드 / Calldata Decoder / Error Decoder 링크)를 추가한다
-  - [ ] 7.6 전체 UI에서 패널·카드 기반 레이아웃을 일관되게 적용하고 각 패널에 제목과 액션 버튼 영역을 포함시킨다
+- [x] 7.0 공통 UX 및 오류 처리
+  - [x] 7.1 `src/components/ui/LoadingSpinner.tsx`를 구현하고 멀티체인 검색, ABI 조회 등 비동기 작업 중 로딩 상태를 표시한다
+  - [x] 7.2 `src/components/ui/ErrorDisplay.tsx`를 구현하고 네트워크 오류, RPC 오류, ABI fetch 오류를 구분하여 다른 메시지로 표시한다
+  - [x] 7.3 `src/components/ui/HexDisplay.tsx`를 구현하고 `truncateHex`로 축약 표시하되 `CopyButton`으로 전체 hex를 복사할 수 있게 한다
+  - [x] 7.4 `src/components/ui/CopyButton.tsx`를 구현하고 `navigator.clipboard.writeText`로 지정 텍스트를 복사하며 복사 완료 시 시각적 피드백(체크 아이콘 전환)을 제공한다
+  - [x] 7.5 모든 페이지에 공통 네비게이션 바(대시보드 / Calldata Decoder / Error Decoder 링크)를 추가한다
+  - [x] 7.6 전체 UI에서 패널·카드 기반 레이아웃을 일관되게 적용하고 각 패널에 제목과 액션 버튼 영역을 포함시킨다

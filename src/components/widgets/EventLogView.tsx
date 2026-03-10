@@ -11,7 +11,7 @@ interface Props {
 
 function RawLogView({ log }: { log: Log }) {
   return (
-    <div style={{ fontSize: 12 }}>
+    <div style={{ fontSize: 14 }}>
       <div style={{ marginBottom: 6 }}>
         <span style={{ color: "var(--muted)" }}>Address: </span>
         <HexDisplay hex={log.address ?? ""} head={20} tail={8} />
@@ -34,8 +34,8 @@ function RawLogView({ log }: { log: Log }) {
 
 function DecodedLogView({ event }: { event: DecodedEvent }) {
   return (
-    <div style={{ fontSize: 12 }}>
-      {/* 이벤트 시그니처 */}
+    <div style={{ fontSize: 14 }}>
+      {/* Event signature */}
       <div
         style={{
           background: "var(--background)",
@@ -45,7 +45,7 @@ function DecodedLogView({ event }: { event: DecodedEvent }) {
           marginBottom: 10,
         }}
       >
-        <span style={{ color: "var(--muted)", fontSize: 11 }}>Event: </span>
+        <span style={{ color: "var(--muted)", fontSize: 13 }}>Event: </span>
         <code style={{ color: "var(--accent)" }}>{event.signature}</code>
       </div>
 
@@ -54,11 +54,11 @@ function DecodedLogView({ event }: { event: DecodedEvent }) {
         <HexDisplay hex={event.address} head={20} tail={8} />
       </div>
 
-      {/* 파라미터 테이블 */}
+      {/* Parameter table */}
       {event.params.length > 0 && (
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
           <thead>
-            <tr style={{ color: "var(--muted)", fontSize: 11 }}>
+            <tr style={{ color: "var(--muted)", fontSize: 13 }}>
               <th style={{ textAlign: "left", padding: "4px 8px", borderBottom: "1px solid var(--border)", width: "20%" }}>Name</th>
               <th style={{ textAlign: "left", padding: "4px 8px", borderBottom: "1px solid var(--border)", width: "18%" }}>Type</th>
               <th style={{ textAlign: "left", padding: "4px 8px", borderBottom: "1px solid var(--border)", width: "12%" }}>Indexed</th>
@@ -76,7 +76,7 @@ function DecodedLogView({ event }: { event: DecodedEvent }) {
                   {param.indexed ? "✓" : "—"}
                 </td>
                 <td style={{ padding: "5px 8px", wordBreak: "break-all" }}>
-                  <code style={{ fontSize: 12 }}>{formatParamValue(param.value)}</code>
+                  <code style={{ fontSize: 14 }}>{formatParamValue(param.value)}</code>
                 </td>
               </tr>
             ))}
@@ -94,8 +94,8 @@ export function EventLogView({ rawLogs, decodedEvents }: Props) {
     <div className="panel">
       <div className="panel-header">
         <span>Event Logs</span>
-        <span style={{ color: "var(--muted)", fontSize: 12 }}>
-          {rawLogs.length}개
+        <span style={{ color: "var(--muted)", fontSize: 14 }}>
+          {rawLogs.length}
         </span>
       </div>
       <div className="panel-body" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -111,7 +111,7 @@ export function EventLogView({ rawLogs, decodedEvents }: Props) {
                 padding: 12,
               }}
             >
-              {/* 로그 헤더 */}
+              {/* Log header */}
               <div
                 style={{
                   display: "flex",
@@ -120,16 +120,16 @@ export function EventLogView({ rawLogs, decodedEvents }: Props) {
                   marginBottom: 10,
                 }}
               >
-                <span style={{ color: "var(--muted)", fontSize: 11 }}>
+                <span style={{ color: "var(--muted)", fontSize: 13 }}>
                   Log #{i} {log.logIndex !== null ? `(index: ${log.logIndex})` : ""}
                 </span>
                 <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
                   {decoded ? (
-                    <span style={{ color: "var(--success)", fontSize: 11 }}>
+                    <span style={{ color: "var(--success)", fontSize: 13 }}>
                       ✓ Decoded
                     </span>
                   ) : (
-                    <span style={{ color: "var(--warning)", fontSize: 11 }}>
+                    <span style={{ color: "var(--warning)", fontSize: 13 }}>
                       Raw
                     </span>
                   )}
@@ -145,7 +145,7 @@ export function EventLogView({ rawLogs, decodedEvents }: Props) {
                 </div>
               </div>
 
-              {/* 내용 */}
+              {/* Content */}
               {decoded ? (
                 <DecodedLogView event={decoded} />
               ) : (

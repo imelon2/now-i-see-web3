@@ -2,21 +2,26 @@ import type { Abi } from "viem";
 
 // ─── ABI Archive ───────────────────────────────────────────────────────────────
 
-// viem Abi 배열의 요소 타입 (function | event | error | constructor | fallback | receive)
+// Element type of viem Abi array (function | event | error | constructor | fallback | receive)
 export type AbiItem = Abi[number];
 
 // ─── Transaction ───────────────────────────────────────────────────────────────
 
 export interface TxInfo {
   hash: string;
+  chainName: string;
+  chainId: number | undefined;
+  status: "success" | "reverted" | "pending" | null;
+  blockNumber: bigint | null;
+  blockHash: string | null;
+  timestamp: bigint | null;
   from: string;
   to: string | null;
   value: bigint;
+  gasPrice: bigint | null;
+  gasUsed: bigint | null;
   nonce: number;
-  blockNumber: bigint | null;
-  status: "success" | "reverted" | "pending" | null;
   input: string;
-  chainName: string;
 }
 
 // ─── Decoded Calldata ──────────────────────────────────────────────────────────

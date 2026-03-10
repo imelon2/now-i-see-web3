@@ -11,8 +11,8 @@
   --success: #3fb950;
   --error: #f85149;
   --warning: #d29922;
-  --font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", ui-monospace,
-    "Courier New", monospace;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
 }
 
 @theme inline {
@@ -30,9 +30,14 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-mono);
-  font-size: 13px;
+  font-family: var(--font-sans);
+  font-size: 15px;
   line-height: 1.6;
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
 }
 
 /* 스크롤바 */
@@ -66,9 +71,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 600;
-  color: var(--muted);
+  color: var(--foreground);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -84,8 +89,8 @@ textarea {
   border: 1px solid var(--border);
   border-radius: 4px;
   color: var(--foreground);
-  font-family: var(--font-mono);
-  font-size: 13px;
+  font-family: var(--font-sans);
+  font-size: 15px;
   padding: 6px 10px;
   outline: none;
   width: 100%;
@@ -99,8 +104,8 @@ textarea:focus {
 
 /* 버튼 */
 button {
-  font-family: var(--font-mono);
-  font-size: 13px;
+  font-family: var(--font-sans);
+  font-size: 15px;
   cursor: pointer;
   border-radius: 4px;
   border: 1px solid var(--border);
@@ -116,3 +121,4 @@ button:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
+

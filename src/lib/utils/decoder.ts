@@ -8,13 +8,33 @@ import type { AbiItem, DecodedCalldata, DecodedEvent, DecodedError, DecodedParam
 import { fetchAbiBySelector } from "./abiArchive";
 import { extractSelector } from "./hex";
 
+/** Recursively expands tuple types to their component types (e.g. tuple[] → (address,uint256,...)[])  */
+interface AbiInputLike {
+  type: string;
+  components?: readonly AbiInputLike[];
+}
+
+function expandType(input: AbiInputLike): string {
+  if (input.type === "tuple" || input.type.startsWith("tuple[")) {
+    const inner = (input.components ?? []).map(expandType).join(",");
+    const suffix = input.type.slice("tuple".length); // "", "[]", "[5]", etc.
+    return `(${inner})${suffix}`;
+  }
+  return input.type;
+}
+
 function formatValue(value: unknown): unknown {
   if (typeof value === "bigint") return value.toString();
   if (Array.isArray(value)) return value.map(formatValue);
+  if (value !== null && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>).map(([k, v]) => [k, formatValue(v)])
+    );
+  }
   return value;
 }
 
-// ─── Calldata 디코딩 ────────────────────────────────────────────────────────────
+// ─── Calldata decoding ────────────────────────────────────────────────────────────
 
 export async function decodeCalldata(
   calldata: string
@@ -42,7 +62,7 @@ export async function decodeCalldata(
     }));
 
     const signature = matchedFn
-      ? `${functionName}(${inputs.map((i) => i.type).join(",")})`
+      ? `${functionName}(${inputs.map(expandType).join(",")})`
       : functionName;
 
     return {
@@ -56,7 +76,7 @@ export async function decodeCalldata(
   }
 }
 
-// ─── 이벤트 로그 디코딩 ─────────────────────────────────────────────────────────
+// ─── Event log decoding ─────────────────────────────────────────────────────────
 
 export async function decodeLog(log: Log): Promise<DecodedEvent | null> {
   const topic0 = log.topics?.[0];
@@ -88,7 +108,7 @@ export async function decodeLog(log: Log): Promise<DecodedEvent | null> {
 
     const eventName = decoded.eventName ?? "";
     const signature = matchedEvent
-      ? `${eventName}(${inputs.map((i) => i.type).join(",")})`
+      ? `${eventName}(${inputs.map(expandType).join(",")})`
       : eventName;
 
     return {
@@ -104,7 +124,7 @@ export async function decodeLog(log: Log): Promise<DecodedEvent | null> {
   }
 }
 
-// ─── Error 디코딩 ───────────────────────────────────────────────────────────────
+// ─── Error decoding ───────────────────────────────────────────────────────────────
 
 export type ErrorDecodeResult =
   | { status: "success"; data: DecodedError }
@@ -116,12 +136,12 @@ export async function decodeError(
 ): Promise<ErrorDecodeResult> {
   const selector = extractSelector(errorData);
   if (!selector) return { status: "no-abi" };
-
-  // error ABI는 function과 같은 경로를 사용
-  const abiItems = await fetchAbiBySelector(selector, "function");
+  
+  // Error ABI uses the same path as function
+  const abiItems = await fetchAbiBySelector(selector, "error");
   if (!abiItems || abiItems.length === 0) return { status: "no-abi" };
 
-  // error 타입 항목만 필터
+  // Filter error-type items only
   const errorItems = abiItems.filter((item) => item.type === "error");
   if (errorItems.length === 0) return { status: "no-abi" };
 

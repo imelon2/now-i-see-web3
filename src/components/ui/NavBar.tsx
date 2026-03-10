@@ -15,38 +15,49 @@ export function NavBar() {
   return (
     <nav
       style={{
+        width: 200,
+        flexShrink: 0,
         background: "var(--panel-header)",
-        borderBottom: "1px solid var(--border)",
-        padding: "10px 20px",
+        borderRight: "1px solid var(--border)",
         display: "flex",
-        alignItems: "center",
-        gap: 24,
-        position: "sticky",
-        top: 0,
-        zIndex: 10,
+        flexDirection: "column",
+        padding: "24px 0",
       }}
     >
-      <span style={{ fontWeight: 700, color: "var(--accent)", fontSize: 14 }}>
-        Now I See Web3
-      </span>
-      {LINKS.map(({ href, label }) => (
-        <Link
-          key={href}
-          href={href}
-          style={{
-            color: pathname.startsWith(href) ? "var(--foreground)" : "var(--muted)",
-            textDecoration: "none",
-            fontSize: 13,
-            fontWeight: pathname.startsWith(href) ? 600 : 400,
-            borderBottom: pathname.startsWith(href)
-              ? "2px solid var(--accent)"
-              : "2px solid transparent",
-            paddingBottom: 2,
-          }}
-        >
-          {label}
-        </Link>
-      ))}
+      {/* Brand */}
+      <div style={{ padding: "0 16px", marginBottom: 32 }}>
+        <span style={{ fontWeight: 700, color: "var(--accent)", fontSize: 16 }}>
+          Now I See Web3
+        </span>
+      </div>
+
+      {/* Navigation */}
+      {LINKS.map(({ href, label }) => {
+        const isActive = pathname.startsWith(href);
+        return (
+          <Link
+            key={href}
+            href={href}
+            style={{
+              display: "block",
+              padding: "10px 16px",
+              paddingLeft: 14,
+              borderLeft: isActive
+                ? "2px solid var(--accent)"
+                : "2px solid transparent",
+              background: isActive
+                ? "rgba(88,166,255,0.07)"
+                : "transparent",
+              color: isActive ? "var(--foreground)" : "var(--muted)",
+              textDecoration: "none",
+              fontSize: 15,
+              fontWeight: isActive ? 600 : 400,
+            }}
+          >
+            {label}
+          </Link>
+        );
+      })}
     </nav>
   );
 }

@@ -1,5 +1,5 @@
 /**
- * 디코딩된 파라미터 값을 사람이 읽기 좋은 문자열로 변환합니다.
+ * Converts a decoded parameter value to a human-readable string.
  */
 export function formatParamValue(value: unknown): string {
   if (value === null || value === undefined) return "—";
@@ -19,7 +19,7 @@ export function formatParamValue(value: unknown): string {
 }
 
 /**
- * bigint wei 값을 ETH 단위 문자열로 변환합니다.
+ * Converts a bigint wei value to an ETH string.
  */
 export function formatEtherValue(value: bigint): string {
   const eth = Number(value) / 1e18;
@@ -29,8 +29,32 @@ export function formatEtherValue(value: bigint): string {
 }
 
 /**
- * 숫자를 천 단위 콤마 형식으로 표시합니다.
+ * Formats a number with thousands separator.
  */
 export function formatNumber(value: bigint | number): string {
   return value.toLocaleString("en-US");
+}
+
+/**
+ * Converts wei to Gwei string (e.g. "1.5 Gwei").
+ */
+export function formatGasPrice(wei: bigint): string {
+  const gwei = Number(wei) / 1e9;
+  if (gwei < 0.001) return `${wei.toString()} wei`;
+  return `${gwei.toFixed(4).replace(/\.?0+$/, "")} Gwei`;
+}
+
+/**
+ * Converts a Unix timestamp (bigint seconds) to a human-readable string.
+ */
+export function formatTimestamp(ts: bigint): string {
+  return new Date(Number(ts) * 1000).toLocaleString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  });
 }

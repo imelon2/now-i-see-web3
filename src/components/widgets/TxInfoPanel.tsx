@@ -1,5 +1,10 @@
 import { HexDisplay } from "@/components/ui/HexDisplay";
-import { formatEtherValue, formatNumber } from "@/lib/utils/format";
+import {
+  formatEtherValue,
+  formatGasPrice,
+  formatNumber,
+  formatTimestamp,
+} from "@/lib/utils/format";
 import type { TxInfo } from "@/types";
 
 interface Props {
@@ -12,84 +17,105 @@ const STATUS_STYLE: Record<string, { color: string; label: string }> = {
   pending: { color: "var(--warning)", label: "⏳ Pending" },
 };
 
-function Row({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div
       style={{
-        display: "grid",
-        gridTemplateColumns: "120px 1fr",
-        gap: 8,
-        padding: "6px 0",
+        padding: "8px 0",
         borderBottom: "1px solid var(--border)",
-        alignItems: "center",
       }}
     >
-      <span style={{ color: "var(--muted)", fontSize: 12 }}>{label}</span>
-      <span style={{ wordBreak: "break-all" }}>{children}</span>
+      <div style={{ color: "#94a3b8", fontSize: 14, marginBottom: 4 }}>
+        {label}
+      </div>
+      <div style={{ wordBreak: "break-all" }}>{children}</div>
     </div>
   );
 }
 
 export function TxInfoPanel({ txInfo }: Props) {
   const statusStyle = STATUS_STYLE[txInfo.status ?? "pending"];
+  const networkLabel = txInfo.chainId
+    ? `${txInfo.chainName} (${txInfo.chainId})`
+    : txInfo.chainName;
 
   return (
     <div className="panel">
       <div className="panel-header">
         <span>Transaction Info</span>
-        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-          <span
-            style={{
-              background: "var(--accent)",
-              color: "#000",
-              padding: "2px 8px",
-              borderRadius: 4,
-              fontSize: 11,
-              fontWeight: 700,
-            }}
-          >
-            {txInfo.chainName}
-          </span>
-          <span
-            style={{
-              color: statusStyle.color,
-              fontSize: 12,
-              fontWeight: 600,
-            }}
-          >
-            {statusStyle.label}
-          </span>
-        </div>
       </div>
       <div className="panel-body">
-        <Row label="Hash">
-          <HexDisplay hex={txInfo.hash} head={20} tail={12} />
-        </Row>
-        <Row label="From">
-          <HexDisplay hex={txInfo.from} head={20} tail={8} />
-        </Row>
-        <Row label="To">
-          {txInfo.to ? (
-            <HexDisplay hex={txInfo.to} head={20} tail={8} />
-          ) : (
-            <span style={{ color: "var(--warning)" }}>Contract Creation</span>
-          )}
-        </Row>
-        <Row label="Value">
-          <code style={{ color: "var(--foreground)" }}>
-            {formatEtherValue(txInfo.value)}
-          </code>
-        </Row>
-        <Row label="Block">
-          <code style={{ color: "var(--foreground)" }}>
-            {txInfo.blockNumber !== null
-              ? formatNumber(txInfo.blockNumber)
-              : "—"}
-          </code>
-        </Row>
-        <Row label="Nonce">
-          <code style={{ color: "var(--foreground)" }}>{txInfo.nonce}</code>
-        </Row>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "0 32px",
+          }}
+        >
+          <Field label="Transaction Hash">
+            <HexDisplay hex={txInfo.hash} head={18} tail={10} />
+          </Field>
+          <Field label="Network">
+            <span style={{ color: "var(--accent)"}}>
+              {networkLabel}
+            </span>
+          </Field>
+          <Field label="Block Hash">
+            {txInfo.blockHash ? (
+              <HexDisplay hex={txInfo.blockHash} head={18} tail={10} />
+            ) : (
+              <span style={{ color: "var(--muted)" }}>—</span>
+            )}
+          </Field>
+          <Field label="Status">
+            <span style={{ color: statusStyle.color}}>
+              {statusStyle.label}
+            </span>
+
+
+          </Field>
+          <Field label="Timestamp">
+            <code style={{ color: "var(--foreground)" }}>
+              {txInfo.timestamp !== null ? formatTimestamp(txInfo.timestamp) : "—"}
+            </code>
+          </Field>
+          <Field label="Block Number">
+            <code style={{ color: "var(--foreground)" }}>
+              {txInfo.blockNumber !== null ? formatNumber(txInfo.blockNumber) : "—"}
+            </code>
+          </Field>
+          <Field label="From">
+            <HexDisplay hex={txInfo.from} head={18} tail={8} />
+          </Field>
+
+          <Field label="To">
+            {txInfo.to ? (
+              <HexDisplay hex={txInfo.to} head={18} tail={8} />
+            ) : (
+              <span style={{ color: "var(--warning)" }}>Contract Creation</span>
+            )}
+          </Field>
+          <Field label="Value">
+            <code style={{ color: "var(--foreground)" }}>
+              {formatEtherValue(txInfo.value)}
+            </code>
+          </Field>
+
+          <Field label="Gas Price">
+            <code style={{ color: "var(--foreground)" }}>
+              {txInfo.gasPrice !== null ? formatGasPrice(txInfo.gasPrice) : "—"}
+            </code>
+          </Field>
+          <Field label="Gas Used">
+            <code style={{ color: "var(--foreground)" }}>
+              {txInfo.gasUsed !== null ? formatNumber(txInfo.gasUsed) : "—"}
+            </code>
+          </Field>
+
+          <Field label="Nonce">
+            <code style={{ color: "var(--foreground)" }}>{txInfo.nonce}</code>
+          </Field>
+        </div>
       </div>
     </div>
   );

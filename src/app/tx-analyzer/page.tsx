@@ -2,46 +2,52 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { NavBar } from "@/components/ui/NavBar";
 import { TxInfoPanel } from "@/components/widgets/TxInfoPanel";
-import { DecodedCalldataView } from "@/components/widgets/DecodedCalldataView";
-import { RawCalldataView } from "@/components/widgets/RawCalldataView";
+import { CalldataResultSection } from "@/components/widgets/CalldataResultSection";
 import { EventLogView } from "@/components/widgets/EventLogView";
 import { useTxSearch } from "@/hooks/useTxSearch";
 import { isValidHex } from "@/lib/utils/hex";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { ErrorDisplay } from "@/components/ui/ErrorDisplay";
 
 function TxAnalyzerContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const hashFromUrl = searchParams.get("hash") ?? "";
 
-  const { status, result, error, search } = useTxSearch();
+  const { status, result, error, search, reset } = useTxSearch();
   const [inputHash, setInputHash] = useState(hashFromUrl);
   const [validationError, setValidationError] = useState("");
 
   const loading = status === "searching";
 
-  // URL의 hash 파라미터가 바뀌면 자동 검색
+  // Sync input field and auto-search when URL hash param changes
   useEffect(() => {
-    if (hashFromUrl && isValidHex(hashFromUrl) && hashFromUrl.length === 66) {
-      search(hashFromUrl);
+    if (hashFromUrl) {
+      setInputHash(hashFromUrl);
+      if (isValidHex(hashFromUrl) && hashFromUrl.length === 66) {
+        search(hashFromUrl);
+      }
+    } else {
+      setInputHash("");
+      reset();
     }
   }, [hashFromUrl]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSearch = () => {
     const trimmed = inputHash.trim();
     if (!trimmed) {
-      setValidationError("트랜잭션 해시를 입력하세요.");
+      setValidationError("Please enter a transaction hash.");
       return;
     }
     if (!isValidHex(trimmed) || trimmed.length !== 66) {
       setValidationError(
-        "유효하지 않은 해시입니다. 0x로 시작하는 66자리 hex를 입력하세요."
+        "Invalid hash. Enter a 66-char hex starting with 0x."
       );
       return;
     }
     setValidationError("");
-    // URL에 hash를 남기고 페이지 이동
+    // Push hash to URL
     router.push(`/tx-analyzer?hash=${trimmed}`);
   };
 
@@ -51,20 +57,9 @@ function TxAnalyzerContent() {
     result.txInfo.input.length >= 10;
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-      <NavBar />
-
-      <main
-        style={{
-          flex: 1,
-          padding: 20,
-          maxWidth: 1200,
-          width: "100%",
-          margin: "0 auto",
-        }}
-      >
+    <main style={{ padding: 20 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          {/* 검색 바 */}
+          {/* Search bar */}
           <div className="panel">
             <div className="panel-header">
               <span>Transaction Search</span>
@@ -73,7 +68,7 @@ function TxAnalyzerContent() {
               <div style={{ display: "flex", gap: 8 }}>
                 <input
                   type="text"
-                  placeholder="트랜잭션 해시를 입력하세요 (0x...)"
+                  placeholder="Transaction hash (0x...)"
                   value={inputHash}
                   onChange={(e) => {
                     setInputHash(e.target.value);
@@ -95,67 +90,52 @@ function TxAnalyzerContent() {
                     minWidth: 80,
                   }}
                 >
-                  {loading ? "검색 중…" : "검색"}
+                  {loading ? "Searching…" : "Search"}
                 </button>
               </div>
               {validationError && (
-                <p style={{ color: "var(--error)", fontSize: 12, marginTop: 6 }}>
+                <p style={{ color: "var(--error)", fontSize: 14, marginTop: 6 }}>
                   {validationError}
                 </p>
               )}
             </div>
           </div>
 
-          {/* 로딩 */}
+          {/* Loading */}
           {loading && (
-            <div
-              style={{
-                textAlign: "center",
-                padding: 40,
-                color: "var(--muted)",
-                fontSize: 13,
-              }}
-            >
-              <div style={{ marginBottom: 8 }}>⏳ 멀티체인 병렬 검색 중…</div>
-              <div style={{ fontSize: 11 }}>12개 체인을 동시에 조회하고 있습니다</div>
-            </div>
+            <LoadingSpinner
+              message="Searching across chains…"
+              subMessage="Querying 12 chains in parallel"
+            />
           )}
 
-          {/* 결과 없음 */}
+          {/* Not found */}
           {status === "not-found" && (
             <div className="panel" style={{ textAlign: "center", padding: 40 }}>
               <p style={{ color: "var(--warning)", marginBottom: 8 }}>
-                트랜잭션을 찾을 수 없습니다
+                Transaction not found
               </p>
-              <p style={{ color: "var(--muted)", fontSize: 12 }}>
-                지원하는 모든 체인에서 해당 트랜잭션을 찾지 못했습니다.
+              <p style={{ color: "var(--muted)", fontSize: 14 }}>
+                The transaction was not found on any supported chain.
               </p>
             </div>
           )}
 
-          {/* 에러 */}
+          {/* Error */}
           {status === "error" && error && (
-            <div
-              className="panel"
-              style={{ borderColor: "var(--error)", padding: 16 }}
-            >
-              <p style={{ color: "var(--error)", fontSize: 13 }}>✗ {error}</p>
-            </div>
+            <ErrorDisplay kind="rpc" message={error} />
           )}
 
-          {/* 결과 */}
+          {/* Result */}
           {status === "found" && result && (
             <>
               <TxInfoPanel txInfo={result.txInfo} />
 
               {hasCalldata && (
-                <div style={{ display: "flex", gap: 16, alignItems: "stretch" }}>
-                  <DecodedCalldataView
-                    calldata={result.txInfo.input}
-                    decoded={result.decodedCalldata}
-                  />
-                  <RawCalldataView calldata={result.txInfo.input} />
-                </div>
+                <CalldataResultSection
+                  calldata={result.txInfo.input}
+                  decoded={result.decodedCalldata}
+                />
               )}
 
               <EventLogView
@@ -166,11 +146,10 @@ function TxAnalyzerContent() {
           )}
         </div>
       </main>
-    </div>
   );
 }
 
-// useSearchParams는 Suspense 경계 안에서 사용해야 함
+// useSearchParams must be inside a Suspense boundary
 export default function TxAnalyzerPage() {
   return (
     <Suspense>
