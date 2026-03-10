@@ -106,19 +106,24 @@ export async function decodeLog(log: Log): Promise<DecodedEvent | null> {
 
 // ─── Error 디코딩 ───────────────────────────────────────────────────────────────
 
+export type ErrorDecodeResult =
+  | { status: "success"; data: DecodedError }
+  | { status: "no-abi" }
+  | { status: "decode-failed" };
+
 export async function decodeError(
   errorData: string
-): Promise<DecodedError | null> {
+): Promise<ErrorDecodeResult> {
   const selector = extractSelector(errorData);
-  if (!selector) return null;
+  if (!selector) return { status: "no-abi" };
 
   // error ABI는 function과 같은 경로를 사용
   const abiItems = await fetchAbiBySelector(selector, "function");
-  if (!abiItems || abiItems.length === 0) return null;
+  if (!abiItems || abiItems.length === 0) return { status: "no-abi" };
 
   // error 타입 항목만 필터
   const errorItems = abiItems.filter((item) => item.type === "error");
-  if (errorItems.length === 0) return null;
+  if (errorItems.length === 0) return { status: "no-abi" };
 
   const { decodeErrorResult } = await import("viem");
   const abi = errorItems as Abi;
@@ -145,12 +150,10 @@ export async function decodeError(
       : errorName;
 
     return {
-      errorName,
-      signature,
-      params,
-      rawData: errorData,
+      status: "success",
+      data: { errorName, signature, params, rawData: errorData },
     };
   } catch {
-    return null;
+    return { status: "decode-failed" };
   }
 }

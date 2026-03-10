@@ -79,13 +79,13 @@
   - [x] 4.4 ABI 조회 실패 시 selector를 추정 정보로 표시하고 원본 hex를 그대로 보여준다
   - [x] 4.5 디코딩 결과 전체를 클립보드에 복사하는 버튼(`CopyButton`)을 제공한다
 
-- [ ] 5.0 Error Decoder 페이지 구현
-  - [ ] 5.1 `src/app/error-decoder/page.tsx`를 생성하고 0x 형식 에러 데이터 입력 텍스트 영역과 디코딩 버튼을 배치한다
-  - [ ] 5.2 입력값에 대해 `isValidHex`로 실시간 유효성 검증을 수행하고 유효하지 않으면 즉시 검증 메시지를 표시한다
-  - [ ] 5.3 앞 4바이트 error selector를 추출해 `fetchAbiBySelector`로 ABI를 조회하고 `decodeErrorResult`로 디코딩한다
-  - [ ] 5.4 디코딩 성공 시 error name, 시그니처, 파라미터(이름·타입·값) 목록을 구조화하여 표시한다
-  - [ ] 5.5 디코딩 실패 시 실패 사실과 이유(ABI 없음, 형식 오류 등)를 명확히 표시하고 selector를 추정 정보로 보여준다
-  - [ ] 5.6 디코딩 결과 전체를 클립보드에 복사하는 버튼(`CopyButton`)을 제공한다
+- [x] 5.0 Error Decoder 페이지 구현
+  - [x] 5.1 `src/app/error-decoder/page.tsx`를 생성하고 0x 형식 에러 데이터 입력 텍스트 영역과 디코딩 버튼을 배치한다
+  - [x] 5.2 입력값에 대해 `isValidHex`로 실시간 유효성 검증을 수행하고 유효하지 않으면 즉시 검증 메시지를 표시한다
+  - [x] 5.3 앞 4바이트 error selector를 추출해 `fetchAbiBySelector`로 ABI를 조회하고 `decodeErrorResult`로 디코딩한다
+  - [x] 5.4 디코딩 성공 시 error name, 시그니처, 파라미터(이름·타입·값) 목록을 구조화하여 표시한다
+  - [x] 5.5 디코딩 실패 시 실패 사실과 이유(ABI 없음, 형식 오류 등)를 명확히 표시하고 selector를 추정 정보로 보여준다
+  - [x] 5.6 디코딩 결과 전체를 클립보드에 복사하는 버튼(`CopyButton`)을 제공한다
 
 - [ ] 6.0 드래그 앤 드롭 대시보드 구현
   - [ ] 6.1 `react-grid-layout`의 `Responsive` + `WidthProvider`를 사용해 `src/components/Dashboard.tsx`의 기본 구조를 작성한다
