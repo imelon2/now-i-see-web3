@@ -72,12 +72,12 @@
   - [x] 3.8 `src/components/widgets/EventLogView.tsx`를 구현하고 ABI 조회 성공 시 이벤트명, indexed 여부, 파라미터(이름·타입·값)를 구조화하여 표시한다; 실패 시 원본 topics와 data hex를 표시한다
   - [x] 3.9 디코딩된 결과와 원본 hex 데이터를 나란히 볼 수 있도록 레이아웃을 구성한다 (탭 또는 좌우 분할)
 
-- [ ] 4.0 Calldata Decoder 페이지 구현
-  - [ ] 4.1 `src/app/calldata-decoder/page.tsx`를 생성하고 0x 형식 calldata 입력 텍스트 영역과 디코딩 버튼을 배치한다
-  - [ ] 4.2 입력값에 대해 `isValidHex`로 실시간 유효성 검증을 수행하고 유효하지 않으면 즉시 검증 메시지를 표시한다
-  - [ ] 4.3 유효한 입력에서 앞 4바이트 selector를 추출해 `fetchAbiBySelector`를 호출하고 ABI 기반 디코딩 결과(함수명, 시그니처, 파라미터 목록·타입·값)를 표시한다
-  - [ ] 4.4 ABI 조회 실패 시 selector를 추정 정보로 표시하고 원본 hex를 그대로 보여준다
-  - [ ] 4.5 디코딩 결과 전체를 클립보드에 복사하는 버튼(`CopyButton`)을 제공한다
+- [x] 4.0 Calldata Decoder 페이지 구현
+  - [x] 4.1 `src/app/calldata-decoder/page.tsx`를 생성하고 0x 형식 calldata 입력 텍스트 영역과 디코딩 버튼을 배치한다
+  - [x] 4.2 입력값에 대해 `isValidHex`로 실시간 유효성 검증을 수행하고 유효하지 않으면 즉시 검증 메시지를 표시한다
+  - [x] 4.3 유효한 입력에서 앞 4바이트 selector를 추출해 `fetchAbiBySelector`를 호출하고 ABI 기반 디코딩 결과(함수명, 시그니처, 파라미터 목록·타입·값)를 표시한다
+  - [x] 4.4 ABI 조회 실패 시 selector를 추정 정보로 표시하고 원본 hex를 그대로 보여준다
+  - [x] 4.5 디코딩 결과 전체를 클립보드에 복사하는 버튼(`CopyButton`)을 제공한다
 
 - [ ] 5.0 Error Decoder 페이지 구현
   - [ ] 5.1 `src/app/error-decoder/page.tsx`를 생성하고 0x 형식 에러 데이터 입력 텍스트 영역과 디코딩 버튼을 배치한다

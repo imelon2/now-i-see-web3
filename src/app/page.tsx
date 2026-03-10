@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useTxSearch } from "@/hooks/useTxSearch";
+import { NavBar } from "@/components/ui/NavBar";
 import { TransactionSearch } from "@/components/widgets/TransactionSearch";
 import { TxInfoPanel } from "@/components/widgets/TxInfoPanel";
 import { DecodedCalldataView } from "@/components/widgets/DecodedCalldataView";
@@ -19,39 +19,7 @@ export default function HomePage() {
 
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-      {/* 네비게이션 */}
-      <nav
-        style={{
-          background: "var(--panel-header)",
-          borderBottom: "1px solid var(--border)",
-          padding: "10px 20px",
-          display: "flex",
-          alignItems: "center",
-          gap: 24,
-        }}
-      >
-        <span style={{ fontWeight: 700, color: "var(--accent)", fontSize: 14 }}>
-          Now I See Web3
-        </span>
-        <Link
-          href="/"
-          style={{ color: "var(--foreground)", textDecoration: "none", fontSize: 13 }}
-        >
-          TX Analyzer
-        </Link>
-        <Link
-          href="/calldata-decoder"
-          style={{ color: "var(--muted)", textDecoration: "none", fontSize: 13 }}
-        >
-          Calldata Decoder
-        </Link>
-        <Link
-          href="/error-decoder"
-          style={{ color: "var(--muted)", textDecoration: "none", fontSize: 13 }}
-        >
-          Error Decoder
-        </Link>
-      </nav>
+      <NavBar />
 
       {/* 메인 컨텐츠 */}
       <main
