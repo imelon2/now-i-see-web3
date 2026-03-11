@@ -9,6 +9,8 @@ import { useTxSearch } from "@/hooks/useTxSearch";
 import { isValidHex } from "@/lib/utils/hex";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { ErrorDisplay } from "@/components/ui/ErrorDisplay";
+import { SupportedChainsPopup } from "@/components/widgets/SupportedChainsPopup";
+import { AbiArchiveLink } from "@/components/ui/AbiArchiveLink";
 
 function TxAnalyzerContent() {
   const router = useRouter();
@@ -67,7 +69,6 @@ function TxAnalyzerContent() {
             <p style={{ color: "var(--muted)", fontSize: 14, margin: 0, lineHeight: 1.6 }}>
               Analyze and decode EVM blockchain transaction data with our powerful tools.
               Get detailed insights into transaction information, method calls, events, and batch data.
-              Built by choi.eth for EVM blockchain developers.
             </p>
           </div>
 
@@ -110,6 +111,10 @@ function TxAnalyzerContent() {
                   {validationError}
                 </p>
               )}
+              <div style={{ marginTop: 10, display: "flex", alignItems: "center", gap: 8 }}>
+                <SupportedChainsPopup />
+                <AbiArchiveLink />
+              </div>
             </div>
           </div>
 

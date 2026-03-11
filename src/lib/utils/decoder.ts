@@ -136,17 +136,60 @@ export type ErrorDecodeResult =
   | { status: "no-abi" }
   | { status: "decode-failed" };
 
+// Built-in EVM error selectors (no ABI lookup needed)
+const STANDARD_ERROR_SELECTOR = "0x08c379a0"; // Error(string)
+const PANIC_SELECTOR = "0x4e487b71";           // Panic(uint256)
+
 export async function decodeError(
   errorData: string
 ): Promise<ErrorDecodeResult> {
   const selector = extractSelector(errorData);
   if (!selector) return { status: "no-abi" };
-  
-  // Error ABI uses the same path as function
+
+  const { decodeAbiParameters } = await import("viem");
+
+  // Case 1: Standard revert — Error(string)
+  if (selector.toLowerCase() === STANDARD_ERROR_SELECTOR) {
+    try {
+      const encoded = `0x${errorData.slice(10)}` as `0x${string}`;
+      const [message] = decodeAbiParameters([{ type: "string" }], encoded);
+      return {
+        status: "success",
+        data: {
+          errorName: "Error",
+          signature: "Error(string)",
+          params: [{ name: "message", type: "string", value: String(message) }],
+          rawData: errorData,
+        },
+      };
+    } catch {
+      return { status: "decode-failed" };
+    }
+  }
+
+  // Case 2: Panic(uint256)
+  if (selector.toLowerCase() === PANIC_SELECTOR) {
+    try {
+      const encoded = `0x${errorData.slice(10)}` as `0x${string}`;
+      const [code] = decodeAbiParameters([{ type: "uint256" }], encoded);
+      return {
+        status: "success",
+        data: {
+          errorName: "Panic",
+          signature: "Panic(uint256)",
+          params: [{ name: "code", type: "uint256", value: formatValue(code) }],
+          rawData: errorData,
+        },
+      };
+    } catch {
+      return { status: "decode-failed" };
+    }
+  }
+
+  // Case 3: Custom error — look up ABI archive
   const abiItems = await fetchAbiBySelector(selector, "error");
   if (!abiItems || abiItems.length === 0) return { status: "no-abi" };
 
-  // Filter error-type items only
   const errorItems = abiItems.filter((item) => item.type === "error");
   if (errorItems.length === 0) return { status: "no-abi" };
 

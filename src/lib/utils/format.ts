@@ -21,11 +21,11 @@ export function formatParamValue(value: unknown): string {
 /**
  * Converts a bigint wei value to an ETH string.
  */
-export function formatEtherValue(value: bigint): string {
+export function formatEtherValue(value: bigint, symbol = "ETH"): string {
   const eth = Number(value) / 1e18;
-  if (eth === 0) return "0 ETH";
+  if (eth === 0) return `0 ${symbol}`;
   if (eth < 0.000001) return `${value.toString()} wei`;
-  return `${eth.toFixed(6).replace(/\.?0+$/, "")} ETH`;
+  return `${eth.toFixed(6).replace(/\.?0+$/, "")} ${symbol}`;
 }
 
 /**

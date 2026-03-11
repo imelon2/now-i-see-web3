@@ -11,6 +11,7 @@ export interface TxInfo {
   hash: string;
   chainName: string;
   chainId: number | undefined;
+  nativeCurrencySymbol: string;
   status: "success" | "reverted" | "pending" | null;
   blockNumber: bigint | null;
   blockHash: string | null;

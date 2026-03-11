@@ -19,7 +19,7 @@ function RawLogView({ log }: { log: Log }) {
       {log.topics.map((topic, i) => (
         <div key={i} style={{ marginBottom: 4 }}>
           <span style={{ color: "var(--muted)" }}>topic[{i}]: </span>
-          <code style={{ color: "var(--accent)", wordBreak: "break-all" }}>
+          <code style={{ wordBreak: "break-all" }}>
             {topic}
           </code>
         </div>
@@ -46,7 +46,7 @@ function DecodedLogView({ event }: { event: DecodedEvent }) {
         }}
       >
         <span style={{ color: "var(--muted)", fontSize: 13 }}>Event: </span>
-        <code style={{ color: "var(--accent)" }}>{event.signature}</code>
+        <code>{event.signature}</code>
       </div>
 
       <div style={{ marginBottom: 8 }}>
@@ -70,9 +70,9 @@ function DecodedLogView({ event }: { event: DecodedEvent }) {
               <tr key={i} style={{ borderBottom: "1px solid var(--border)" }}>
                 <td style={{ padding: "5px 8px" }}>{param.name}</td>
                 <td style={{ padding: "5px 8px" }}>
-                  <code style={{ color: "var(--warning)" }}>{param.type}</code>
+                  <code>{param.type}</code>
                 </td>
-                <td style={{ padding: "5px 8px", color: param.indexed ? "var(--accent)" : "var(--muted)" }}>
+                <td style={{ padding: "5px 8px", color: param.indexed ? "var(--foreground)" : "var(--muted)" }}>
                   {param.indexed ? "✓" : "—"}
                 </td>
                 <td style={{ padding: "5px 8px", wordBreak: "break-all" }}>

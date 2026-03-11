@@ -50,8 +50,7 @@ export function CalldataResultSection({ calldata, decoded }: Props) {
               color: "var(--muted)",
               fontSize: 13,
               fontWeight: 600,
-              textTransform: "uppercase",
-              letterSpacing: "0.05em",
+
               cursor: "pointer",
               textAlign: "left",
             }}

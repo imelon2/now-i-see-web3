@@ -53,16 +53,14 @@ export function TxInfoPanel({ txInfo }: Props) {
           }}
         >
           <Field label="Transaction Hash">
-            <HexDisplay hex={txInfo.hash} head={18} tail={10} />
+            <HexDisplay hex={txInfo.hash} head={200} tail={0} />
           </Field>
           <Field label="Network">
-            <span style={{ color: "var(--accent)"}}>
-              {networkLabel}
-            </span>
+            <span>{networkLabel}</span>
           </Field>
           <Field label="Block Hash">
             {txInfo.blockHash ? (
-              <HexDisplay hex={txInfo.blockHash} head={18} tail={10} />
+              <HexDisplay hex={txInfo.blockHash} head={200} tail={0} />
             ) : (
               <span style={{ color: "var(--muted)" }}>—</span>
             )}
@@ -85,19 +83,19 @@ export function TxInfoPanel({ txInfo }: Props) {
             </code>
           </Field>
           <Field label="From">
-            <HexDisplay hex={txInfo.from} head={18} tail={8} />
+            <HexDisplay hex={txInfo.from} head={200} tail={0} />
           </Field>
 
           <Field label="To">
             {txInfo.to ? (
-              <HexDisplay hex={txInfo.to} head={18} tail={8} />
+              <HexDisplay hex={txInfo.to} head={200} tail={0} />
             ) : (
-              <span style={{ color: "var(--warning)" }}>Contract Creation</span>
+              <span>Contract Creation</span>
             )}
           </Field>
           <Field label="Value">
             <code style={{ color: "var(--foreground)" }}>
-              {formatEtherValue(txInfo.value)}
+              {formatEtherValue(txInfo.value, txInfo.nativeCurrencySymbol)}
             </code>
           </Field>
 

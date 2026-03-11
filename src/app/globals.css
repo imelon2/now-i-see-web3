@@ -12,7 +12,7 @@
   --error: #f85149;
   --warning: #d29922;
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 
 @theme inline {
@@ -37,7 +37,7 @@ body {
 
 code,
 pre {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
 }
 
 /* 스크롤바 */
@@ -74,8 +74,6 @@ pre {
   font-size: 15px;
   font-weight: 600;
   color: var(--foreground);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 
 .panel-body {

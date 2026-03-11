@@ -58,6 +58,7 @@ export function useTxSearch() {
       const { result: tx, client } = found;
       const chainName = client.chain?.name ?? "Unknown Chain";
       const chainId = client.chain?.id;
+      const nativeCurrencySymbol = client.chain?.nativeCurrency?.symbol ?? "ETH";
 
       // Fetch receipt (ignore errors — pending or unsupported RPC)
       let receipt = null;
@@ -82,6 +83,7 @@ export function useTxSearch() {
         hash: tx.hash,
         chainName,
         chainId,
+        nativeCurrencySymbol,
         status: receipt?.status ?? "pending",
         blockNumber: tx.blockNumber,
         blockHash: tx.blockHash ?? null,

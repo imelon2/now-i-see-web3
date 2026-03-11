@@ -6,6 +6,7 @@ import { decodeCalldata } from "@/lib/utils/decoder";
 import { isValidHex } from "@/lib/utils/hex";
 import type { DecodedCalldata } from "@/types";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { AbiArchiveLink } from "@/components/ui/AbiArchiveLink";
 
 type Status = "idle" | "decoding" | "done";
 
@@ -84,13 +85,8 @@ export default function CalldataDecoderPage() {
                   {validationError}
                 </p>
               )}
-              <div
-                style={{
-                  marginTop: 10,
-                  display: "flex",
-                  justifyContent: "flex-end",
-                }}
-              >
+              <div style={{ marginTop: 10, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <AbiArchiveLink />
                 <button
                   onClick={handleDecode}
                   disabled={status === "decoding" || !!validationError}

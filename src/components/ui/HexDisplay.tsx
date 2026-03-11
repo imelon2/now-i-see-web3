@@ -10,7 +10,7 @@ interface Props {
 export function HexDisplay({ hex, head = 10, tail = 8 }: Props) {
   return (
     <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-      <code style={{ color: "var(--accent)", wordBreak: "break-all" }}>
+      <code style={{ color: "var(--foreground)", wordBreak: "break-all" }}>
         {truncateHex(hex, head, tail)}
       </code>
       <CopyButton text={hex} />

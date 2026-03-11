@@ -19,16 +19,16 @@ function JsonHighlight({ json }: { json: string }) {
           return `<span style="color:var(--muted)">${match}</span>`;
         }
         // string value
-        return `<span style="color:var(--accent)">${match}</span>`;
+        return `<span style="color:var(--foreground)">${match}</span>`;
       }
       if (match === "true" || match === "false") {
-        return `<span style="color:var(--success)">${match}</span>`;
+        return `<span style="color:var(--foreground)">${match}</span>`;
       }
       if (match === "null") {
         return `<span style="color:var(--muted)">${match}</span>`;
       }
       // number
-      return `<span style="color:var(--warning)">${match}</span>`;
+      return `<span style="color:var(--foreground)">${match}</span>`;
     }
   );
 
@@ -109,7 +109,7 @@ export function DecodedCalldataView({ calldata, decoded }: Props) {
           }}
         >
           <span style={{ color: "var(--muted)", fontSize: 13 }}>Function </span>
-          <code style={{ color: "var(--accent)", fontSize: 15 }}>
+          <code style={{ fontSize: 15 }}>
             {decoded.signature}
           </code>
         </div>

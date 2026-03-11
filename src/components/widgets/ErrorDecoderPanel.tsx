@@ -41,7 +41,7 @@ export function ErrorDecoderPanel({ errorData, decoded, failureReason }: Props) 
               <div style={{ color: "var(--muted)", fontSize: 13, marginBottom: 4 }}>
                 Error
               </div>
-              <code style={{ color: "var(--error)", fontSize: 15 }}>
+              <code style={{ fontSize: 15 }}>
                 {decoded.signature}
               </code>
             </div>
@@ -61,7 +61,7 @@ export function ErrorDecoderPanel({ errorData, decoded, failureReason }: Props) 
                     <tr key={i} style={{ borderBottom: "1px solid var(--border)" }}>
                       <td style={{ padding: "6px 8px" }}>{param.name}</td>
                       <td style={{ padding: "6px 8px" }}>
-                        <code style={{ color: "var(--warning)", fontSize: 14 }}>
+                        <code style={{ fontSize: 14 }}>
                           {param.type}
                         </code>
                       </td>
