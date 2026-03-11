@@ -1,12 +1,19 @@
 # Now I See Web3 👀
 
-<p align="center">
-  <b><i>Oh, now I see web3 data...!</i></b>
-</p>
 
 ### *Hex. Hashes. Encoded chaos...* </br>*Ever wondered what kind of data is actually living onchain in Web3?*
 
 #### *Now,,, I See Web3 turns unreadable onchain data into something humans can finally inspect, understand, and work with...!*
+
+<br/>
+<br/>
+<br/>
+
+<p align="center">
+  <b><i>Oh, now I see web3 data...!</i></b>
+</p>
+<br/>
+<br/>
 
 
 ## Features
