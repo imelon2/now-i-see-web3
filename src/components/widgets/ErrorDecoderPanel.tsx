@@ -41,14 +41,15 @@ export function ErrorDecoderPanel({ errorData, decoded, failureReason }: Props) 
               <div style={{ color: "var(--muted)", fontSize: 13, marginBottom: 4 }}>
                 Error
               </div>
-              <code style={{ fontSize: 15 }}>
+              <code style={{ fontSize: 15, wordBreak: "break-all", overflowWrap: "break-word" }}>
                 {decoded.signature}
               </code>
             </div>
 
             {/* Parameter table */}
             {decoded.params.length > 0 ? (
-              <table style={{ width: "100%", borderCollapse: "collapse" }}>
+              <div className="table-scroll">
+              <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 300 }}>
                 <thead>
                   <tr style={{ color: "var(--muted)", fontSize: 13 }}>
                     <th style={{ textAlign: "left", padding: "4px 8px", borderBottom: "1px solid var(--border)", width: "25%" }}>Name</th>
@@ -74,6 +75,7 @@ export function ErrorDecoderPanel({ errorData, decoded, failureReason }: Props) 
                   ))}
                 </tbody>
               </table>
+              </div>
             ) : (
               <p style={{ color: "var(--muted)", fontSize: 14 }}>No parameters</p>
             )}

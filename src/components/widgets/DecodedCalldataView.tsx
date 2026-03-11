@@ -109,7 +109,7 @@ export function DecodedCalldataView({ calldata, decoded }: Props) {
           }}
         >
           <span style={{ color: "var(--muted)", fontSize: 13 }}>Function </span>
-          <code style={{ fontSize: 15 }}>
+          <code style={{ fontSize: 15, wordBreak: "break-all", overflowWrap: "break-word" }}>
             {decoded.signature}
           </code>
         </div>

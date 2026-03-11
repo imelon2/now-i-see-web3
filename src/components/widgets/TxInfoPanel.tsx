@@ -45,13 +45,7 @@ export function TxInfoPanel({ txInfo }: Props) {
         <span>Transaction Info</span>
       </div>
       <div className="panel-body">
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "0 32px",
-          }}
-        >
+        <div className="tx-info-grid">
           <Field label="Transaction Hash">
             <HexDisplay hex={txInfo.hash} head={200} tail={0} />
           </Field>

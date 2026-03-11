@@ -62,7 +62,7 @@ function TxAnalyzerContent() {
     <main style={{ padding: 20 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {/* Page intro */}
-          <div style={{ paddingBottom: 8, borderBottom: "1px solid var(--border)", marginBottom: "2rem" }}>
+          <div className="page-intro" style={{ paddingBottom: 8, borderBottom: "1px solid var(--border)", marginBottom: "2rem" }}>
             <h1 style={{ fontSize: "2em", fontWeight: 700, margin: "0 0 6px" }}>
               Transaction Analyzer
             </h1>

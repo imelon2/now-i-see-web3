@@ -56,7 +56,8 @@ function DecodedLogView({ event }: { event: DecodedEvent }) {
 
       {/* Parameter table */}
       {event.params.length > 0 && (
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        <div className="table-scroll">
+        <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 360 }}>
           <thead>
             <tr style={{ color: "var(--muted)", fontSize: 13 }}>
               <th style={{ textAlign: "left", padding: "4px 8px", borderBottom: "1px solid var(--border)", width: "20%" }}>Name</th>
@@ -82,6 +83,7 @@ function DecodedLogView({ event }: { event: DecodedEvent }) {
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </div>
   );
@@ -117,6 +119,8 @@ export function EventLogView({ rawLogs, decodedEvents }: Props) {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
+                  flexWrap: "wrap",
+                  gap: 6,
                   marginBottom: 10,
                 }}
               >

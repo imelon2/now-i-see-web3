@@ -58,7 +58,7 @@ export default function CalldataDecoderPage() {
     <main style={{ padding: 20 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {/* Page intro */}
-          <div style={{ paddingBottom: 8, borderBottom: "1px solid var(--border)", marginBottom: "2rem" }}>
+          <div className="page-intro" style={{ paddingBottom: 8, borderBottom: "1px solid var(--border)", marginBottom: "2rem" }}>
             <h1 style={{ fontSize: "2em", fontWeight: 700, margin: "0 0 6px" }}>
               Calldata Decoder
             </h1>
@@ -85,7 +85,7 @@ export default function CalldataDecoderPage() {
                   {validationError}
                 </p>
               )}
-              <div style={{ marginTop: 10, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <div className="action-row" style={{ marginTop: 10, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <AbiArchiveLink />
                 <button
                   onClick={handleDecode}

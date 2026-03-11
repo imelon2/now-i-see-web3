@@ -4,6 +4,7 @@ export function AbiArchiveLink() {
       href="https://github.com/imelon2/abi-archive-trie"
       target="_blank"
       rel="noopener noreferrer"
+      className="btn-link"
       style={{
         display: "inline-flex",
         alignItems: "center",

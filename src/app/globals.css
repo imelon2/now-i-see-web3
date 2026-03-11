@@ -61,7 +61,7 @@ pre {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 6px;
-  overflow: hidden;
+  overflow: clip; /* clip: visually clips like hidden but doesn't block child overflow-x: auto */
 }
 
 .panel-header {
@@ -118,5 +118,160 @@ button:hover {
 button:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+/* ─── Layout ─────────────────────────────────────────────────────────────── */
+
+.layout-root {
+  display: flex;
+  height: 100vh;
+}
+
+.layout-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.layout-content-inner {
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+/* ─── NavBar ─────────────────────────────────────────────────────────────── */
+
+.nav-desktop {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--panel-header);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0;
+}
+
+.nav-mobile-bar {
+  display: none;
+}
+
+/* ─── TxInfoPanel grid ───────────────────────────────────────────────────── */
+
+.tx-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 32px;
+}
+
+/* ─── Responsive: mobile (≤ 768px) ──────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .layout-root {
+    flex-direction: column;
+  }
+
+  .layout-content {
+    padding-top: 56px;
+  }
+
+  .layout-content-inner {
+    padding: 0;
+  }
+
+  /* Desktop sidebar hidden */
+  .nav-desktop {
+    display: none;
+  }
+
+  /* Mobile top bar shown */
+  .nav-mobile-bar {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    z-index: 100;
+    background: var(--panel-header);
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+  }
+
+  .nav-mobile-menu {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+    background: var(--panel-header);
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 12px 0;
+    overflow-y: auto;
+  }
+
+  /* TxInfo: 1-column on mobile */
+  .tx-info-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  /* Page main padding */
+  main {
+    padding: 12px !important;
+  }
+
+  /* Larger touch targets */
+  input,
+  textarea {
+    padding: 10px 12px;
+    font-size: 16px; /* prevent iOS auto-zoom */
+    min-height: 42px;
+  }
+
+  button {
+    min-height: 40px;
+    padding: 8px 14px;
+  }
+
+  .panel-body {
+    padding: 10px;
+  }
+
+  /* Scrollable tables */
+  .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ABI link + button row: stack on very small screens */
+  .action-row {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .action-row > button {
+    flex: 1;
+    min-width: 80px;
+  }
+
+  /* a tags styled as buttons */
+  a.btn-link {
+    min-height: 40px;
+    padding: 8px 14px;
+    align-items: center;
+  }
+
+  /* h1 intro size */
+  h1 {
+    font-size: 1.5em !important;
+  }
+
+  /* intro margin */
+  .page-intro {
+    margin-bottom: 1rem !important;
+  }
 }
 

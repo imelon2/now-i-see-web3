@@ -20,10 +20,10 @@ export default function RootLayout({
   return (
     <html lang="ko" className={`${inter.variable} ${ibmPlexMono.variable}`}>
       <body>
-        <div style={{ display: "flex", height: "100vh" }}>
+        <div className="layout-root">
           <NavBar />
-          <div style={{ flex: 1, overflowY: "auto" }}>
-            <div style={{ maxWidth: "64rem", margin: "0 auto" }}>
+          <div className="layout-content">
+            <div className="layout-content-inner">
               {children}
             </div>
           </div>

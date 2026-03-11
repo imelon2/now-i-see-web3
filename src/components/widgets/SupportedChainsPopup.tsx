@@ -45,8 +45,8 @@ function Modal({ onClose }: { onClose: () => void }) {
           background: "var(--panel-header)",
           border: "1px solid var(--border)",
           borderRadius: 8,
-          width: 420,
-          maxHeight: "70vh",
+          width: "min(420px, calc(100vw - 32px))",
+          maxHeight: "80vh",
           display: "flex",
           flexDirection: "column",
           boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
@@ -150,7 +150,7 @@ function Modal({ onClose }: { onClose: () => void }) {
                   </div>
                   {/* Row 2: RPC URL */}
                   <div style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     color: "var(--muted)",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
