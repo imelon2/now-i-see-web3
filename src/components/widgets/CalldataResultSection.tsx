@@ -15,12 +15,7 @@ export function CalldataResultSection({ calldata, decoded }: Props) {
   const [rawOpen, setRawOpen] = useState(false);
 
   if (!decoded) {
-    return (
-      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-        <DecodedCalldataView calldata={calldata} decoded={null} />
-        <RawCalldataView calldata={calldata} />
-      </div>
-    );
+    return <RawCalldataView calldata={calldata} abiNotFound />;
   }
 
   return (

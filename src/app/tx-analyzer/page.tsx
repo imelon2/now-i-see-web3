@@ -7,6 +7,7 @@ import { CalldataResultSection } from "@/components/widgets/CalldataResultSectio
 import { EventLogView } from "@/components/widgets/EventLogView";
 import { useTxSearch } from "@/hooks/useTxSearch";
 import { isValidHex } from "@/lib/utils/hex";
+import { supportedChains } from "@/lib/chains/chainList";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { ErrorDisplay } from "@/components/ui/ErrorDisplay";
 import { SupportedChainsPopup } from "@/components/widgets/SupportedChainsPopup";
@@ -55,8 +56,7 @@ function TxAnalyzerContent() {
 
   const hasCalldata =
     result?.txInfo.input &&
-    result.txInfo.input !== "0x" &&
-    result.txInfo.input.length >= 10;
+    result.txInfo.input !== "0x";
 
   return (
     <main style={{ padding: 20 }}>
@@ -122,7 +122,7 @@ function TxAnalyzerContent() {
           {loading && (
             <LoadingSpinner
               message="Searching across chains…"
-              subMessage="Querying 12 chains in parallel"
+              subMessage={`Querying ${supportedChains.length} chains in parallel`}
             />
           )}
 

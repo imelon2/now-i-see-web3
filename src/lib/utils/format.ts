@@ -40,8 +40,10 @@ export function formatNumber(value: bigint | number): string {
  */
 export function formatGasPrice(wei: bigint): string {
   const gwei = Number(wei) / 1e9;
-  if (gwei < 0.001) return `${wei.toString()} wei`;
-  return `${gwei.toFixed(4).replace(/\.?0+$/, "")} Gwei`;
+  if (gwei === 0) return "0 Gwei";
+  // Use up to 9 significant decimal places, trim trailing zeros
+  const formatted = gwei.toPrecision(4).replace(/\.?0+$/, "");
+  return `${formatted} Gwei`;
 }
 
 /**
