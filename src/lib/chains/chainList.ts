@@ -10,6 +10,8 @@ import {
   base,
   baseSepolia,
   avalanche,
+  optimism,
+  optimismSepolia
 } from "viem/chains";
 
 const dkargoWarehouse = defineChain({
@@ -53,6 +55,8 @@ export const supportedChains = [
   base,
   baseSepolia,
   avalanche,
+  optimism,
+  optimismSepolia
 ] as const;
 
 export type SupportedChain = (typeof supportedChains)[number];

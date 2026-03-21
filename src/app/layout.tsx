@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Inter, IBM_Plex_Mono } from "next/font/google";
+import { Inter, IBM_Plex_Mono, Press_Start_2P } from "next/font/google";
 import "./globals.css";
 import { NavBar } from "@/components/ui/NavBar";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const ibmPlexMono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono" });
+const pressStart2P = Press_Start_2P({ subsets: ["latin"], weight: "400", variable: "--font-pixel" });
 
 export const metadata: Metadata = {
   title: "Now I See Web3",
@@ -18,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={`${inter.variable} ${ibmPlexMono.variable}`}>
+    <html lang="ko" className={`${inter.variable} ${ibmPlexMono.variable} ${pressStart2P.variable}`}>
       <body>
         <div className="layout-root">
           <NavBar />

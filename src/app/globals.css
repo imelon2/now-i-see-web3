@@ -140,7 +140,7 @@ button:disabled {
 /* ─── NavBar ─────────────────────────────────────────────────────────────── */
 
 .nav-desktop {
-  width: 220px;
+  width: 260px;
   flex-shrink: 0;
   background: var(--panel-header);
   border-right: 1px solid var(--border);
@@ -159,6 +159,81 @@ button:disabled {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0 32px;
+}
+
+/* ─── Pixel Art Animated Eyes Brand Mark ────────────────────────────────── */
+
+.px-bounce {
+  animation: px-bounce 0.55s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+
+.px-blink {
+  animation: px-blink 3.2s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center center;
+}
+
+.px-shadow {
+  animation: px-shadow 0.55s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.px-dust-l {
+  animation: px-dust-l 0.55s ease-in-out infinite;
+}
+
+.px-dust-r {
+  animation: px-dust-r 0.55s ease-in-out infinite;
+}
+
+@keyframes px-bounce {
+  0%   { transform: translateY(0px)   scaleX(1.15) scaleY(0.82); }
+  8%   { transform: translateY(-2px)  scaleX(1)    scaleY(1); }
+  40%  { transform: translateY(-14px) scaleX(0.94) scaleY(1.08); }
+  60%  { transform: translateY(-14px) scaleX(0.94) scaleY(1.08); }
+  88%  { transform: translateY(-2px)  scaleX(1)    scaleY(1); }
+  95%  { transform: translateY(-1px)  scaleX(1.08) scaleY(0.9); }
+  100% { transform: translateY(0px)   scaleX(1.15) scaleY(0.82); }
+}
+
+@keyframes px-blink {
+  0%, 88%, 100% { transform: scaleY(1); }
+  92%           { transform: scaleY(0.1); }
+  96%           { transform: scaleY(1); }
+}
+
+@keyframes px-shadow {
+  0%, 100% { transform: scaleX(1.5);  opacity: 0.55; }
+  40%, 60% { transform: scaleX(0.45); opacity: 0.15; }
+}
+
+@keyframes px-dust-l {
+  0%, 90%, 100% { opacity: 0;   transform: translate(0px, 0px); }
+  3%            { opacity: 0.9; transform: translate(0px, 0px); }
+  22%           { opacity: 0;   transform: translate(-6px, -4px); }
+}
+
+@keyframes px-dust-r {
+  0%, 90%, 100% { opacity: 0;   transform: translate(0px, 0px); }
+  3%            { opacity: 0.9; transform: translate(0px, 0px); }
+  22%           { opacity: 0;   transform: translate(6px, -4px); }
+}
+
+/* ─── Landing Page ───────────────────────────────────────────────────────── */
+
+.landing-tools {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.landing-card {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
 }
 
 /* ─── Responsive: mobile (≤ 768px) ──────────────────────────────────────── */
@@ -210,6 +285,11 @@ button:disabled {
     flex-direction: column;
     padding: 12px 0;
     overflow-y: auto;
+  }
+
+  /* Landing: 1-column on mobile */
+  .landing-tools {
+    grid-template-columns: 1fr;
   }
 
   /* TxInfo: 1-column on mobile */

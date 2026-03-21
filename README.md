@@ -10,6 +10,9 @@
 <br/>
 
 <p align="center">
+  <img src="./public/now-i-see-web3.gif" alt="Now I See Web3" />
+</p>
+<p align="center">
   <b><i>Oh, now I see web3 data...!</i></b>
 </p>
 <br/>

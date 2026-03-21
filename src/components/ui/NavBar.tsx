@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { AnimatedEyes } from "./AnimatedEyes";
 
 const LINKS = [
   {
@@ -95,6 +96,24 @@ function NavFooter() {
   );
 }
 
+function BrandMark() {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+      <AnimatedEyes size={28} />
+
+      {/* Text */}
+      <div>
+        <div style={{ fontFamily: "var(--font-pixel)", color: "#ffffff", fontSize: 14, lineHeight: 1.6 }}>
+          Now I See Web3
+        </div>
+        <div style={{ fontSize: 7,fontFamily: "var(--font-pixel)", color: "var(--muted)", marginTop: 8, letterSpacing: "0.01em" }}>
+          on-chain data analyzer
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function NavBar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -104,12 +123,9 @@ export function NavBar() {
       {/* ── Desktop sidebar ── */}
       <nav className="nav-desktop">
         <div style={{ padding: "0 16px", marginBottom: 32 }}>
-          <div style={{ fontWeight: 700, color: "var(--accent)", fontSize: 20, letterSpacing: "-0.01em", marginBottom: 4 }}>
-            Now I See Web3
-          </div>
-          <div style={{ fontSize: 12, color: "var(--muted)", letterSpacing: "0.01em" }}>
-            Oh, now I see web3 data... 👀
-          </div>
+          <Link href="/" style={{ textDecoration: "none" }}>
+            <BrandMark />
+          </Link>
         </div>
 
         <NavLinks pathname={pathname} />
@@ -121,9 +137,12 @@ export function NavBar() {
 
       {/* ── Mobile top bar ── */}
       <div className="nav-mobile-bar">
-        <div style={{ fontWeight: 700, color: "var(--accent)", fontSize: 16 }}>
-          Now I See Web3
-        </div>
+        <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }}>
+          <AnimatedEyes size={18} />
+          <span style={{ fontFamily: "var(--font-pixel)", color: "#ffffff", fontSize: 8 }}>
+            Now I See Web3
+          </span>
+        </Link>
         <button
           onClick={() => setMobileOpen((v) => !v)}
           style={{
