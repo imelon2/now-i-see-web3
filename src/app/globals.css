@@ -125,10 +125,13 @@ button:disabled {
 .layout-root {
   display: flex;
   height: 100vh;
+  overflow: hidden;
 }
 
 .layout-content {
   flex: 1;
+  min-height: 0;
+  margin-left: 260px;
   overflow-y: auto;
 }
 
@@ -140,13 +143,19 @@ button:disabled {
 /* ─── NavBar ─────────────────────────────────────────────────────────────── */
 
 .nav-desktop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
   width: 260px;
-  flex-shrink: 0;
+  z-index: 50;
   background: var(--panel-header);
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   padding: 24px 0;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .nav-mobile-bar {
@@ -245,6 +254,7 @@ button:disabled {
 
   .layout-content {
     padding-top: 56px;
+    margin-left: 0;
   }
 
   .layout-content-inner {

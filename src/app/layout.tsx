@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, IBM_Plex_Mono, Press_Start_2P } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { NavBar } from "@/components/ui/NavBar";
 
@@ -71,21 +72,21 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${ibmPlexMono.variable} ${pressStart2P.variable}`}>
       <head>
-        {/* Google AdSense */}
         <meta name="google-adsense-account" content="ca-pub-5304857082541488" />
-        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5304857082541488"
-          crossOrigin="anonymous"
-        />
+      </head>
+      <body>
         {/* JSON-LD structured data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/<\//g, "<\\/") }}
         />
-      </head>
-      <body>
+        {/* Google AdSense */}
+        <Script
+          id="adsense"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5304857082541488"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
         <div className="layout-root">
           <NavBar />
           <div className="layout-content">

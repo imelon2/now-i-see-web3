@@ -151,7 +151,10 @@ function NavLink({
         color: isActive ? "var(--foreground)" : "var(--muted)",
         textDecoration: "none",
         fontSize: 14,
-        fontWeight: isActive ? 600 : 400,
+        fontWeight: 500,
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
       }}
     >
       {icon}
