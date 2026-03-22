@@ -8,27 +8,37 @@ interface Props {
   decoded: DecodedCalldata | null;
 }
 
+/** Escape HTML special characters to prevent XSS */
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 /** JSON syntax highlight */
 function JsonHighlight({ json }: { json: string }) {
   const highlighted = json.replace(
     /("(?:\\u[a-fA-F0-9]{4}|\\[^u]|[^\\"])*"(?:\s*:)?|true|false|null|-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/g,
     (match) => {
+      const safe = escapeHtml(match);
       if (/^"/.test(match)) {
         if (/:$/.test(match)) {
           // key
-          return `<span style="color:var(--muted)">${match}</span>`;
+          return `<span style="color:var(--muted)">${safe}</span>`;
         }
         // string value
-        return `<span style="color:var(--foreground)">${match}</span>`;
+        return `<span style="color:var(--foreground)">${safe}</span>`;
       }
       if (match === "true" || match === "false") {
-        return `<span style="color:var(--foreground)">${match}</span>`;
+        return `<span style="color:var(--foreground)">${safe}</span>`;
       }
       if (match === "null") {
-        return `<span style="color:var(--muted)">${match}</span>`;
+        return `<span style="color:var(--muted)">${safe}</span>`;
       }
       // number
-      return `<span style="color:var(--foreground)">${match}</span>`;
+      return `<span style="color:var(--foreground)">${safe}</span>`;
     }
   );
 

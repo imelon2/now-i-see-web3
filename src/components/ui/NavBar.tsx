@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatedEyes } from "./AnimatedEyes";
 
-const LINKS = [
+const TOOL_LINKS = [
   {
     href: "/tx-analyzer",
     label: "Transaction Analyzer",
@@ -39,35 +39,147 @@ const LINKS = [
   },
 ];
 
-function NavLinks({ pathname, onNavigate }: { pathname: string; onNavigate?: () => void }) {
+const DOCS_LINKS = [
+  {
+    href: "/docs/calldata-decoder",
+    label: "Calldata Decoder",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 2h6l4 4v10H4V2" />
+        <polyline points="10,2 10,6 14,6" />
+      </svg>
+    ),
+  },
+  {
+    href: "/docs/error-decoder",
+    label: "Error Decoder",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 2h6l4 4v10H4V2" />
+        <polyline points="10,2 10,6 14,6" />
+      </svg>
+    ),
+  },
+  {
+    href: "/docs/tx-analyzer",
+    label: "Tx Analyzer",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 2h6l4 4v10H4V2" />
+        <polyline points="10,2 10,6 14,6" />
+      </svg>
+    ),
+  },
+];
+
+const INFO_LINKS = [
+  {
+    href: "/about",
+    label: "About",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="8" cy="8" r="6" />
+        <line x1="8" y1="7" x2="8" y2="11" />
+        <circle cx="8" cy="5" r="0.5" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+  {
+    href: "/contact",
+    label: "Contact",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="4" width="12" height="9" rx="1" />
+        <polyline points="2,4 8,9 14,4" />
+      </svg>
+    ),
+  },
+  {
+    href: "/privacy",
+    label: "Privacy",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M8 2L3 4v4c0 3 2.5 5.5 5 6 2.5-.5 5-3 5-6V4L8 2Z" />
+      </svg>
+    ),
+  },
+];
+
+const dividerStyle: React.CSSProperties = {
+  height: 1,
+  background: "var(--border)",
+  margin: "8px 16px",
+};
+
+const sectionLabelStyle: React.CSSProperties = {
+  padding: "6px 16px 2px",
+  fontSize: 11,
+  fontWeight: 600,
+  letterSpacing: "0.08em",
+  color: "var(--muted)",
+  textTransform: "uppercase",
+};
+
+function NavLink({
+  href,
+  label,
+  icon,
+  pathname,
+  onNavigate,
+  indented,
+}: {
+  href: string;
+  label: string;
+  icon: React.ReactNode;
+  pathname: string;
+  onNavigate?: () => void;
+  indented?: boolean;
+}) {
+  const isActive = pathname === href;
+  return (
+    <Link
+      href={href}
+      onClick={onNavigate}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        padding: "10px 16px",
+        paddingLeft: indented ? 24 : 14,
+        borderLeft: isActive ? "2px solid var(--accent)" : "2px solid transparent",
+        background: isActive ? "rgba(88,166,255,0.07)" : "transparent",
+        color: isActive ? "var(--foreground)" : "var(--muted)",
+        textDecoration: "none",
+        fontSize: 14,
+        fontWeight: isActive ? 600 : 400,
+      }}
+    >
+      {icon}
+      {label}
+    </Link>
+  );
+}
+
+function NavGroups({ pathname, onNavigate }: { pathname: string; onNavigate?: () => void }) {
   return (
     <>
-      {LINKS.map(({ href, label, icon }) => {
-        const isActive = pathname.startsWith(href);
-        return (
-          <Link
-            key={href}
-            href={href}
-            onClick={onNavigate}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "10px 16px",
-              paddingLeft: 14,
-              borderLeft: isActive ? "2px solid var(--accent)" : "2px solid transparent",
-              background: isActive ? "rgba(88,166,255,0.07)" : "transparent",
-              color: isActive ? "var(--foreground)" : "var(--muted)",
-              textDecoration: "none",
-              fontSize: 15,
-              fontWeight: isActive ? 600 : 400,
-            }}
-          >
-            {icon}
-            {label}
-          </Link>
-        );
-      })}
+      {/* Tools */}
+      {TOOL_LINKS.map(({ href, label, icon }) => (
+        <NavLink key={href} href={href} label={label} icon={icon} pathname={pathname} onNavigate={onNavigate} />
+      ))}
+
+      {/* Divider + Docs section */}
+      <div style={dividerStyle} />
+      <div style={sectionLabelStyle}>Docs</div>
+      {DOCS_LINKS.map(({ href, label, icon }) => (
+        <NavLink key={href} href={href} label={label} icon={icon} pathname={pathname} onNavigate={onNavigate} indented />
+      ))}
+
+      {/* Divider + Info links */}
+      <div style={dividerStyle} />
+      {INFO_LINKS.map(({ href, label, icon }) => (
+        <NavLink key={href} href={href} label={label} icon={icon} pathname={pathname} onNavigate={onNavigate} />
+      ))}
     </>
   );
 }
@@ -100,13 +212,11 @@ function BrandMark() {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
       <AnimatedEyes size={28} />
-
-      {/* Text */}
       <div>
         <div style={{ fontFamily: "var(--font-pixel)", color: "#ffffff", fontSize: 14, lineHeight: 1.6 }}>
           Now I See Web3
         </div>
-        <div style={{ fontSize: 7,fontFamily: "var(--font-pixel)", color: "var(--muted)", marginTop: 8, letterSpacing: "0.01em" }}>
+        <div style={{ fontSize: 7, fontFamily: "var(--font-pixel)", color: "var(--muted)", marginTop: 8, letterSpacing: "0.01em" }}>
           on-chain data analyzer
         </div>
       </div>
@@ -128,7 +238,7 @@ export function NavBar() {
           </Link>
         </div>
 
-        <NavLinks pathname={pathname} />
+        <NavGroups pathname={pathname} />
 
         <div style={{ marginTop: "auto", padding: "0 16px" }}>
           <NavFooter />
@@ -156,13 +266,11 @@ export function NavBar() {
           aria-label="Toggle menu"
         >
           {mobileOpen ? (
-            /* X icon */
             <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
               <line x1="3" y1="3" x2="13" y2="13" />
               <line x1="13" y1="3" x2="3" y2="13" />
             </svg>
           ) : (
-            /* Hamburger icon */
             <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
               <line x1="2" y1="4" x2="14" y2="4" />
               <line x1="2" y1="8" x2="14" y2="8" />
@@ -175,7 +283,7 @@ export function NavBar() {
       {/* ── Mobile menu overlay ── */}
       {mobileOpen && (
         <div className="nav-mobile-menu">
-          <NavLinks pathname={pathname} onNavigate={() => setMobileOpen(false)} />
+          <NavGroups pathname={pathname} onNavigate={() => setMobileOpen(false)} />
           <div style={{ marginTop: "auto", padding: "24px 16px 16px" }}>
             <NavFooter />
           </div>
