@@ -56,13 +56,18 @@ export default function ContactPage() {
           >
             choi.eth
           </a>
-          . You can reach out directly through GitHub for collaboration inquiries or other questions.
+          . You can reach out directly through GitHub or email for collaboration inquiries or other questions.
+        </p>
+        <p>
+          Email:{" "}
+          <a href="mailto:yuanhe369369@gmail.com">yuanhe369369@gmail.com</a>
         </p>
 
         <h2>Privacy Inquiries</h2>
         <p>
-          For questions related to privacy or data handling, please open a GitHub Issue in the project repository
-          and label it as a privacy inquiry. We will respond as soon as possible.
+          For questions related to privacy or data handling, please contact us at{" "}
+          <a href="mailto:yuanhe369369@gmail.com">yuanhe369369@gmail.com</a>{" "}
+          or open a GitHub Issue in the project repository. We will respond as soon as possible.
         </p>
       </div>
     </main>

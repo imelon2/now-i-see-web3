@@ -13,7 +13,7 @@ declare global {
   }
 }
 
-export function AdSenseAd({ adSlot, style }: AdSenseAdProps) {
+export function AdSenseAd({ adSlot = "1279653268", style }: AdSenseAdProps) {
   useEffect(() => {
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});

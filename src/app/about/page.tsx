@@ -56,6 +56,19 @@ export default function AboutPage() {
           </li>
         </ul>
 
+        <h2>Developer Tool Only — No Financial Features</h2>
+        <p>
+          Now I See Web3 is strictly a developer debugging and inspection tool. It contains no cryptocurrency
+          investment features, no payment processing, no token transfers, and no trading functionality of any
+          kind. There is no wallet connection, no private key handling, no API key requirement, and no
+          collection of personal data. All operations are read-only: the tools only read and decode data
+          that already exists on public blockchains.
+        </p>
+        <p>
+          If you are looking for a platform to buy, sell, or transfer cryptocurrency, this is not it.
+          Now I See Web3 exists solely to help developers understand what raw on-chain data means.
+        </p>
+
         <h2>Why We Built This</h2>
         <p>
           Working with on-chain data is a fundamental part of Web3 development, but the raw data format — ABI-encoded

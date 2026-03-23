@@ -62,14 +62,45 @@ function TxAnalyzerContent() {
     <main style={{ padding: 20 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {/* Page intro */}
-          <div className="page-intro" style={{ paddingBottom: 8, borderBottom: "1px solid var(--border)", marginBottom: "2rem" }}>
-            <h1 style={{ fontSize: "2em", fontWeight: 700, margin: "0 0 6px" }}>
+          <div className="page-intro" style={{ paddingBottom: 16, borderBottom: "1px solid var(--border)", marginBottom: "2rem" }}>
+            <h1 style={{ fontSize: "2em", fontWeight: 700, margin: "0 0 10px" }}>
               Transaction Analyzer
             </h1>
-            <p style={{ color: "var(--muted)", fontSize: 14, margin: 0, lineHeight: 1.6 }}>
-              Analyze and decode EVM blockchain transaction data with our powerful tools.
-              Get detailed insights into transaction information, method calls, events, and batch data.
+            <p style={{ color: "var(--muted)", fontSize: 14, margin: "0 0 8px", lineHeight: 1.7 }}>
+              Enter any EVM transaction hash to instantly retrieve full on-chain details — block number, timestamp,
+              from/to addresses, value transferred, gas used, decoded calldata, and event logs. Searches across
+              Ethereum, Arbitrum, Optimism, Base, Polygon, BNB Chain, Avalanche, and more in parallel.
             </p>
+            <p style={{ color: "var(--muted)", fontSize: 14, margin: "0 0 8px", lineHeight: 1.7 }}>
+              This is a pure developer debugging tool. It has no wallet connection, no token transfers, no payments,
+              and no cryptocurrency investment features — only on-chain data inspection.
+            </p>
+            <p style={{ color: "var(--muted)", fontSize: 14, margin: "0 0 12px", lineHeight: 1.7 }}>
+              <strong style={{ color: "var(--foreground)" }}>How to use:</strong> Paste a 66-character transaction
+              hash starting with <code style={{ fontSize: 12 }}>0x</code> into the search box below and press{" "}
+              <strong style={{ color: "var(--foreground)" }}>Search</strong>.
+            </p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 16px", alignItems: "center" }}>
+              <span style={{ color: "var(--muted)", fontSize: 13 }}>Try an example:</span>
+              <a
+                href="/tx-analyzer?hash=0x6c4a761a25a3deeaecbaea8aa1774271cd8c11c774e25a309bbae62d99b982ff"
+                style={{ color: "var(--accent)", fontSize: 13, textDecoration: "none" }}
+              >
+                Example TX #1 →
+              </a>
+              <a
+                href="/tx-analyzer?hash=0x1416a84f25468f558199cb562939f1e8db305cb5ed2e6e1e0c1a0f8e0fd92b58"
+                style={{ color: "var(--accent)", fontSize: 13, textDecoration: "none" }}
+              >
+                Example TX #2 →
+              </a>
+              <a
+                href="/docs/tx-analyzer"
+                style={{ color: "var(--muted)", fontSize: 13, textDecoration: "none", marginLeft: "auto" }}
+              >
+                Full Guide →
+              </a>
+            </div>
           </div>
 
           {/* Search bar */}
