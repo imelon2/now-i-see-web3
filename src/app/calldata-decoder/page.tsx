@@ -65,8 +65,8 @@ export default function CalldataDecoderPage() {
             <p style={{ color: "var(--muted)", fontSize: 14, margin: "0 0 8px", lineHeight: 1.7 }}>
               Paste any raw calldata hex string and instantly see the decoded function name, parameter types, and
               values. The decoder extracts the first 4 bytes as a function selector, looks it up against the{" "}
-              <a href="https://4byte.directory" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)" }}>
-                4byte.directory
+              <a href="https://github.com/imelon2/abi-archive-trie" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)" }}>
+                abi-archive-trie
               </a>{" "}
               signature database, and ABI-decodes the remaining bytes into human-readable parameters.
             </p>

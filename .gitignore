@@ -42,5 +42,5 @@ next-env.d.ts
 
 # CLAUDE
 .omc/
-docs/
+docs-archive/
 tasks/

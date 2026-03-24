@@ -124,7 +124,7 @@ export default function ErrorDecoderGuidePage() {
         </pre>
         <p>When this error is triggered, the revert data looks like:</p>
         <pre>
-          <code>0xcf4791810000000000000000000000000000000000000000000000000de0b6b3a76400000000000000000000000000000000000000000000000008ac7230489e800000</code>
+          <code>0xcf4791810000000000000000000000000000000000000000000000000de0b6b3a76400000000000000000000000000000000000000000000000008ac7230489e80000000</code>
         </pre>
         <p>
           After pasting the revert data and the error ABI fragment into the Error Decoder, you will see:
