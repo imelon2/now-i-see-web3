@@ -54,6 +54,10 @@ The brand uses an all-grayscale palette with no warm/cold hues.
 | `src/components/ui/NavBar.tsx` | Desktop sidebar + mobile top bar with BrandMark |
 | `src/app/globals.css` | CSS variables, layout classes, px-* animation keyframes |
 
+## Git 규칙
+
+- 사용자가 명시적으로 `git push`를 요청하지 않는 한 절대 push를 수행하지 않는다.
+
 ### AnimatedEyes Technical Details
 - viewBox: `"0 0 13 7"` — two 7-col eyes, 1-unit visible gap
 - Eye shape: custom oval (outer cols always empty, sides at x+1 and x+5, top/bottom width=3 at x+2)
