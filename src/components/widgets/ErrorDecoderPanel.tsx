@@ -9,10 +9,15 @@ interface Props {
   decoded: DecodedError | null;
   /** Reason for decode failure when decoded is null */
   failureReason?: "no-abi" | "decode-failed";
+  abiIndex?: number;
+  abiTotal?: number;
+  onPrev?: () => void;
+  onNext?: () => void;
 }
 
-export function ErrorDecoderPanel({ errorData, decoded, failureReason }: Props) {
+export function ErrorDecoderPanel({ errorData, decoded, failureReason, abiIndex, abiTotal, onPrev, onNext }: Props) {
   const selector = extractSelector(errorData);
+  const showNav = abiTotal !== undefined && abiTotal > 1;
 
   const failureMessage =
     failureReason === "decode-failed"
@@ -23,7 +28,48 @@ export function ErrorDecoderPanel({ errorData, decoded, failureReason }: Props) 
     <div className="panel" style={{ flex: 1 }}>
       <div className="panel-header">
         <span>Decoded Error</span>
-        {decoded && <CopyButton text={JSON.stringify(decoded, null, 2)} />}
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          {decoded && showNav && (
+            <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+              <button
+                onClick={onPrev}
+                disabled={abiIndex === 0}
+                style={{
+                  background: "transparent",
+                  border: "1px solid var(--border)",
+                  color: abiIndex === 0 ? "var(--muted)" : "var(--foreground)",
+                  borderRadius: 3,
+                  padding: "1px 7px",
+                  fontSize: 13,
+                  cursor: abiIndex === 0 ? "default" : "pointer",
+                  lineHeight: 1.6,
+                }}
+              >
+                {"<"}
+              </button>
+              <span style={{ color: "var(--muted)", fontSize: 13, minWidth: 40, textAlign: "center" }}>
+                {(abiIndex ?? 0) + 1}/{abiTotal}
+              </span>
+              <button
+                onClick={onNext}
+                disabled={abiIndex === (abiTotal ?? 1) - 1}
+                style={{
+                  background: "transparent",
+                  border: "1px solid var(--border)",
+                  color: abiIndex === (abiTotal ?? 1) - 1 ? "var(--muted)" : "var(--foreground)",
+                  borderRadius: 3,
+                  padding: "1px 7px",
+                  fontSize: 13,
+                  cursor: abiIndex === (abiTotal ?? 1) - 1 ? "default" : "pointer",
+                  lineHeight: 1.6,
+                }}
+              >
+                {">"}
+              </button>
+            </div>
+          )}
+          {decoded && <CopyButton text={JSON.stringify(decoded, null, 2)} />}
+        </div>
       </div>
       <div className="panel-body">
         {decoded ? (

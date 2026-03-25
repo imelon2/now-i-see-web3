@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { CalldataResultSection } from "@/components/widgets/CalldataResultSection";
-import { decodeCalldata } from "@/lib/utils/decoder";
+import { decodeCalldataAll } from "@/lib/utils/decoder";
 import { isValidHex } from "@/lib/utils/hex";
 import type { DecodedCalldata } from "@/types";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -14,7 +14,7 @@ export default function CalldataDecoderPage() {
   const [input, setInput] = useState("");
   const [validationError, setValidationError] = useState("");
   const [status, setStatus] = useState<Status>("idle");
-  const [decoded, setDecoded] = useState<DecodedCalldata | null>(null);
+  const [decodedList, setDecodedList] = useState<DecodedCalldata[]>([]);
   const [submittedCalldata, setSubmittedCalldata] = useState("");
 
   const handleChange = (value: string) => {
@@ -46,11 +46,11 @@ export default function CalldataDecoderPage() {
     }
 
     setStatus("decoding");
-    setDecoded(null);
+    setDecodedList([]);
     setSubmittedCalldata(trimmed);
 
-    const result = await decodeCalldata(trimmed);
-    setDecoded(result);
+    const results = await decodeCalldataAll(trimmed);
+    setDecodedList(results);
     setStatus("done");
   };
 
@@ -133,7 +133,7 @@ export default function CalldataDecoderPage() {
           {status === "done" && submittedCalldata && (
             <CalldataResultSection
               calldata={submittedCalldata}
-              decoded={decoded}
+              decodedList={decodedList}
             />
           )}
         </div>

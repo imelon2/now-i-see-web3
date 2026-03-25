@@ -5,15 +5,15 @@ import type { Log } from "viem";
 import { supportedChains } from "@/lib/chains/chainList";
 import { createClient } from "@/lib/utils/viemClient";
 import { multiRace } from "@/lib/utils/multiRace";
-import { decodeCalldata, decodeLog } from "@/lib/utils/decoder";
+import { decodeCalldataAll, decodeLogAll } from "@/lib/utils/decoder";
 import { isValidHex } from "@/lib/utils/hex";
 import type { TxInfo, DecodedCalldata, DecodedEvent } from "@/types";
 
 export interface SearchResult {
   txInfo: TxInfo;
-  decodedCalldata: DecodedCalldata | null;
+  decodedCalldataVariants: DecodedCalldata[];
   rawLogs: Log[];
-  decodedEvents: (DecodedEvent | null)[];
+  decodedEventVariants: (DecodedEvent[] | null)[];
 }
 
 export type SearchStatus = "idle" | "searching" | "found" | "not-found" | "error";
@@ -97,19 +97,23 @@ export function useTxSearch() {
         input: tx.input,
       };
 
-      // Decode calldata if input exists
-      let decodedCalldata: DecodedCalldata | null = null;
+      // Decode calldata variants if input exists
+      let decodedCalldataVariants: DecodedCalldata[] = [];
       if (tx.input && tx.input !== "0x" && tx.input.length >= 10) {
-        decodedCalldata = await decodeCalldata(tx.input);
+        decodedCalldataVariants = await decodeCalldataAll(tx.input);
       }
 
-      // Decode event logs
+      // Decode event log variants
       const rawLogs: Log[] = receipt?.logs ?? [];
-      const decodedEvents = await Promise.all(
-        rawLogs.map((log) => decodeLog(log))
+      const decodedEventVariants = await Promise.all(
+        rawLogs.map((log) =>
+          decodeLogAll(log).then((variants) =>
+            variants.length > 0 ? variants : null
+          )
+        )
       );
 
-      setResult({ txInfo, decodedCalldata, rawLogs, decodedEvents });
+      setResult({ txInfo, decodedCalldataVariants, rawLogs, decodedEventVariants });
       setStatus("found");
     } catch (err) {
       setError(

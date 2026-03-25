@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { HexDisplay } from "@/components/ui/HexDisplay";
 import { formatParamValue } from "@/lib/utils/format";
@@ -6,7 +9,7 @@ import type { Log } from "viem";
 
 interface Props {
   rawLogs: Log[];
-  decodedEvents: (DecodedEvent | null)[];
+  decodedEventVariants: (DecodedEvent[] | null)[];
 }
 
 function RawLogView({ log }: { log: Log }) {
@@ -89,8 +92,20 @@ function DecodedLogView({ event }: { event: DecodedEvent }) {
   );
 }
 
-export function EventLogView({ rawLogs, decodedEvents }: Props) {
+export function EventLogView({ rawLogs, decodedEventVariants }: Props) {
+  const [logIndices, setLogIndices] = useState<number[]>(() =>
+    rawLogs.map(() => 0)
+  );
+
   if (rawLogs.length === 0) return null;
+
+  const setLogIndex = (logIdx: number, abiIdx: number) => {
+    setLogIndices((prev) => {
+      const next = [...prev];
+      next[logIdx] = abiIdx;
+      return next;
+    });
+  };
 
   return (
     <div className="panel">
@@ -102,7 +117,12 @@ export function EventLogView({ rawLogs, decodedEvents }: Props) {
       </div>
       <div className="panel-body" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         {rawLogs.map((log, i) => {
-          const decoded = decodedEvents[i];
+          const variants = decodedEventVariants[i];
+          const abiIndex = logIndices[i] ?? 0;
+          const decoded = variants && variants.length > 0 ? variants[abiIndex] ?? null : null;
+          const abiTotal = variants?.length ?? 0;
+          const showNav = abiTotal > 1;
+
           return (
             <div
               key={i}
@@ -136,6 +156,45 @@ export function EventLogView({ rawLogs, decodedEvents }: Props) {
                     <span style={{ color: "var(--warning)", fontSize: 13 }}>
                       Raw
                     </span>
+                  )}
+                  {decoded && showNav && (
+                    <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                      <button
+                        onClick={() => setLogIndex(i, Math.max(0, abiIndex - 1))}
+                        disabled={abiIndex === 0}
+                        style={{
+                          background: "transparent",
+                          border: "1px solid var(--border)",
+                          color: abiIndex === 0 ? "var(--muted)" : "var(--foreground)",
+                          borderRadius: 3,
+                          padding: "1px 7px",
+                          fontSize: 13,
+                          cursor: abiIndex === 0 ? "default" : "pointer",
+                          lineHeight: 1.6,
+                        }}
+                      >
+                        {"<"}
+                      </button>
+                      <span style={{ color: "var(--muted)", fontSize: 13, minWidth: 40, textAlign: "center" }}>
+                        {abiIndex + 1}/{abiTotal}
+                      </span>
+                      <button
+                        onClick={() => setLogIndex(i, Math.min(abiTotal - 1, abiIndex + 1))}
+                        disabled={abiIndex === abiTotal - 1}
+                        style={{
+                          background: "transparent",
+                          border: "1px solid var(--border)",
+                          color: abiIndex === abiTotal - 1 ? "var(--muted)" : "var(--foreground)",
+                          borderRadius: 3,
+                          padding: "1px 7px",
+                          fontSize: 13,
+                          cursor: abiIndex === abiTotal - 1 ? "default" : "pointer",
+                          lineHeight: 1.6,
+                        }}
+                      >
+                        {">"}
+                      </button>
+                    </div>
                   )}
                   <CopyButton
                     text={

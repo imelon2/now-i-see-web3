@@ -182,13 +182,13 @@ function TxAnalyzerContent() {
               {hasCalldata && (
                 <CalldataResultSection
                   calldata={result.txInfo.input}
-                  decoded={result.decodedCalldata}
+                  decodedList={result.decodedCalldataVariants}
                 />
               )}
 
               <EventLogView
                 rawLogs={result.rawLogs}
-                decodedEvents={result.decodedEvents}
+                decodedEventVariants={result.decodedEventVariants}
               />
             </>
           )}

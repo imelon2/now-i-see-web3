@@ -129,6 +129,95 @@ export async function decodeLog(log: Log): Promise<DecodedEvent | null> {
   }
 }
 
+// ─── Calldata decoding (all variants) ────────────────────────────────────────────
+
+export async function decodeCalldataAll(
+  calldata: string
+): Promise<DecodedCalldata[]> {
+  const selector = extractSelector(calldata);
+  if (!selector) return [];
+
+  const abiItems = await fetchAbiBySelector(selector, "function");
+  if (!abiItems || abiItems.length === 0) return [];
+
+  const results: DecodedCalldata[] = [];
+
+  for (const item of abiItems) {
+    if (item.type !== "function") continue;
+    try {
+      const { functionName, args } = decodeFunctionData({
+        abi: [item] as Abi,
+        data: calldata as `0x${string}`,
+      });
+      const inputs = "inputs" in item ? (item.inputs ?? []) : [];
+      const params: DecodedParam[] = inputs.map((input, i) => ({
+        name: input.name ?? `arg${i}`,
+        type: input.type,
+        value: formatValue(args?.[i]),
+      }));
+      const signature = `${functionName}(${inputs.map(expandType).join(",")})`;
+      results.push({ functionName, signature, params, rawCalldata: calldata });
+    } catch {
+      // skip this variant
+    }
+  }
+
+  return results;
+}
+
+// ─── Event log decoding (all variants) ───────────────────────────────────────────
+
+export async function decodeLogAll(log: Log): Promise<DecodedEvent[]> {
+  const topic0 = log.topics?.[0];
+  if (!topic0) return [];
+
+  const abiItems = await fetchAbiBySelector(topic0, "event");
+  if (!abiItems || abiItems.length === 0) return [];
+
+  const eventItems = abiItems.filter((item) => item.type === "event");
+  if (eventItems.length === 0) return [];
+
+  const results: DecodedEvent[] = [];
+
+  for (const item of eventItems) {
+    try {
+      const decoded = decodeEventLog({
+        abi: [item] as Abi,
+        data: (log.data ?? "0x") as `0x${string}`,
+        topics: log.topics as [signature: `0x${string}`, ...args: `0x${string}`[]],
+        strict: false,
+      });
+
+      const inputs = "inputs" in item ? (item.inputs ?? []) : [];
+      const params: DecodedEventParam[] = inputs.map((input, i) => ({
+        name: input.name ?? `arg${i}`,
+        type: input.type,
+        indexed: "indexed" in input ? (input.indexed ?? false) : false,
+        value: formatValue(
+          (decoded.args as unknown as Record<string, unknown>)?.[input.name ?? `arg${i}`] ??
+            (decoded.args as unknown as unknown[])?.[i]
+        ),
+      }));
+
+      const eventName = decoded.eventName ?? "";
+      const signature = `${eventName}(${inputs.map(expandType).join(",")})`;
+
+      results.push({
+        eventName,
+        signature,
+        params,
+        address: log.address ?? "",
+        rawTopics: [...(log.topics ?? [])] as string[],
+        rawData: log.data as string,
+      });
+    } catch {
+      // skip this variant
+    }
+  }
+
+  return results;
+}
+
 // ─── Error decoding ───────────────────────────────────────────────────────────────
 
 export type ErrorDecodeResult =
@@ -224,4 +313,97 @@ export async function decodeError(
   } catch {
     return { status: "decode-failed" };
   }
+}
+
+// ─── Error decoding (all variants) ────────────────────────────────────────────────
+
+export interface DecodeErrorAllResult {
+  results: DecodedError[];
+  failureReason?: "no-abi" | "decode-failed";
+}
+
+export async function decodeErrorAll(
+  errorData: string
+): Promise<DecodeErrorAllResult> {
+  const selector = extractSelector(errorData);
+  if (!selector) return { results: [], failureReason: "no-abi" };
+
+  const { decodeAbiParameters } = await import("viem");
+
+  // Standard Error(string)
+  if (selector.toLowerCase() === STANDARD_ERROR_SELECTOR) {
+    try {
+      const encoded = `0x${errorData.slice(10)}` as `0x${string}`;
+      const [message] = decodeAbiParameters([{ type: "string" }], encoded);
+      return {
+        results: [
+          {
+            errorName: "Error",
+            signature: "Error(string)",
+            params: [{ name: "message", type: "string", value: String(message) }],
+            rawData: errorData,
+          },
+        ],
+      };
+    } catch {
+      return { results: [], failureReason: "decode-failed" };
+    }
+  }
+
+  // Panic(uint256)
+  if (selector.toLowerCase() === PANIC_SELECTOR) {
+    try {
+      const encoded = `0x${errorData.slice(10)}` as `0x${string}`;
+      const [code] = decodeAbiParameters([{ type: "uint256" }], encoded);
+      return {
+        results: [
+          {
+            errorName: "Panic",
+            signature: "Panic(uint256)",
+            params: [{ name: "code", type: "uint256", value: formatValue(code) }],
+            rawData: errorData,
+          },
+        ],
+      };
+    } catch {
+      return { results: [], failureReason: "decode-failed" };
+    }
+  }
+
+  // Custom errors — try each ABI item individually
+  const abiItems = await fetchAbiBySelector(selector, "error");
+  if (!abiItems || abiItems.length === 0) return { results: [], failureReason: "no-abi" };
+
+  const errorItems = abiItems.filter((item) => item.type === "error");
+  if (errorItems.length === 0) return { results: [], failureReason: "no-abi" };
+
+  const { decodeErrorResult } = await import("viem");
+  const decodedResults: DecodedError[] = [];
+
+  for (const item of errorItems) {
+    try {
+      const { errorName, args } = decodeErrorResult({
+        abi: [item] as Abi,
+        data: errorData as `0x${string}`,
+      });
+
+      const inputs =
+        "inputs" in item
+          ? (item.inputs as { name?: string; type: string }[]) ?? []
+          : [];
+      const params: DecodedParam[] = inputs.map((input, i) => ({
+        name: input.name ?? `arg${i}`,
+        type: input.type,
+        value: formatValue(args?.[i]),
+      }));
+
+      const signature = `${errorName}(${inputs.map((inp) => inp.type).join(",")})`;
+      decodedResults.push({ errorName, signature, params, rawData: errorData });
+    } catch {
+      // skip this variant
+    }
+  }
+
+  if (decodedResults.length === 0) return { results: [], failureReason: "decode-failed" };
+  return { results: decodedResults };
 }

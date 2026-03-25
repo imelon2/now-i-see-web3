@@ -6,6 +6,10 @@ import type { DecodedCalldata } from "@/types";
 interface Props {
   calldata: string;
   decoded: DecodedCalldata | null;
+  abiIndex?: number;
+  abiTotal?: number;
+  onPrev?: () => void;
+  onNext?: () => void;
 }
 
 /** Escape HTML special characters to prevent XSS */
@@ -59,8 +63,9 @@ function JsonHighlight({ json }: { json: string }) {
   );
 }
 
-export function DecodedCalldataView({ calldata, decoded }: Props) {
+export function DecodedCalldataView({ calldata, decoded, abiIndex, abiTotal, onPrev, onNext }: Props) {
   const selector = extractSelector(calldata);
+  const showNav = abiTotal !== undefined && abiTotal > 1;
 
   if (!decoded) {
     return (
@@ -105,7 +110,48 @@ export function DecodedCalldataView({ calldata, decoded }: Props) {
     <div className="panel" style={{ flex: 1 }}>
       <div className="panel-header">
         <span>Decoded Calldata</span>
-        <CopyButton text={jsonStr} />
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          {showNav && (
+            <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+              <button
+                onClick={onPrev}
+                disabled={abiIndex === 0}
+                style={{
+                  background: "transparent",
+                  border: "1px solid var(--border)",
+                  color: abiIndex === 0 ? "var(--muted)" : "var(--foreground)",
+                  borderRadius: 3,
+                  padding: "1px 7px",
+                  fontSize: 13,
+                  cursor: abiIndex === 0 ? "default" : "pointer",
+                  lineHeight: 1.6,
+                }}
+              >
+                {"<"}
+              </button>
+              <span style={{ color: "var(--muted)", fontSize: 13, minWidth: 40, textAlign: "center" }}>
+                {(abiIndex ?? 0) + 1}/{abiTotal}
+              </span>
+              <button
+                onClick={onNext}
+                disabled={abiIndex === (abiTotal ?? 1) - 1}
+                style={{
+                  background: "transparent",
+                  border: "1px solid var(--border)",
+                  color: abiIndex === (abiTotal ?? 1) - 1 ? "var(--muted)" : "var(--foreground)",
+                  borderRadius: 3,
+                  padding: "1px 7px",
+                  fontSize: 13,
+                  cursor: abiIndex === (abiTotal ?? 1) - 1 ? "default" : "pointer",
+                  lineHeight: 1.6,
+                }}
+              >
+                {">"}
+              </button>
+            </div>
+          )}
+          <CopyButton text={jsonStr} />
+        </div>
       </div>
       <div className="panel-body">
         {/* Function signature */}

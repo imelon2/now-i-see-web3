@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ErrorDecoderPanel } from "@/components/widgets/ErrorDecoderPanel";
 import { RawCalldataView } from "@/components/widgets/RawCalldataView";
-import { decodeError } from "@/lib/utils/decoder";
+import { decodeErrorAll } from "@/lib/utils/decoder";
 import { isValidHex } from "@/lib/utils/hex";
 import type { DecodedError } from "@/types";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -16,7 +16,8 @@ export default function ErrorDecoderPage() {
   const [input, setInput] = useState("");
   const [validationError, setValidationError] = useState("");
   const [status, setStatus] = useState<Status>("idle");
-  const [decoded, setDecoded] = useState<DecodedError | null>(null);
+  const [decodedList, setDecodedList] = useState<DecodedError[]>([]);
+  const [abiIndex, setAbiIndex] = useState(0);
   const [failureReason, setFailureReason] = useState<FailureReason>(undefined);
   const [submittedData, setSubmittedData] = useState("");
 
@@ -49,21 +50,18 @@ export default function ErrorDecoderPage() {
     }
 
     setStatus("decoding");
-    setDecoded(null);
+    setDecodedList([]);
+    setAbiIndex(0);
     setFailureReason(undefined);
     setSubmittedData(trimmed);
 
-    const result = await decodeError(trimmed);
-
-    if (result.status === "success") {
-      setDecoded(result.data);
-      setFailureReason(undefined);
-    } else {
-      setDecoded(null);
-      setFailureReason(result.status);
-    }
+    const { results, failureReason: reason } = await decodeErrorAll(trimmed);
+    setDecodedList(results);
+    setFailureReason(results.length > 0 ? undefined : reason);
     setStatus("done");
   };
+
+  const decoded = decodedList.length > 0 ? decodedList[abiIndex] ?? null : null;
 
   return (
     <main style={{ padding: 20 }}>
@@ -146,6 +144,10 @@ export default function ErrorDecoderPage() {
                 errorData={submittedData}
                 decoded={decoded}
                 failureReason={failureReason}
+                abiIndex={abiIndex}
+                abiTotal={decodedList.length}
+                onPrev={() => setAbiIndex((i) => Math.max(0, i - 1))}
+                onNext={() => setAbiIndex((i) => Math.min(decodedList.length - 1, i + 1))}
               />
               <RawCalldataView calldata={submittedData} />
             </div>
