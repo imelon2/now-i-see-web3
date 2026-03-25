@@ -116,23 +116,36 @@ export default function HomePage() {
           }}
         />
 
-        {/* README description — verbatim */}
+        {/* Intro copy */}
         <div
           style={{
             maxWidth: 520,
-            color: "var(--muted)",
             fontSize: 14,
-            lineHeight: 1.8,
+            lineHeight: 1.9,
+            textAlign: "center",
           }}
         >
-          <p style={{ margin: "0 0 8px", fontStyle: "italic" }}>
-            Hex. Hashes. Encoded chaos...
+          <p style={{ margin: "0 0 16px", color: "var(--foreground)", fontWeight: 500 }}>
+            Onchain data is complex.
+          </p>
+          <p style={{ margin: "0 0 16px", color: "var(--muted)" }}>
+            Strange strings beginning with <code style={{ fontSize: 13 }}>0x</code>,
             <br />
+            hashes that conceal their meaning,
+            <br />
+            encoded values, and layers upon layers of structured JSON.
+          </p>
+          <p style={{ margin: "0 0 6px", color: "var(--muted)", fontStyle: "italic" }}>
             Ever wondered what kind of data is actually living onchain in Web3?
           </p>
-          <p style={{ margin: 0, fontStyle: "italic" }}>
+          <p style={{ margin: "0 0 20px", color: "var(--foreground)", fontStyle: "italic" }}>
             Now I See Web3 turns unreadable onchain data into something humans
             can finally inspect, understand, and work with...!
+          </p>
+          <p style={{ margin: 0, color: "var(--muted)", fontSize: 12, lineHeight: 1.7, opacity: 0.7 }}>
+            This is a pure developer debugging tool. It has no wallet connection,
+            no token transfers, no payments, and no cryptocurrency investment
+            features — only on-chain data inspection.
           </p>
         </div>
       </section>
