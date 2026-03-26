@@ -125,9 +125,10 @@ export default function HomePage() {
             textAlign: "center",
           }}
         >
-          <p style={{ margin: "0 0 16px", color: "var(--foreground)", fontWeight: 500 }}>
+          <p style={{ margin: "0 0 0", color: "var(--foreground)", fontWeight: 500 }}>
             Onchain data is complex.
           </p>
+          <div style={{ width: 2, height: 28, borderLeft: "2px dotted var(--muted)", margin: "14px auto" }} />
           <p style={{ margin: "0 0 16px", color: "var(--muted)" }}>
             Strange strings beginning with <code style={{ fontSize: 13 }}>0x</code>,
             <br />

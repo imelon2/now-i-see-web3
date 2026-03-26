@@ -34,6 +34,46 @@ function formatValue(value: unknown): unknown {
   return value;
 }
 
+// ─── Special-case: setL1BlockValuesJovian (packed calldata, no ABI encoding) ─────
+// If more than 2 packed-calldata selectors accumulate, extract to a decoder registry.
+const JOVIAN_SELECTOR = "0x3db6be2b";
+
+function decodeSetL1BlockValuesJovian(calldata: string): DecodedCalldata | null {
+  // 178 bytes = 356 hex chars + "0x" prefix = 358 total chars
+  if (calldata.length < 358) return null;
+
+  try {
+    const hex = calldata.toLowerCase();
+    // Helper: slice by byte offset → hex position = 2 + offset*2
+    const sliceBytes = (start: number, end: number) => hex.slice(2 + start * 2, 2 + end * 2);
+
+    const params: DecodedParam[] = [
+      { name: "baseFeeScalar",        type: "uint32",  value: parseInt(sliceBytes(4, 8), 16).toString() },
+      { name: "blobBaseFeeScalar",    type: "uint32",  value: parseInt(sliceBytes(8, 12), 16).toString() },
+      { name: "sequenceNumber",       type: "uint64",  value: BigInt("0x" + sliceBytes(12, 20)).toString() },
+      { name: "timestamp",            type: "uint64",  value: BigInt("0x" + sliceBytes(20, 28)).toString() },
+      { name: "number",               type: "uint64",  value: BigInt("0x" + sliceBytes(28, 36)).toString() },
+      { name: "basefee",              type: "uint256", value: BigInt("0x" + sliceBytes(36, 68)).toString() },
+      { name: "blobBaseFee",          type: "uint256", value: BigInt("0x" + sliceBytes(68, 100)).toString() },
+      { name: "hash",                 type: "bytes32", value: "0x" + sliceBytes(100, 132) },
+      { name: "batcherHash",          type: "bytes32", value: "0x" + sliceBytes(132, 164) },
+      { name: "operatorFeeScalar",    type: "uint32",  value: parseInt(sliceBytes(164, 168), 16).toString() },
+      { name: "operatorFeeConstant",  type: "uint64",  value: BigInt("0x" + sliceBytes(168, 176)).toString() },
+      { name: "daFootprintGasScalar", type: "uint16",  value: parseInt(sliceBytes(176, 178), 16).toString() },
+    ];
+
+    return {
+      functionName: "setL1BlockValuesJovian",
+      signature: "setL1BlockValuesJovian(uint32,uint32,uint64,uint64,uint64,uint256,uint256,bytes32,bytes32,uint32,uint64,uint16)",
+      params,
+      rawCalldata: calldata,
+      customDecoding: "optimism-format",
+    };
+  } catch {
+    return null;
+  }
+}
+
 // ─── Calldata decoding ────────────────────────────────────────────────────────────
 
 export async function decodeCalldata(
@@ -41,6 +81,10 @@ export async function decodeCalldata(
 ): Promise<DecodedCalldata | null> {
   const selector = extractSelector(calldata);
   if (!selector) return null;
+
+  if (selector.toLowerCase() === JOVIAN_SELECTOR) {
+    return decodeSetL1BlockValuesJovian(calldata);
+  }
 
   const abiItems = await fetchAbiBySelector(selector, "function");
   if (!abiItems || abiItems.length === 0) return null;
@@ -136,6 +180,11 @@ export async function decodeCalldataAll(
 ): Promise<DecodedCalldata[]> {
   const selector = extractSelector(calldata);
   if (!selector) return [];
+
+  if (selector.toLowerCase() === JOVIAN_SELECTOR) {
+    const result = decodeSetL1BlockValuesJovian(calldata);
+    return result ? [result] : [];
+  }
 
   const abiItems = await fetchAbiBySelector(selector, "function");
   if (!abiItems || abiItems.length === 0) return [];
