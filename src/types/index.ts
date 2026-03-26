@@ -38,6 +38,8 @@ export interface DecodedCalldata {
   signature: string;
   params: DecodedParam[];
   rawCalldata: string;
+  /** Label shown when decoded via a custom (non-ABI) decoder */
+  customDecoding?: string;
 }
 
 // ─── Decoded Event ─────────────────────────────────────────────────────────────

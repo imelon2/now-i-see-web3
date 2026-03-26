@@ -1,5 +1,7 @@
 import { CopyButton } from "@/components/ui/CopyButton";
+import { DecodingTag } from "@/components/ui/DecodingTag";
 import { HexDisplay } from "@/components/ui/HexDisplay";
+import { DEFAULT_TAG_ID } from "@/lib/decodingTags";
 import { extractSelector } from "@/lib/utils/hex";
 import type { DecodedCalldata } from "@/types";
 
@@ -109,7 +111,10 @@ export function DecodedCalldataView({ calldata, decoded, abiIndex, abiTotal, onP
   return (
     <div className="panel" style={{ flex: 1 }}>
       <div className="panel-header">
-        <span>Decoded Calldata</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <span>Decoded Calldata</span>
+          <DecodingTag tagId={decoded.customDecoding ?? DEFAULT_TAG_ID} />
+        </div>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           {showNav && (
             <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
