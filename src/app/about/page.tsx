@@ -2,24 +2,90 @@ import type { Metadata } from "next";
 import { AdSenseAd } from "@/components/ui/AdSenseAd";
 
 export const metadata: Metadata = {
-  title: "About",
+  title: "What is Now I See Web3",
   description:
-    "Learn about Now I See Web3 — an open-source on-chain data analyzer built for Web3 developers to decode calldata, errors, and transactions.",
+    "Now I See Web3 is a free, open-source on-chain data analyzer for Web3 developers. Decode calldata, inspect transactions, and debug Solidity errors — no wallet, no setup required.",
+  keywords: [
+    "what is now i see web3",
+    "now i see web3",
+    "on-chain data analyzer",
+    "web3 developer tool",
+    "calldata decoder",
+    "ethereum transaction analyzer",
+    "solidity error decoder",
+    "evm debugger",
+    "blockchain developer tools",
+    "decode calldata online",
+  ],
   openGraph: {
-    title: "About | Now I See Web3",
+    title: "What is Now I See Web3?",
     description:
-      "Learn about Now I See Web3 — an open-source on-chain data analyzer built for Web3 developers.",
+      "Now I See Web3 is a free, open-source on-chain data analyzer — decode calldata, inspect transactions, and debug Solidity errors without any wallet connection or setup.",
     url: "https://nowiseeweb3.xyz/about",
   },
 };
 
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: "What is Now I See Web3?",
+    url: "https://nowiseeweb3.xyz/about",
+    description:
+      "Now I See Web3 is a free, open-source on-chain data analyzer for Web3 developers. It decodes calldata, inspects transactions, and debugs Solidity errors.",
+    mainEntity: {
+      "@type": "SoftwareApplication",
+      name: "Now I See Web3",
+      url: "https://nowiseeweb3.xyz",
+      applicationCategory: "DeveloperApplication",
+      operatingSystem: "Any",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "What is Now I See Web3?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Now I See Web3 is a free, open-source on-chain data analyzer designed for Ethereum and EVM-compatible blockchain developers. It converts raw hexadecimal calldata, encoded error responses, and transaction hashes into clear, human-readable information.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What tools does Now I See Web3 provide?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Now I See Web3 provides three core tools: Transaction Analyzer (decode any tx hash across chains), Calldata Decoder (decode raw calldata hex into function name and parameters), and Error Decoder (translate Solidity revert data into readable error messages).",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Is Now I See Web3 free to use?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. Now I See Web3 is completely free and open-source. No wallet connection, no API key, no account required. All operations are read-only.",
+        },
+      },
+    ],
+  },
+];
+
 export default function AboutPage() {
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/<\//g, "<\\/"),
+        }}
+      />
       <div className="prose-content">
-        <h1>About Now I See Web3</h1>
+        <h1>What is Now I See Web3?</h1>
 
-        <h2>What Is Now I See Web3?</h2>
         <p>
           Now I See Web3 is a free, open-source on-chain data analyzer designed for Ethereum and EVM-compatible
           blockchain developers. The platform converts raw, unreadable on-chain data — hexadecimal calldata,
