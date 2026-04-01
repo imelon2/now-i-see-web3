@@ -352,7 +352,7 @@ export default function FunctionSelectorPage() {
           }}
         >
           <h1 style={{ fontSize: "2em", fontWeight: 700, margin: "0 0 10px" }}>
-            Function Selector
+            Function Selector Calculator
           </h1>
           <p
             style={{
@@ -362,8 +362,8 @@ export default function FunctionSelectorPage() {
               lineHeight: 1.7,
             }}
           >
-            Generate EVM function selectors (4-byte identifiers) from Solidity
-            function signatures. The selector is the first 4 bytes of the
+            Calculate and generate EVM function selectors (4-byte identifiers) from Solidity
+            function signatures. This calculator generates the first 4 bytes of the
             keccak256 hash of the canonical function signature.
           </p>
           <p
