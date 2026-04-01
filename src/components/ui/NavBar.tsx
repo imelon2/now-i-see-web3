@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatedEyes } from "./AnimatedEyes";
 
-const TOOL_LINKS = [
+const ANALYZER_LINKS = [
   {
     href: "/tx-analyzer",
     label: "Transaction Analyzer",
@@ -16,6 +16,9 @@ const TOOL_LINKS = [
       </svg>
     ),
   },
+];
+
+const DECODER_LINKS = [
   {
     href: "/calldata-decoder",
     label: "Calldata Decoder",
@@ -34,6 +37,18 @@ const TOOL_LINKS = [
         <path d="M8 2L14.5 13H1.5L8 2Z" />
         <line x1="8" y1="7" x2="8" y2="9.5" />
         <circle cx="8" cy="11.5" r="0.5" fill="currentColor" />
+      </svg>
+    ),
+  },
+];
+
+const TOOL_LINKS = [
+  {
+    href: "/function-selector",
+    label: "Function Selector",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <text x="1" y="12" fontSize="11" fontWeight="700" fill="currentColor" stroke="none" fontFamily="monospace">#</text>
       </svg>
     ),
   },
@@ -176,9 +191,22 @@ function NavLink({
 function NavGroups({ pathname, onNavigate }: { pathname: string; onNavigate?: () => void }) {
   return (
     <>
-      {/* Tools */}
+      {/* Analyzer */}
+      <div style={sectionLabelStyle}>Analyzer</div>
+      {ANALYZER_LINKS.map(({ href, label, icon }) => (
+        <NavLink key={href} href={href} label={label} icon={icon} pathname={pathname} onNavigate={onNavigate} indented />
+      ))}
+
+      {/* Decoder */}
+      <div style={sectionLabelStyle}>Decoder</div>
+      {DECODER_LINKS.map(({ href, label, icon }) => (
+        <NavLink key={href} href={href} label={label} icon={icon} pathname={pathname} onNavigate={onNavigate} indented />
+      ))}
+
+      {/* Tool */}
+      <div style={sectionLabelStyle}>Tool</div>
       {TOOL_LINKS.map(({ href, label, icon }) => (
-        <NavLink key={href} href={href} label={label} icon={icon} pathname={pathname} onNavigate={onNavigate} />
+        <NavLink key={href} href={href} label={label} icon={icon} pathname={pathname} onNavigate={onNavigate} indented />
       ))}
 
       {/* Divider + Docs section */}

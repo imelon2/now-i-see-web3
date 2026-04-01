@@ -101,17 +101,48 @@ export default function ErrorDecoderPage() {
               <span>Error Decoder</span>
             </div>
             <div className="panel-body">
+              <label
+                htmlFor="error-data-input"
+                style={{
+                  display: "block",
+                  fontSize: 12,
+                  color: "var(--muted)",
+                  marginBottom: 6,
+                  fontWeight: 600,
+                }}
+              >
+                Error Data Hex
+              </label>
               <textarea
-                placeholder="Enter error data hex starting with 0x (e.g. 0x08c379a0000...)"
+                id="error-data-input"
+                placeholder="0x08c379a0000..."
                 value={input}
                 onChange={(e) => handleChange(e.target.value)}
                 rows={4}
-                style={{ resize: "vertical", minHeight: 80 }}
+                style={{ resize: "vertical", minHeight: 80, fontFamily: "var(--font-mono)", fontSize: 13 }}
               />
               {validationError && (
-                <p style={{ color: "var(--error)", fontSize: 14, marginTop: 6 }}>
-                  {validationError}
-                </p>
+                <div
+                  style={{
+                    marginTop: 8,
+                    padding: "8px 12px",
+                    borderRadius: 4,
+                    background: "rgba(248,81,73,0.1)",
+                    border: "1px solid rgba(248,81,73,0.25)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                  }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="var(--error)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="8" cy="8" r="6" />
+                    <line x1="8" y1="5.5" x2="8" y2="8.5" />
+                    <circle cx="8" cy="10.5" r="0.5" fill="var(--error)" />
+                  </svg>
+                  <span style={{ color: "var(--error)", fontSize: 13 }}>
+                    {validationError}
+                  </span>
+                </div>
               )}
               <div className="action-row" style={{ marginTop: 10, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <AbiArchiveLink />
@@ -119,11 +150,12 @@ export default function ErrorDecoderPage() {
                   onClick={handleDecode}
                   disabled={status === "decoding" || !!validationError}
                   style={{
-                    background: "var(--error)",
+                    background: status === "decoding" ? "var(--muted)" : "var(--error)",
                     color: "#fff",
                     border: "none",
                     fontWeight: 600,
-                    minWidth: 80,
+                    minWidth: 90,
+                    transition: "background 0.15s",
                   }}
                 >
                   {status === "decoding" ? "Decoding…" : "Decode"}

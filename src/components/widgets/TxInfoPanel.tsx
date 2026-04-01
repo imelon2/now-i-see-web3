@@ -25,7 +25,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
         borderBottom: "1px solid var(--border)",
       }}
     >
-      <div style={{ color: "#94a3b8", fontSize: 14, marginBottom: 4 }}>
+      <div style={{ color: "var(--muted)", fontSize: 12, marginBottom: 4, fontWeight: 600 }}>
         {label}
       </div>
       <div style={{ wordBreak: "break-all" }}>{children}</div>
@@ -60,11 +60,9 @@ export function TxInfoPanel({ txInfo }: Props) {
             )}
           </Field>
           <Field label="Status">
-            <span style={{ color: statusStyle.color}}>
+            <span style={{ color: statusStyle.color }}>
               {statusStyle.label}
             </span>
-
-
           </Field>
           <Field label="Timestamp">
             <code style={{ color: "var(--foreground)" }}>
