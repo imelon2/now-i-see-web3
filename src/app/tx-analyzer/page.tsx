@@ -109,10 +109,23 @@ function TxAnalyzerContent() {
               <span>Transaction Search</span>
             </div>
             <div className="panel-body">
+              <label
+                htmlFor="tx-hash-input"
+                style={{
+                  display: "block",
+                  fontSize: 12,
+                  color: "var(--muted)",
+                  marginBottom: 6,
+                  fontWeight: 600,
+                }}
+              >
+                Transaction Hash
+              </label>
               <div style={{ display: "flex", gap: 8 }}>
                 <input
+                  id="tx-hash-input"
                   type="text"
-                  placeholder="Transaction hash (0x...)"
+                  placeholder="0x..."
                   value={inputHash}
                   onChange={(e) => {
                     setInputHash(e.target.value);
@@ -120,27 +133,46 @@ function TxAnalyzerContent() {
                   }}
                   onKeyDown={(e) => e.key === "Enter" && !loading && handleSearch()}
                   disabled={loading}
-                  style={{ flex: 1 }}
+                  style={{ flex: 1, fontFamily: "var(--font-mono)", fontSize: 14 }}
                   autoFocus={!hashFromUrl}
                 />
                 <button
                   onClick={handleSearch}
                   disabled={loading}
                   style={{
-                    background: "var(--accent)",
+                    background: loading ? "var(--muted)" : "var(--accent)",
                     color: "#000",
                     border: "none",
                     fontWeight: 600,
-                    minWidth: 80,
+                    minWidth: 90,
+                    transition: "background 0.15s",
                   }}
                 >
                   {loading ? "Searching…" : "Search"}
                 </button>
               </div>
               {validationError && (
-                <p style={{ color: "var(--error)", fontSize: 14, marginTop: 6 }}>
-                  {validationError}
-                </p>
+                <div
+                  style={{
+                    marginTop: 8,
+                    padding: "8px 12px",
+                    borderRadius: 4,
+                    background: "rgba(248,81,73,0.1)",
+                    border: "1px solid rgba(248,81,73,0.25)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                  }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="var(--error)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="8" cy="8" r="6" />
+                    <line x1="8" y1="5.5" x2="8" y2="8.5" />
+                    <circle cx="8" cy="10.5" r="0.5" fill="var(--error)" />
+                  </svg>
+                  <span style={{ color: "var(--error)", fontSize: 13 }}>
+                    {validationError}
+                  </span>
+                </div>
               )}
               <div style={{ marginTop: 10, display: "flex", alignItems: "center", gap: 8 }}>
                 <SupportedChainsPopup />
@@ -159,13 +191,29 @@ function TxAnalyzerContent() {
 
           {/* Not found */}
           {status === "not-found" && (
-            <div className="panel" style={{ textAlign: "center", padding: 40 }}>
-              <p style={{ color: "var(--warning)", marginBottom: 8 }}>
-                Transaction not found
-              </p>
-              <p style={{ color: "var(--muted)", fontSize: 14 }}>
-                The transaction was not found on any supported chain.
-              </p>
+            <div className="panel">
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "40px 20px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: 8,
+                }}
+              >
+                <svg width="32" height="32" viewBox="0 0 16 16" fill="none" stroke="var(--warning)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="6.5" cy="6.5" r="4.5" />
+                  <line x1="10.5" y1="10.5" x2="14" y2="14" />
+                  <line x1="4.5" y1="6.5" x2="8.5" y2="6.5" />
+                </svg>
+                <p style={{ color: "var(--warning)", fontWeight: 600, margin: 0 }}>
+                  Transaction not found
+                </p>
+                <p style={{ color: "var(--muted)", fontSize: 13, margin: 0 }}>
+                  The transaction was not found on any of the {supportedChains.length} supported chains.
+                </p>
+              </div>
             </div>
           )}
 
