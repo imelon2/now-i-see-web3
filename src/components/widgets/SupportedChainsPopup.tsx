@@ -3,14 +3,261 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { supportedChains } from "@/lib/chains/chainList";
+import { useUserChains, type UserChainData } from "@/hooks/useUserChains";
+
+type Tab = "chains" | "add";
+
+function ChainItem({
+  name,
+  chainId,
+  symbol,
+  rpcUrl,
+  onDelete,
+}: {
+  name: string;
+  chainId: number;
+  symbol: string;
+  rpcUrl: string;
+  onDelete?: () => void;
+}) {
+  return (
+    <div
+      style={{
+        padding: "8px 10px",
+        background: "var(--background)",
+        borderRadius: 5,
+        fontSize: 13,
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginBottom: 4,
+        }}
+      >
+        <span style={{ color: "var(--foreground)", fontWeight: 500 }}>
+          {name}
+        </span>
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <code style={{ fontSize: 11, color: "var(--muted)" }}>{chainId}</code>
+          <span style={{ fontSize: 11, color: "var(--muted)" }}>{symbol}</span>
+          {onDelete && (
+            <button
+              onClick={onDelete}
+              style={{
+                background: "transparent",
+                border: "none",
+                color: "var(--error)",
+                cursor: "pointer",
+                padding: "0 2px",
+                fontSize: 14,
+                lineHeight: 1,
+              }}
+              title="Delete chain"
+            >
+              ×
+            </button>
+          )}
+        </div>
+      </div>
+      <div
+        style={{
+          fontSize: 12,
+          color: "var(--muted)",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {rpcUrl}
+      </div>
+    </div>
+  );
+}
+
+function AddChainForm({
+  onAdded,
+}: {
+  onAdded: (chain: UserChainData) => void;
+}) {
+  const [rpcUrl, setRpcUrl] = useState("");
+  const [chainId, setChainId] = useState<number | null>(null);
+  const [name, setName] = useState("");
+  const [symbol, setSymbol] = useState("");
+  const [fetching, setFetching] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleFetchChainId = async () => {
+    if (!rpcUrl.trim()) {
+      setError("Please enter an RPC URL.");
+      return;
+    }
+    setFetching(true);
+    setError("");
+    try {
+      const res = await fetch(rpcUrl.trim(), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          jsonrpc: "2.0",
+          method: "eth_chainId",
+          params: [],
+          id: 1,
+        }),
+      });
+      const json = await res.json();
+      if (json.result) {
+        setChainId(parseInt(json.result, 16));
+      } else {
+        setError("Failed to fetch chain ID. Check the RPC URL.");
+      }
+    } catch {
+      setError("Could not connect to the RPC endpoint.");
+    } finally {
+      setFetching(false);
+    }
+  };
+
+  const handleAdd = () => {
+    if (!rpcUrl.trim() || chainId === null || !name.trim() || !symbol.trim()) {
+      setError("Please fill in all fields and fetch the Chain ID first.");
+      return;
+    }
+    onAdded({ id: chainId, name: name.trim(), symbol: symbol.trim(), rpcUrl: rpcUrl.trim() });
+    setRpcUrl("");
+    setChainId(null);
+    setName("");
+    setSymbol("");
+    setError("");
+  };
+
+  const fieldStyle = {
+    width: "100%",
+    fontSize: 13,
+    boxSizing: "border-box" as const,
+  };
+
+  const labelStyle = {
+    display: "block" as const,
+    fontSize: 11,
+    color: "var(--muted)",
+    marginBottom: 4,
+    fontWeight: 600 as const,
+  };
+
+  return (
+    <div style={{ padding: "12px", display: "flex", flexDirection: "column" as const, gap: 12 }}>
+      {/* RPC URL + Fetch */}
+      <div>
+        <label style={labelStyle}>RPC URL</label>
+        <div style={{ display: "flex", gap: 6 }}>
+          <input
+            type="text"
+            placeholder="https://rpc.example.com"
+            value={rpcUrl}
+            onChange={(e) => setRpcUrl(e.target.value)}
+            style={{ ...fieldStyle, flex: 1 }}
+          />
+          <button
+            onClick={handleFetchChainId}
+            disabled={fetching}
+            style={{
+              background: fetching ? "var(--muted)" : "var(--accent)",
+              color: "#000",
+              border: "none",
+              fontWeight: 600,
+              fontSize: 12,
+              padding: "0 12px",
+              cursor: fetching ? "default" : "pointer",
+              borderRadius: 4,
+              whiteSpace: "nowrap",
+            }}
+          >
+            {fetching ? "..." : "Fetch ID"}
+          </button>
+        </div>
+      </div>
+
+      {/* Chain ID (read-only) */}
+      <div>
+        <label style={labelStyle}>Chain ID</label>
+        <input
+          type="text"
+          value={chainId !== null ? chainId : ""}
+          readOnly
+          placeholder="Auto-filled after fetch"
+          style={{
+            ...fieldStyle,
+            color: chainId !== null ? "var(--foreground)" : "var(--muted)",
+            background: "var(--panel)",
+          }}
+        />
+      </div>
+
+      {/* Chain Name */}
+      <div>
+        <label style={labelStyle}>Chain Name</label>
+        <input
+          type="text"
+          placeholder="e.g. My Custom Chain"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          style={fieldStyle}
+        />
+      </div>
+
+      {/* Symbol */}
+      <div>
+        <label style={labelStyle}>Native Currency Symbol</label>
+        <input
+          type="text"
+          placeholder="e.g. ETH"
+          value={symbol}
+          onChange={(e) => setSymbol(e.target.value)}
+          style={fieldStyle}
+        />
+      </div>
+
+      {error && (
+        <div style={{ fontSize: 12, color: "var(--error)" }}>{error}</div>
+      )}
+
+      <button
+        onClick={handleAdd}
+        style={{
+          background: "var(--accent)",
+          color: "#000",
+          border: "none",
+          fontWeight: 600,
+          fontSize: 13,
+          padding: "8px 0",
+          cursor: "pointer",
+          borderRadius: 4,
+        }}
+      >
+        Add Chain
+      </button>
+    </div>
+  );
+}
 
 function Modal({ onClose }: { onClose: () => void }) {
   const [query, setQuery] = useState("");
-  const filtered = supportedChains.filter((chain) =>
+  const [activeTab, setActiveTab] = useState<Tab>("chains");
+  const { userChains, addChain, removeChain } = useUserChains();
+
+  const filteredSupported = supportedChains.filter((chain) =>
     chain.name.toLowerCase().includes(query.toLowerCase())
   );
 
-  // ESC key to close
+  const filteredUser = userChains.filter((chain) =>
+    chain.name.toLowerCase().includes(query.toLowerCase())
+  );
+
+  const totalChains = supportedChains.length + userChains.length;
+
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -19,9 +266,25 @@ function Modal({ onClose }: { onClose: () => void }) {
     return () => document.removeEventListener("keydown", handler);
   }, [onClose]);
 
+  const handleAddChain = (chain: UserChainData) => {
+    addChain(chain);
+    setActiveTab("chains");
+  };
+
+  const tabStyle = (active: boolean) => ({
+    flex: 1,
+    padding: "8px 0",
+    background: "transparent",
+    border: "none",
+    borderBottom: active ? "2px solid var(--accent)" : "2px solid transparent",
+    color: active ? "var(--accent)" : "var(--muted)",
+    fontWeight: active ? (600 as const) : (400 as const),
+    fontSize: 13,
+    cursor: "pointer" as const,
+  });
+
   return createPortal(
     <>
-      {/* Backdrop */}
       <div
         onClick={onClose}
         style={{
@@ -34,7 +297,6 @@ function Modal({ onClose }: { onClose: () => void }) {
         }}
       />
 
-      {/* Modal card */}
       <div
         style={{
           position: "fixed",
@@ -65,13 +327,28 @@ function Modal({ onClose }: { onClose: () => void }) {
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="var(--accent)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="var(--accent)"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <circle cx="8" cy="8" r="6" />
               <path d="M8 2 C5 5 5 11 8 14 C11 11 11 5 8 2Z" />
               <line x1="2" y1="8" x2="14" y2="8" />
             </svg>
-            <span style={{ fontWeight: 600, fontSize: 14, color: "var(--foreground)" }}>
-              Supported Chains
+            <span
+              style={{
+                fontWeight: 600,
+                fontSize: 14,
+                color: "var(--foreground)",
+              }}
+            >
+              Chains
             </span>
             <span
               style={{
@@ -83,7 +360,7 @@ function Modal({ onClose }: { onClose: () => void }) {
                 padding: "1px 8px",
               }}
             >
-              {filtered.length} / {supportedChains.length}
+              {totalChains}
             </span>
           </div>
           <button
@@ -102,67 +379,136 @@ function Modal({ onClose }: { onClose: () => void }) {
           </button>
         </div>
 
-        {/* Search input */}
-        <div style={{ padding: "10px 12px 0", flexShrink: 0 }}>
-          <input
-            autoFocus
-            type="text"
-            placeholder="Search chains..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            style={{ width: "100%", fontSize: 13, boxSizing: "border-box" }}
-          />
+        {/* Tabs */}
+        <div
+          style={{
+            display: "flex",
+            borderBottom: "1px solid var(--border)",
+            flexShrink: 0,
+          }}
+        >
+          <button
+            onClick={() => setActiveTab("chains")}
+            style={tabStyle(activeTab === "chains")}
+          >
+            Chains
+          </button>
+          <button
+            onClick={() => setActiveTab("add")}
+            style={tabStyle(activeTab === "add")}
+          >
+            Add Chain
+          </button>
         </div>
 
-        {/* Chain list */}
-        <div style={{ overflowY: "auto", padding: "8px 12px 12px" }}>
-          {filtered.length === 0 && (
-            <div style={{ textAlign: "center", color: "var(--muted)", fontSize: 13, padding: "20px 0" }}>
-              No chains found
+        {activeTab === "chains" && (
+          <>
+            {/* Search input */}
+            <div style={{ padding: "10px 12px 0", flexShrink: 0 }}>
+              <input
+                autoFocus
+                type="text"
+                placeholder="Search chains..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                style={{
+                  width: "100%",
+                  fontSize: 13,
+                  boxSizing: "border-box",
+                }}
+              />
             </div>
-          )}
-          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-            {filtered.map((chain) => {
-              const rpcUrl = chain.rpcUrls.default.http[0] ?? "";
-              return (
+
+            {/* Chain list */}
+            <div style={{ overflowY: "auto", padding: "8px 12px 12px" }}>
+              {filteredSupported.length === 0 && filteredUser.length === 0 && (
                 <div
-                  key={chain.id}
                   style={{
-                    padding: "8px 10px",
-                    background: "var(--background)",
-                    borderRadius: 5,
+                    textAlign: "center",
+                    color: "var(--muted)",
                     fontSize: 13,
+                    padding: "20px 0",
                   }}
                 >
-                  {/* Row 1: Name + badges */}
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
-                    <span style={{ color: "var(--foreground)", fontWeight: 500 }}>
-                      {chain.name}
-                    </span>
-                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      <code style={{ fontSize: 11, color: "var(--muted)" }}>
-                        {chain.id}
-                      </code>
-                      <span style={{ fontSize: 11, color: "var(--muted)" }}>
-                        {chain.nativeCurrency.symbol}
-                      </span>
-                    </div>
-                  </div>
-                  {/* Row 2: RPC URL */}
-                  <div style={{
-                    fontSize: 12,
-                    color: "var(--muted)",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                  }}>
-                    {rpcUrl}
-                  </div>
+                  No chains found
                 </div>
-              );
-            })}
-          </div>
-        </div>
+              )}
+
+              {/* Supported Chains Section */}
+              {filteredSupported.length > 0 && (
+                <>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      color: "var(--muted)",
+                      fontWeight: 600,
+                      padding: "8px 0 4px",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.5px",
+                    }}
+                  >
+                    Supported Chains ({filteredSupported.length})
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 4,
+                    }}
+                  >
+                    {filteredSupported.map((chain) => (
+                      <ChainItem
+                        key={chain.id}
+                        name={chain.name}
+                        chainId={chain.id}
+                        symbol={chain.nativeCurrency.symbol}
+                        rpcUrl={chain.rpcUrls.default.http[0] ?? ""}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {/* User Defined Chains Section */}
+              {filteredUser.length > 0 && (
+                <>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      color: "var(--muted)",
+                      fontWeight: 600,
+                      padding: "12px 0 4px",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.5px",
+                    }}
+                  >
+                    User Defined Chains ({filteredUser.length})
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 4,
+                    }}
+                  >
+                    {filteredUser.map((chain) => (
+                      <ChainItem
+                        key={chain.id}
+                        name={chain.name}
+                        chainId={chain.id}
+                        symbol={chain.symbol}
+                        rpcUrl={chain.rpcUrl}
+                        onDelete={() => removeChain(chain.id)}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          </>
+        )}
+
+        {activeTab === "add" && <AddChainForm onAdded={handleAddChain} />}
       </div>
 
       <style>{`
@@ -182,6 +528,8 @@ function Modal({ onClose }: { onClose: () => void }) {
 
 export function SupportedChainsPopup() {
   const [open, setOpen] = useState(false);
+  const { userChains } = useUserChains();
+  const totalChains = supportedChains.length + userChains.length;
 
   return (
     <>
@@ -200,12 +548,21 @@ export function SupportedChainsPopup() {
           borderRadius: 4,
         }}
       >
-        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <circle cx="8" cy="8" r="6" />
           <path d="M8 2 C5 5 5 11 8 14 C11 11 11 5 8 2Z" />
           <line x1="2" y1="8" x2="14" y2="8" />
         </svg>
-        Supported Chains ({supportedChains.length})
+        Supported Chains ({totalChains})
       </button>
 
       {open && <Modal onClose={() => setOpen(false)} />}

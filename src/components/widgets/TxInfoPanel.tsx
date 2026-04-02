@@ -11,6 +11,15 @@ interface Props {
   txInfo: TxInfo;
 }
 
+const TX_TYPE_LABEL: Record<string, { num: number; label: string }> = {
+  legacy: { num: 0, label: "Legacy" },
+  eip2930: { num: 1, label: "EIP-2930" },
+  eip1559: { num: 2, label: "EIP-1559" },
+  eip4844: { num: 3, label: "EIP-4844" },
+  eip7702: { num: 4, label: "EIP-7702" },
+  deposit: { num: 126, label: "Deposit" },
+};
+
 const STATUS_STYLE: Record<string, { color: string; label: string }> = {
   success: { color: "var(--success)", label: "✓ Success" },
   reverted: { color: "var(--error)", label: "✗ Reverted" },
@@ -104,6 +113,13 @@ export function TxInfoPanel({ txInfo }: Props) {
 
           <Field label="Nonce">
             <code style={{ color: "var(--foreground)" }}>{txInfo.nonce}</code>
+          </Field>
+          <Field label="Type">
+            <code style={{ color: "var(--foreground)" }}>
+              {TX_TYPE_LABEL[txInfo.type]
+                ? `${TX_TYPE_LABEL[txInfo.type].num}(${TX_TYPE_LABEL[txInfo.type].label})`
+                : txInfo.type}
+            </code>
           </Field>
         </div>
       </div>

@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { ErrorDecoderPanel } from "@/components/widgets/ErrorDecoderPanel";
-import { RawCalldataView } from "@/components/widgets/RawCalldataView";
 import { decodeErrorAll } from "@/lib/utils/decoder";
 import { isValidHex } from "@/lib/utils/hex";
 import type { DecodedError } from "@/types";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { AbiArchiveLink } from "@/components/ui/AbiArchiveLink";
+import { DetailsToggle } from "@/components/ui/DetailsToggle";
 
 type Status = "idle" | "decoding" | "done";
 type FailureReason = "no-abi" | "decode-failed" | undefined;
@@ -66,33 +66,14 @@ export default function ErrorDecoderPage() {
   return (
     <main style={{ padding: 20 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          {/* Page intro */}
-          <div className="page-intro" style={{ paddingBottom: 16, borderBottom: "1px solid var(--border)", marginBottom: "2rem" }}>
-            <h1 style={{ fontSize: "2em", fontWeight: 700, margin: "0 0 10px" }}>
+          {/* Page header */}
+          <div>
+            <h1 style={{ fontSize: "2em", fontWeight: 700, margin: "0 0 6px" }}>
               Error Data Decoder
             </h1>
-            <p style={{ color: "var(--muted)", fontSize: 14, margin: "0 0 8px", lineHeight: 1.7 }}>
-              When a Solidity smart contract transaction reverts, the EVM returns ABI-encoded revert data that is
-              impossible to read without decoding. Paste the raw revert hex and this tool will identify and decode
-              it as a standard <code style={{ fontSize: 12 }}>Error(string)</code>, a{" "}
-              <code style={{ fontSize: 12 }}>Panic(uint256)</code> code (e.g. overflow, division by zero,
-              out-of-bounds), or any custom error defined in a contract ABI.
+            <p style={{ color: "var(--muted)", fontSize: 14, margin: 0 }}>
+              Decode revert data as Error(string), Panic(uint256), or custom Solidity errors.
             </p>
-            <p style={{ color: "var(--muted)", fontSize: 14, margin: "0 0 8px", lineHeight: 1.7 }}>
-              This is a read-only developer debugging tool. It performs no transactions, has no wallet
-              integration, and involves no cryptocurrency transfers or payments.
-            </p>
-            <p style={{ color: "var(--muted)", fontSize: 14, margin: "0 0 12px", lineHeight: 1.7 }}>
-              <strong style={{ color: "var(--foreground)" }}>How to use:</strong> Paste the revert data hex
-              starting with <code style={{ fontSize: 12 }}>0x</code> (minimum 4 bytes / 10 characters) into
-              the input below and press <strong style={{ color: "var(--foreground)" }}>Decode</strong>.
-            </p>
-            <a
-              href="/docs/error-decoder"
-              style={{ color: "var(--muted)", fontSize: 13, textDecoration: "none" }}
-            >
-              Full Guide →
-            </a>
           </div>
 
           {/* Input panel */}
@@ -164,6 +145,29 @@ export default function ErrorDecoderPage() {
             </div>
           </div>
 
+          {/* About this tool */}
+          <DetailsToggle summary="About this tool">
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <p style={{ color: "var(--muted)", fontSize: 14, margin: 0, lineHeight: 1.7 }}>
+                When a Solidity smart contract transaction reverts, the EVM returns ABI-encoded revert data that is
+                impossible to read without decoding. Paste the raw revert hex and this tool will identify and decode
+                it as a standard <code style={{ fontSize: 12 }}>Error(string)</code>, a{" "}
+                <code style={{ fontSize: 12 }}>Panic(uint256)</code> code (e.g. overflow, division by zero,
+                out-of-bounds), or any custom error defined in a contract ABI.
+              </p>
+              <p style={{ color: "var(--muted)", fontSize: 14, margin: 0, lineHeight: 1.7 }}>
+                This is a read-only developer debugging tool. It performs no transactions, has no wallet
+                integration, and involves no cryptocurrency transfers or payments.
+              </p>
+              <p style={{ color: "var(--muted)", fontSize: 14, margin: 0, lineHeight: 1.7 }}>
+                <strong style={{ color: "var(--foreground)" }}>How to use:</strong> Paste the revert data hex
+                starting with <code style={{ fontSize: 12 }}>0x</code> (minimum 4 bytes / 10 characters) into
+                the input above and press <strong style={{ color: "var(--foreground)" }}>Decode</strong>.
+              </p>
+              <a href="/docs/error-decoder" style={{ color: "var(--muted)", fontSize: 13, textDecoration: "none" }}>Full Guide →</a>
+            </div>
+          </DetailsToggle>
+
           {/* Loading */}
           {status === "decoding" && (
             <LoadingSpinner message="Fetching ABI and decoding…" />
@@ -171,18 +175,15 @@ export default function ErrorDecoderPage() {
 
           {/* Result */}
           {status === "done" && submittedData && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <ErrorDecoderPanel
-                errorData={submittedData}
-                decoded={decoded}
-                failureReason={failureReason}
-                abiIndex={abiIndex}
-                abiTotal={decodedList.length}
-                onPrev={() => setAbiIndex((i) => Math.max(0, i - 1))}
-                onNext={() => setAbiIndex((i) => Math.min(decodedList.length - 1, i + 1))}
-              />
-              <RawCalldataView calldata={submittedData} />
-            </div>
+            <ErrorDecoderPanel
+              errorData={submittedData}
+              decoded={decoded}
+              failureReason={failureReason}
+              abiIndex={abiIndex}
+              abiTotal={decodedList.length}
+              onPrev={() => setAbiIndex((i) => Math.max(0, i - 1))}
+              onNext={() => setAbiIndex((i) => Math.min(decodedList.length - 1, i + 1))}
+            />
           )}
         </div>
       </main>

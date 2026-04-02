@@ -19,9 +19,11 @@ export interface TxInfo {
   from: string;
   to: string | null;
   value: bigint;
+  gas: bigint | null;
   gasPrice: bigint | null;
   gasUsed: bigint | null;
   nonce: number;
+  type: string;
   input: string;
 }
 

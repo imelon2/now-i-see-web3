@@ -125,6 +125,26 @@ export function ErrorDecoderPanel({ errorData, decoded, failureReason, abiIndex,
             ) : (
               <p style={{ color: "var(--muted)", fontSize: 14 }}>No parameters</p>
             )}
+
+            {/* Raw Error Data */}
+            {errorData && errorData.length > 10 && (
+              <div
+                style={{
+                  background: "var(--background)",
+                  border: "1px solid var(--border)",
+                  borderRadius: 4,
+                  padding: "8px 12px",
+                  marginTop: 12,
+                  wordBreak: "break-all",
+                  overflowWrap: "break-word",
+                }}
+              >
+                <div style={{ color: "var(--muted)", fontSize: 12, marginBottom: 4 }}>
+                  Raw Error Data
+                </div>
+                <code style={{ fontSize: 13 }}>{errorData}</code>
+              </div>
+            )}
           </>
         ) : (
           /* Decode failed */
@@ -146,9 +166,26 @@ export function ErrorDecoderPanel({ errorData, decoded, failureReason, abiIndex,
               </span>
             </div>
             {selector && (
-              <div style={{ color: "var(--muted)", fontSize: 14 }}>
+              <div style={{ color: "var(--muted)", fontSize: 14, marginBottom: 8 }}>
                 <span>Error Selector: </span>
                 <HexDisplay hex={selector} head={10} tail={0} />
+              </div>
+            )}
+            {errorData && errorData.length > 10 && (
+              <div
+                style={{
+                  background: "var(--background)",
+                  border: "1px solid var(--border)",
+                  borderRadius: 4,
+                  padding: "8px 12px",
+                  wordBreak: "break-all",
+                  overflowWrap: "break-word",
+                }}
+              >
+                <div style={{ color: "var(--muted)", fontSize: 12, marginBottom: 4 }}>
+                  Raw Error Data
+                </div>
+                <code style={{ fontSize: 13 }}>{errorData}</code>
               </div>
             )}
           </div>

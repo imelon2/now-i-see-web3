@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { CopyButton } from "@/components/ui/CopyButton";
+import { DetailsToggle } from "@/components/ui/DetailsToggle";
 import {
   validateSignature,
   generateSelector,
@@ -342,43 +343,13 @@ export default function FunctionSelectorPage() {
   return (
     <main style={{ padding: 20 }}>
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        {/* Page intro */}
-        <div
-          className="page-intro"
-          style={{
-            paddingBottom: 16,
-            borderBottom: "1px solid var(--border)",
-            marginBottom: "2rem",
-          }}
-        >
-          <h1 style={{ fontSize: "2em", fontWeight: 700, margin: "0 0 10px" }}>
-            Function Selector Calculator
+        {/* Page header */}
+        <div>
+          <h1 style={{ fontSize: "2em", fontWeight: 700, margin: "0 0 6px" }}>
+            Function Selector
           </h1>
-          <p
-            style={{
-              color: "var(--muted)",
-              fontSize: 14,
-              margin: "0 0 8px",
-              lineHeight: 1.7,
-            }}
-          >
-            Calculate and generate EVM function selectors (4-byte identifiers) from Solidity
-            function signatures. This calculator generates the first 4 bytes of the
-            keccak256 hash of the canonical function signature.
-          </p>
-          <p
-            style={{
-              color: "var(--muted)",
-              fontSize: 14,
-              margin: "0 0 8px",
-              lineHeight: 1.7,
-            }}
-          >
-            <strong style={{ color: "var(--foreground)" }}>How to use:</strong>{" "}
-            Use the <strong style={{ color: "var(--foreground)" }}>Signature</strong> tab
-            to enter a full signature string, or the{" "}
-            <strong style={{ color: "var(--foreground)" }}>Builder</strong> tab to
-            construct one from function name and parameter types.
+          <p style={{ color: "var(--muted)", fontSize: 14, margin: 0 }}>
+            Calculate EVM function selectors from Solidity function signatures.
           </p>
         </div>
 
@@ -624,6 +595,23 @@ export default function FunctionSelectorPage() {
             </div>
           </div>
         </div>
+        {/* About this tool */}
+        <DetailsToggle summary="About this tool">
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <p style={{ color: "var(--muted)", fontSize: 14, margin: 0, lineHeight: 1.7 }}>
+              Generate EVM function selectors (4-byte identifiers) from Solidity
+              function signatures. The selector is the first 4 bytes of the
+              keccak256 hash of the canonical function signature.
+            </p>
+            <p style={{ color: "var(--muted)", fontSize: 14, margin: 0, lineHeight: 1.7 }}>
+              <strong style={{ color: "var(--foreground)" }}>How to use:</strong>{" "}
+              Use the <strong style={{ color: "var(--foreground)" }}>Signature</strong> tab
+              to enter a full signature string, or the{" "}
+              <strong style={{ color: "var(--foreground)" }}>Builder</strong> tab to
+              construct one from function name and parameter types.
+            </p>
+          </div>
+        </DetailsToggle>
       </div>
     </main>
   );

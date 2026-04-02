@@ -7,6 +7,7 @@ import { createClient } from "@/lib/utils/viemClient";
 import { multiRace } from "@/lib/utils/multiRace";
 import { decodeCalldataAll, decodeLogAll } from "@/lib/utils/decoder";
 import { isValidHex } from "@/lib/utils/hex";
+import type { Chain } from "viem";
 import type { TxInfo, DecodedCalldata, DecodedEvent } from "@/types";
 
 export interface SearchResult {
@@ -14,11 +15,12 @@ export interface SearchResult {
   decodedCalldataVariants: DecodedCalldata[];
   rawLogs: Log[];
   decodedEventVariants: (DecodedEvent[] | null)[];
+  chain: Chain;
 }
 
 export type SearchStatus = "idle" | "searching" | "found" | "not-found" | "error";
 
-export function useTxSearch() {
+export function useTxSearch(extraChains: Chain[] = []) {
   const [status, setStatus] = useState<SearchStatus>("idle");
   const [result, setResult] = useState<SearchResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -39,8 +41,9 @@ export function useTxSearch() {
     try {
       const txHash = trimmed as `0x${string}`;
 
-      // Query all supported chains in parallel
-      const promises = supportedChains.map((chain) => {
+      // Query all supported chains + user chains in parallel
+      const allChains = [...supportedChains, ...extraChains];
+      const promises = allChains.map((chain) => {
         const client = createClient(chain);
         return client
           .getTransaction({ hash: txHash })
@@ -91,9 +94,11 @@ export function useTxSearch() {
         from: tx.from,
         to: tx.to ?? null,
         value: tx.value,
+        gas: tx.gas ?? null,
         gasPrice: receipt?.effectiveGasPrice ?? tx.gasPrice ?? null,
         gasUsed: receipt?.gasUsed ?? null,
         nonce: tx.nonce,
+        type: tx.type,
         input: tx.input,
       };
 
@@ -113,7 +118,7 @@ export function useTxSearch() {
         )
       );
 
-      setResult({ txInfo, decodedCalldataVariants, rawLogs, decodedEventVariants });
+      setResult({ txInfo, decodedCalldataVariants, rawLogs, decodedEventVariants, chain: client.chain! });
       setStatus("found");
     } catch (err) {
       setError(
@@ -121,7 +126,7 @@ export function useTxSearch() {
       );
       setStatus("error");
     }
-  }, []);
+  }, [extraChains]);
 
   const reset = useCallback(() => {
     setStatus("idle");

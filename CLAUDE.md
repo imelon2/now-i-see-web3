@@ -5,7 +5,7 @@
 ### Brand Name
 **Now I See Web3** — on-chain data analyzer
 
-<!-- ### Brand Color System (Grayscale)
+### Brand Color System (Grayscale)
 
 The brand uses an all-grayscale palette with no warm/cold hues.
 
@@ -43,7 +43,7 @@ The brand uses an all-grayscale palette with no warm/cold hues.
 - **Do** use `#ffffff` or `var(--foreground)` for the brand name
 - **Do** use the 5-level gray palette for pixel art elements
 - **Don't** use amber/orange (`#d97706`, `#f59e0b`, `#92400e`) — removed from brand
-- **Don't** add color accents to the AnimatedEyes component -->
+- **Don't** add color accents to the AnimatedEyes component
 
 ## Architecture
 

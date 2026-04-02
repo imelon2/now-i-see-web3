@@ -7,6 +7,7 @@ import { isValidHex } from "@/lib/utils/hex";
 import type { DecodedCalldata } from "@/types";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { AbiArchiveLink } from "@/components/ui/AbiArchiveLink";
+import { DetailsToggle } from "@/components/ui/DetailsToggle";
 
 type Status = "idle" | "decoding" | "done";
 
@@ -57,34 +58,14 @@ export default function CalldataDecoderPage() {
   return (
     <main style={{ padding: 20 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          {/* Page intro */}
-          <div className="page-intro" style={{ paddingBottom: 16, borderBottom: "1px solid var(--border)", marginBottom: "2rem" }}>
-            <h1 style={{ fontSize: "2em", fontWeight: 700, margin: "0 0 10px" }}>
+          {/* Page header */}
+          <div>
+            <h1 style={{ fontSize: "2em", fontWeight: 700, margin: "0 0 6px" }}>
               Calldata Decoder
             </h1>
-            <p style={{ color: "var(--muted)", fontSize: 14, margin: "0 0 8px", lineHeight: 1.7 }}>
-              Paste any raw calldata hex string and instantly see the decoded function name, parameter types, and
-              values. The decoder extracts the first 4 bytes as a function selector, looks it up against the{" "}
-              <a href="https://github.com/imelon2/abi-archive-trie" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)" }}>
-                abi-archive-trie
-              </a>{" "}
-              signature database, and ABI-decodes the remaining bytes into human-readable parameters.
+            <p style={{ color: "var(--muted)", fontSize: 14, margin: 0 }}>
+              Decode raw calldata hex into function names and parameters.
             </p>
-            <p style={{ color: "var(--muted)", fontSize: 14, margin: "0 0 8px", lineHeight: 1.7 }}>
-              This is a read-only developer tool for inspecting on-chain data. It performs no transactions,
-              has no wallet integration, and involves no cryptocurrency transfers or payments.
-            </p>
-            <p style={{ color: "var(--muted)", fontSize: 14, margin: "0 0 12px", lineHeight: 1.7 }}>
-              <strong style={{ color: "var(--foreground)" }}>How to use:</strong> Paste a hex string starting
-              with <code style={{ fontSize: 12 }}>0x</code> (minimum 4 bytes / 10 characters) into the input
-              below and press <strong style={{ color: "var(--foreground)" }}>Decode</strong>.
-            </p>
-            <a
-              href="/docs/calldata-decoder"
-              style={{ color: "var(--muted)", fontSize: 13, textDecoration: "none" }}
-            >
-              Full Guide →
-            </a>
           </div>
 
           {/* Input panel */}
@@ -155,6 +136,28 @@ export default function CalldataDecoderPage() {
               </div>
             </div>
           </div>
+
+          {/* About this tool */}
+          <DetailsToggle summary="About this tool">
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <p style={{ color: "var(--muted)", fontSize: 14, margin: 0, lineHeight: 1.7 }}>
+                Paste any raw calldata hex string and instantly see the decoded function name, parameter types, and
+                values. The decoder extracts the first 4 bytes as a function selector, looks it up against the{" "}
+                <a href="https://github.com/imelon2/abi-archive-trie" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)" }}>abi-archive-trie</a>{" "}
+                signature database, and ABI-decodes the remaining bytes into human-readable parameters.
+              </p>
+              <p style={{ color: "var(--muted)", fontSize: 14, margin: 0, lineHeight: 1.7 }}>
+                This is a read-only developer tool for inspecting on-chain data. It performs no transactions,
+                has no wallet integration, and involves no cryptocurrency transfers or payments.
+              </p>
+              <p style={{ color: "var(--muted)", fontSize: 14, margin: 0, lineHeight: 1.7 }}>
+                <strong style={{ color: "var(--foreground)" }}>How to use:</strong> Paste a hex string starting
+                with <code style={{ fontSize: 12 }}>0x</code> (minimum 4 bytes / 10 characters) into the input
+                above and press <strong style={{ color: "var(--foreground)" }}>Decode</strong>.
+              </p>
+              <a href="/docs/calldata-decoder" style={{ color: "var(--muted)", fontSize: 13, textDecoration: "none" }}>Full Guide →</a>
+            </div>
+          </DetailsToggle>
 
           {/* Loading */}
           {status === "decoding" && (
