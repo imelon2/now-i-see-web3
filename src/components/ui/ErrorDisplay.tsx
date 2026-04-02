@@ -47,7 +47,19 @@ export function ErrorDisplay({ kind = "generic", message }: ErrorDisplayProps) {
           ✗ {KIND_LABEL[kind]}
         </span>
       </div>
-      <p style={{ color: "var(--foreground)", fontSize: 15, margin: 0 }}>{message}</p>
+      {(() => {
+        const lines = message.split("\n");
+        const title = lines[0];
+        const details = lines.slice(1).join("\n");
+        return (
+          <>
+            <p style={{ color: "var(--foreground)", fontSize: 15, margin: 0 }}>{title}</p>
+            {details && (
+              <p style={{ color: "var(--muted)", fontSize: 13, marginTop: 4, marginBottom: 0, whiteSpace: "pre-line" }}>{details}</p>
+            )}
+          </>
+        );
+      })()}
       {hint && (
         <p style={{ color: "var(--muted)", fontSize: 13, marginTop: 4, marginBottom: 0 }}>
           {hint}

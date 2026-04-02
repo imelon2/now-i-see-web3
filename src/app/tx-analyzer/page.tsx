@@ -106,7 +106,7 @@ function TxAnalyzerContent() {
         });
 
         // Call succeeded — state has changed since original revert
-        setSimError("Simulation succeeded at the original block — the contract state may have changed since the revert occurred.");
+        setSimError("Simulation succeeded at the original block\n1. The RPC may not have returned the revert error.\n2. The contract state may have changed since the original revert.");
         setSimStatus("error");
         return;
       } catch (err) {
@@ -121,7 +121,7 @@ function TxAnalyzerContent() {
               value: txInfo.value,
               gas: txInfo.gas ?? undefined,
             });
-            setSimError("Simulation succeeded at latest block — the revert no longer occurs with current state.");
+            setSimError("Simulation succeeded at latest block:\n1. The RPC may not have returned the revert error.\n2. The contract state may have changed, so the revert no longer occurs.");
             setSimStatus("error");
             return;
           } catch (latestErr) {
