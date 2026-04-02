@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Inter, IBM_Plex_Mono, Press_Start_2P } from "next/font/google";
+import { Inter, IBM_Plex_Mono, Press_Start_2P, Geist } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { NavBar } from "@/components/ui/NavBar";
+import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 const ibmPlexMono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono" });
 const pressStart2P = Press_Start_2P({ subsets: ["latin"], weight: "400", variable: "--font-pixel" });
 
@@ -70,7 +71,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${ibmPlexMono.variable} ${pressStart2P.variable}`}>
+    <html lang="en" className={cn(ibmPlexMono.variable, pressStart2P.variable, "font-sans", geist.variable)}>
       <head>
         <meta name="google-adsense-account" content="ca-pub-5304857082541488" />
       </head>
