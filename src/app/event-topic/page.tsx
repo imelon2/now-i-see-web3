@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { CopyButton } from "@/components/ui/CopyButton";
+import { DetailsToggle } from "@/components/ui/DetailsToggle";
 
 import {
   validateSignature,
@@ -597,27 +598,22 @@ export default function EventSelectorPage() {
           </div>
         </div>
         {/* About this tool */}
-        <div className="panel">
-          <div className="panel-header">
-            <span>About this tool</span>
+        <DetailsToggle summary="About this tool">
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <p style={{ color: "var(--muted)", fontSize: 14, margin: 0, lineHeight: 1.7 }}>
+              Generate EVM event topic hashes (32-byte identifiers) from Solidity
+              event signatures. The topic hash is the keccak256 hash of the
+              canonical event signature, used as topic[0] in event logs.
+            </p>
+            <p style={{ color: "var(--muted)", fontSize: 14, margin: 0, lineHeight: 1.7 }}>
+              <strong style={{ color: "var(--foreground)" }}>How to use:</strong>{" "}
+              Use the <strong style={{ color: "var(--foreground)" }}>Signature</strong> tab
+              to enter a full signature string, or the{" "}
+              <strong style={{ color: "var(--foreground)" }}>Builder</strong> tab to
+              construct one from event name and parameter types.
+            </p>
           </div>
-          <div className="panel-body">
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <p style={{ color: "var(--muted)", fontSize: 14, margin: 0, lineHeight: 1.7 }}>
-                Generate EVM event topic hashes (32-byte identifiers) from Solidity
-                event signatures. The topic hash is the keccak256 hash of the
-                canonical event signature, used as topic[0] in event logs.
-              </p>
-              <p style={{ color: "var(--muted)", fontSize: 14, margin: 0, lineHeight: 1.7 }}>
-                <strong style={{ color: "var(--foreground)" }}>How to use:</strong>{" "}
-                Use the <strong style={{ color: "var(--foreground)" }}>Signature</strong> tab
-                to enter a full signature string, or the{" "}
-                <strong style={{ color: "var(--foreground)" }}>Builder</strong> tab to
-                construct one from event name and parameter types.
-              </p>
-            </div>
-          </div>
-        </div>
+        </DetailsToggle>
       </div>
     </main>
   );
