@@ -25,7 +25,7 @@ function ChainItem({
       style={{
         padding: "8px 10px",
         background: "var(--background)",
-        borderRadius: 5,
+        borderRadius: 0,
         fontSize: 13,
       }}
     >
@@ -171,7 +171,7 @@ function AddChainForm({
               fontSize: 12,
               padding: "0 12px",
               cursor: fetching ? "default" : "pointer",
-              borderRadius: 4,
+              borderRadius: 0,
               whiteSpace: "nowrap",
             }}
           >
@@ -234,7 +234,7 @@ function AddChainForm({
           fontSize: 13,
           padding: "8px 0",
           cursor: "pointer",
-          borderRadius: 4,
+          borderRadius: 0,
         }}
       >
         Add Chain
@@ -276,8 +276,8 @@ function Modal({ onClose }: { onClose: () => void }) {
     padding: "8px 0",
     background: "transparent",
     border: "none",
-    borderBottom: active ? "2px solid var(--accent)" : "2px solid transparent",
-    color: active ? "var(--accent)" : "var(--muted)",
+    borderBottom: active ? "2px solid #ffffff" : "2px solid transparent",
+    color: active ? "#ffffff" : "var(--muted)",
     fontWeight: active ? (600 as const) : (400 as const),
     fontSize: 13,
     cursor: "pointer" as const,
@@ -306,12 +306,11 @@ function Modal({ onClose }: { onClose: () => void }) {
           zIndex: 901,
           background: "var(--panel-header)",
           border: "1px solid var(--border)",
-          borderRadius: 8,
+          borderRadius: 0,
           width: "min(420px, calc(100vw - 32px))",
           maxHeight: "80vh",
           display: "flex",
           flexDirection: "column",
-          boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
           animation: "slideUp 0.18s ease",
         }}
       >
@@ -332,7 +331,7 @@ function Modal({ onClose }: { onClose: () => void }) {
               height="14"
               viewBox="0 0 16 16"
               fill="none"
-              stroke="var(--accent)"
+              stroke="var(--foreground)"
               strokeWidth="1.6"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -353,10 +352,10 @@ function Modal({ onClose }: { onClose: () => void }) {
             <span
               style={{
                 fontSize: 11,
-                color: "var(--accent)",
-                background: "rgba(88,166,255,0.1)",
-                border: "1px solid rgba(88,166,255,0.25)",
-                borderRadius: 10,
+                color: "#ffffff",
+                background: "rgba(255,255,255,0.05)",
+                border: "1px solid rgba(255,255,255,0.2)",
+                borderRadius: 0,
                 padding: "1px 8px",
               }}
             >
@@ -545,7 +544,7 @@ export function SupportedChainsPopup() {
           display: "inline-flex",
           alignItems: "center",
           gap: 5,
-          borderRadius: 4,
+          borderRadius: 0,
         }}
       >
         <svg

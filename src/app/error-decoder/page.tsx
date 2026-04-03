@@ -68,7 +68,7 @@ export default function ErrorDecoderPage() {
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {/* Page header */}
           <div>
-            <h1 style={{ fontSize: "2em", fontWeight: 700, margin: "0 0 6px" }}>
+            <h1 style={{ fontSize: "1.5em", fontWeight: 400, margin: "0 0 6px" }}>
               Error Data Decoder
             </h1>
             <p style={{ color: "var(--muted)", fontSize: 14, margin: 0 }}>
@@ -87,9 +87,9 @@ export default function ErrorDecoderPage() {
                 style={{
                   display: "block",
                   fontSize: 12,
-                  color: "var(--muted)",
+                  color: "rgba(255,255,255,0.7)",
                   marginBottom: 6,
-                  fontWeight: 600,
+                  fontWeight: 400,
                 }}
               >
                 Error Data Hex
@@ -107,7 +107,7 @@ export default function ErrorDecoderPage() {
                   style={{
                     marginTop: 8,
                     padding: "8px 12px",
-                    borderRadius: 4,
+                    borderRadius: 0,
                     background: "rgba(248,81,73,0.1)",
                     border: "1px solid rgba(248,81,73,0.25)",
                     display: "flex",
@@ -134,7 +134,7 @@ export default function ErrorDecoderPage() {
                     background: status === "decoding" ? "var(--muted)" : "var(--error)",
                     color: "#fff",
                     border: "none",
-                    fontWeight: 600,
+                    fontWeight: 400,
                     minWidth: 90,
                     transition: "background 0.15s",
                   }}
@@ -164,7 +164,7 @@ export default function ErrorDecoderPage() {
                 starting with <code style={{ fontSize: 12 }}>0x</code> (minimum 4 bytes / 10 characters) into
                 the input above and press <strong style={{ color: "var(--foreground)" }}>Decode</strong>.
               </p>
-              <a href="/docs/error-decoder" style={{ color: "var(--muted)", fontSize: 13, textDecoration: "none" }}>Full Guide →</a>
+              <a href="/docs/error-decoder" style={{ color: "#ffffff", fontSize: 13, textDecoration: "none" }}>Full Guide →</a>
             </div>
           </DetailsToggle>
 

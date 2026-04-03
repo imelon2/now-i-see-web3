@@ -24,7 +24,7 @@ export function LoadingSpinner({ message, subMessage }: LoadingSpinnerProps) {
           width: 24,
           height: 24,
           border: "2px solid var(--border)",
-          borderTop: "2px solid var(--accent)",
+          borderTop: "2px solid var(--foreground)",
           borderRadius: "50%",
           animation: "spin 0.7s linear infinite",
         }}

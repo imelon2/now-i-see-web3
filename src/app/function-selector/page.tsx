@@ -62,9 +62,9 @@ function TabButton({
       style={{
         padding: "8px 20px",
         fontSize: 13,
-        fontWeight: 600,
+        fontWeight: 400,
         border: "none",
-        borderBottom: active ? "2px solid var(--accent)" : "2px solid transparent",
+        borderBottom: active ? "2px solid #ffffff" : "2px solid transparent",
         background: "transparent",
         color: active ? "var(--foreground)" : "var(--muted)",
         cursor: "pointer",
@@ -137,8 +137,8 @@ function ParamRow({
             <span
               style={{
                 fontSize: 13,
-                color: "var(--accent)",
-                fontWeight: 600,
+                color: "#ffffff",
+                fontWeight: 400,
                 fontFamily: "var(--font-mono)",
               }}
             >
@@ -169,11 +169,11 @@ function ParamRow({
           style={{
             padding: "4px 10px",
             fontSize: 11,
-            fontWeight: 600,
+            fontWeight: 400,
             border: "1px solid var(--border)",
-            borderRadius: 4,
-            background: param.isTuple ? "rgba(88,166,255,0.15)" : "transparent",
-            color: param.isTuple ? "var(--accent)" : "var(--muted)",
+            borderRadius: 0,
+            background: param.isTuple ? "rgba(255,255,255,0.1)" : "transparent",
+            color: param.isTuple ? "#ffffff" : "var(--muted)",
             cursor: "pointer",
             transition: "background 0.15s, color 0.15s",
           }}
@@ -228,10 +228,10 @@ function ParamRow({
               onClick={addComponent}
               style={{
                 fontSize: 12,
-                color: "var(--accent)",
+                color: "#ffffff",
                 background: "transparent",
                 border: "1px solid var(--border)",
-                borderRadius: 4,
+                borderRadius: 0,
                 padding: "4px 10px",
                 cursor: "pointer",
                 transition: "background 0.15s",
@@ -243,10 +243,10 @@ function ParamRow({
               onClick={addTupleComponent}
               style={{
                 fontSize: 12,
-                color: "var(--accent)",
+                color: "#ffffff",
                 background: "transparent",
                 border: "1px solid var(--border)",
-                borderRadius: 4,
+                borderRadius: 0,
                 padding: "4px 10px",
                 cursor: "pointer",
                 transition: "background 0.15s",
@@ -345,7 +345,7 @@ export default function FunctionSelectorPage() {
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         {/* Page header */}
         <div>
-          <h1 style={{ fontSize: "2em", fontWeight: 700, margin: "0 0 6px" }}>
+          <h1 style={{ fontSize: "1.5em", fontWeight: 400, margin: "0 0 6px" }}>
             Function Selector
           </h1>
           <p style={{ color: "var(--muted)", fontSize: 14, margin: 0 }}>
@@ -386,9 +386,9 @@ export default function FunctionSelectorPage() {
                   style={{
                     display: "block",
                     fontSize: 12,
-                    color: "var(--muted)",
+                    color: "rgba(255,255,255,0.7)",
                     marginBottom: 6,
-                    fontWeight: 600,
+                    fontWeight: 400,
                   }}
                 >
                   Function Signature
@@ -417,9 +417,9 @@ export default function FunctionSelectorPage() {
                     style={{
                       display: "block",
                       fontSize: 12,
-                      color: "var(--muted)",
+                      color: "rgba(255,255,255,0.7)",
                       marginBottom: 6,
-                      fontWeight: 600,
+                      fontWeight: 400,
                     }}
                   >
                     Function Name
@@ -444,9 +444,9 @@ export default function FunctionSelectorPage() {
                     style={{
                       display: "block",
                       fontSize: 12,
-                      color: "var(--muted)",
+                      color: "rgba(255,255,255,0.7)",
                       marginBottom: 8,
-                      fontWeight: 600,
+                      fontWeight: 400,
                     }}
                   >
                     Parameters
@@ -472,10 +472,10 @@ export default function FunctionSelectorPage() {
                       onClick={() => setParams([...params, createParam()])}
                       style={{
                         fontSize: 13,
-                        color: "var(--accent)",
+                        color: "#ffffff",
                         background: "transparent",
                         border: "1px solid var(--border)",
-                        borderRadius: 4,
+                        borderRadius: 0,
                         padding: "6px 14px",
                         cursor: "pointer",
                         transition: "background 0.15s",
@@ -487,10 +487,10 @@ export default function FunctionSelectorPage() {
                       onClick={() => setParams([...params, createTupleParam()])}
                       style={{
                         fontSize: 13,
-                        color: "var(--accent)",
+                        color: "#ffffff",
                         background: "transparent",
                         border: "1px solid var(--border)",
-                        borderRadius: 4,
+                        borderRadius: 0,
                         padding: "6px 14px",
                         cursor: "pointer",
                         transition: "background 0.15s",
@@ -540,9 +540,9 @@ export default function FunctionSelectorPage() {
               <div
                 style={{
                   fontSize: 12,
-                  color: "var(--muted)",
+                  color: "rgba(255,255,255,0.7)",
                   marginBottom: 6,
-                  fontWeight: 600,
+                  fontWeight: 400,
                 }}
               >
                 Signature
@@ -570,9 +570,9 @@ export default function FunctionSelectorPage() {
               <div
                 style={{
                   fontSize: 12,
-                  color: "var(--muted)",
+                  color: "rgba(255,255,255,0.7)",
                   marginBottom: 6,
-                  fontWeight: 600,
+                  fontWeight: 400,
                 }}
               >
                 Selector (4 bytes)
@@ -581,8 +581,8 @@ export default function FunctionSelectorPage() {
                 <code
                   style={{
                     fontSize: 20,
-                    fontWeight: 700,
-                    color: computed.selector ? "var(--accent)" : "var(--muted)",
+                    fontWeight: 400,
+                    color: computed.selector ? "#ffffff" : "var(--muted)",
                     fontFamily: "var(--font-mono)",
                     letterSpacing: "0.02em",
                     transition: "color 0.15s",

@@ -16,14 +16,14 @@ function RawContent({ calldata }: { calldata: string }) {
         style={{
           display: "block",
           wordBreak: "break-all",
-          color: "var(--accent)",
+          color: "var(--foreground)",
           lineHeight: 1.8,
           fontSize: 14,
         }}
       >
         {hasSelector ? (
           <>
-            <span style={{ background: "rgba(88,166,255,0.15)", borderRadius: 2 }}>
+            <span style={{ background: "rgba(255,255,255,0.1)", borderRadius: 0 }}>
               {calldata.slice(0, 10)}
             </span>
             {calldata.slice(10)}
@@ -57,7 +57,7 @@ export function RawCalldataView({ calldata, embedded = false, abiNotFound = fals
           style={{
             background: "var(--background)",
             border: "1px solid var(--border)",
-            borderRadius: 4,
+            borderRadius: 0,
             padding: "10px 12px",
           }}
         >

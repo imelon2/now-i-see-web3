@@ -60,7 +60,7 @@ export default function CalldataDecoderPage() {
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {/* Page header */}
           <div>
-            <h1 style={{ fontSize: "2em", fontWeight: 700, margin: "0 0 6px" }}>
+            <h1 style={{ fontSize: "1.5em", fontWeight: 400, margin: "0 0 6px" }}>
               Calldata Decoder
             </h1>
             <p style={{ color: "var(--muted)", fontSize: 14, margin: 0 }}>
@@ -79,9 +79,9 @@ export default function CalldataDecoderPage() {
                 style={{
                   display: "block",
                   fontSize: 12,
-                  color: "var(--muted)",
+                  color: "rgba(255,255,255,0.7)",
                   marginBottom: 6,
-                  fontWeight: 600,
+                  fontWeight: 400,
                 }}
               >
                 Calldata Hex
@@ -99,7 +99,7 @@ export default function CalldataDecoderPage() {
                   style={{
                     marginTop: 8,
                     padding: "8px 12px",
-                    borderRadius: 4,
+                    borderRadius: 0,
                     background: "rgba(248,81,73,0.1)",
                     border: "1px solid rgba(248,81,73,0.25)",
                     display: "flex",
@@ -123,10 +123,10 @@ export default function CalldataDecoderPage() {
                   onClick={handleDecode}
                   disabled={status === "decoding" || !!validationError}
                   style={{
-                    background: status === "decoding" ? "var(--muted)" : "var(--accent)",
-                    color: "#000",
+                    background: status === "decoding" ? "rgba(255,255,255,0.3)" : "#ffffff",
+                    color: "#1f2228",
                     border: "none",
-                    fontWeight: 600,
+                    fontWeight: 400,
                     minWidth: 90,
                     transition: "background 0.15s",
                   }}
@@ -155,7 +155,7 @@ export default function CalldataDecoderPage() {
                 with <code style={{ fontSize: 12 }}>0x</code> (minimum 4 bytes / 10 characters) into the input
                 above and press <strong style={{ color: "var(--foreground)" }}>Decode</strong>.
               </p>
-              <a href="/docs/calldata-decoder" style={{ color: "var(--muted)", fontSize: 13, textDecoration: "none" }}>Full Guide →</a>
+              <a href="/docs/calldata-decoder" style={{ color: "#ffffff", fontSize: 13, textDecoration: "none" }}>Full Guide →</a>
             </div>
           </DetailsToggle>
 

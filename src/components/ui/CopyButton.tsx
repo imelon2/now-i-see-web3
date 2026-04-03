@@ -31,7 +31,7 @@ export function CopyButton({ text, size = "sm" }: Props) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: 4,
+        borderRadius: 0,
         transition: "color 0.15s",
       }}
     >

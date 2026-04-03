@@ -85,7 +85,7 @@ export function DecodedCalldataView({ calldata, decoded, abiIndex, abiTotal, onP
               padding: "8px 12px",
               background: "rgba(248,81,73,0.08)",
               border: "1px solid rgba(248,81,73,0.3)",
-              borderRadius: 4,
+              borderRadius: 0,
             }}
           >
             <span style={{ color: "var(--error)", fontSize: 14 }}>
@@ -125,7 +125,7 @@ export function DecodedCalldataView({ calldata, decoded, abiIndex, abiTotal, onP
                   background: "transparent",
                   border: "1px solid var(--border)",
                   color: abiIndex === 0 ? "var(--muted)" : "var(--foreground)",
-                  borderRadius: 3,
+                  borderRadius: 0,
                   padding: "1px 7px",
                   fontSize: 13,
                   cursor: abiIndex === 0 ? "default" : "pointer",
@@ -144,7 +144,7 @@ export function DecodedCalldataView({ calldata, decoded, abiIndex, abiTotal, onP
                   background: "transparent",
                   border: "1px solid var(--border)",
                   color: abiIndex === (abiTotal ?? 1) - 1 ? "var(--muted)" : "var(--foreground)",
-                  borderRadius: 3,
+                  borderRadius: 0,
                   padding: "1px 7px",
                   fontSize: 13,
                   cursor: abiIndex === (abiTotal ?? 1) - 1 ? "default" : "pointer",
@@ -164,7 +164,7 @@ export function DecodedCalldataView({ calldata, decoded, abiIndex, abiTotal, onP
           style={{
             background: "var(--background)",
             border: "1px solid var(--border)",
-            borderRadius: 4,
+            borderRadius: 0,
             padding: "8px 12px",
             marginBottom: 12,
           }}
@@ -181,7 +181,7 @@ export function DecodedCalldataView({ calldata, decoded, abiIndex, abiTotal, onP
             style={{
               background: "var(--background)",
               border: "1px solid var(--border)",
-              borderRadius: 4,
+              borderRadius: 0,
               padding: "10px 12px",
             }}
           >

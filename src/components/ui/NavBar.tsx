@@ -143,6 +143,7 @@ const sectionLabelStyle: React.CSSProperties = {
   letterSpacing: "0.08em",
   color: "var(--muted)",
   textTransform: "uppercase",
+  fontFamily: "var(--font-mono)",
 };
 
 function NavLink({
@@ -172,11 +173,11 @@ function NavLink({
         padding: "10px 16px",
         paddingLeft: indented ? 24 : 14,
         borderLeft: isActive ? "2px solid var(--accent)" : "2px solid transparent",
-        background: isActive ? "rgba(88,166,255,0.07)" : "transparent",
+        background: isActive ? "rgba(255,255,255,0.05)" : "transparent",
         color: isActive ? "var(--foreground)" : "var(--muted)",
         textDecoration: "none",
         fontSize: 14,
-        fontWeight: 500,
+        fontWeight: 400,
         whiteSpace: "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",

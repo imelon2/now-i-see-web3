@@ -43,7 +43,7 @@ function DecodedLogView({ event }: { event: DecodedEvent }) {
         style={{
           background: "var(--background)",
           border: "1px solid var(--border)",
-          borderRadius: 4,
+          borderRadius: 0,
           padding: "6px 10px",
           marginBottom: 10,
         }}
@@ -129,7 +129,7 @@ export function EventLogView({ rawLogs, decodedEventVariants }: Props) {
               style={{
                 background: "var(--background)",
                 border: "1px solid var(--border)",
-                borderRadius: 4,
+                borderRadius: 0,
                 padding: 12,
               }}
             >
@@ -166,7 +166,7 @@ export function EventLogView({ rawLogs, decodedEventVariants }: Props) {
                           background: "transparent",
                           border: "1px solid var(--border)",
                           color: abiIndex === 0 ? "var(--muted)" : "var(--foreground)",
-                          borderRadius: 3,
+                          borderRadius: 0,
                           padding: "1px 7px",
                           fontSize: 13,
                           cursor: abiIndex === 0 ? "default" : "pointer",
@@ -185,7 +185,7 @@ export function EventLogView({ rawLogs, decodedEventVariants }: Props) {
                           background: "transparent",
                           border: "1px solid var(--border)",
                           color: abiIndex === abiTotal - 1 ? "var(--muted)" : "var(--foreground)",
-                          borderRadius: 3,
+                          borderRadius: 0,
                           padding: "1px 7px",
                           fontSize: 13,
                           cursor: abiIndex === abiTotal - 1 ? "default" : "pointer",

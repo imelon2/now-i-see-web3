@@ -2,12 +2,16 @@
 
 :root {
   --background: #0d1117;
-  --foreground: #e6edf3;
-  --muted: #8b949e;
-  --border: #30363d;
-  --panel: #161b22;
-  --panel-header: #21262d;
-  --accent: #58a6ff;
+  --foreground: #ffffff;
+  --muted: rgba(255, 255, 255, 0.5);
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --border: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.2);
+  --panel: rgba(255, 255, 255, 0.03);
+  --panel-header: rgba(255, 255, 255, 0.05);
+  --surface-hover: rgba(255, 255, 255, 0.08);
+  --accent: #ffffff;
+  --focus-ring: rgba(59, 130, 246, 0.5);
   --success: #3fb950;
   --error: #f85149;
   --warning: #d29922;
@@ -31,13 +35,14 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 code,
 pre {
-  font-family: var(--font-sans);
+  font-family: var(--font-mono);
+  font-size: 13px;
 }
 
 /* 스크롤바 */
@@ -60,8 +65,8 @@ pre {
 .panel {
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 6px;
-  overflow: clip; /* clip: visually clips like hidden but doesn't block child overflow-x: auto */
+  border-radius: 0px;
+  overflow: clip;
 }
 
 .panel-header {
@@ -71,8 +76,11 @@ pre {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
   color: var(--foreground);
 }
 
@@ -83,36 +91,44 @@ pre {
 /* 입력 필드 */
 input,
 textarea {
-  background: var(--background);
-  border: 1px solid var(--border);
-  border-radius: 4px;
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  border-radius: 0px;
   color: var(--foreground);
   font-family: var(--font-sans);
-  font-size: 15px;
+  font-size: 16px;
   padding: 6px 10px;
   outline: none;
   width: 100%;
   transition: border-color 0.4s ease;
 }
 
+input::placeholder,
+textarea::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
 input:focus,
 textarea:focus {
-  border-color: rgba(88, 166, 255, 0.4);
+  border-color: rgba(59, 130, 246, 0.5);
+  outline: none;
 }
 
 /* 버튼 */
 button {
-  font-family: var(--font-sans);
-  font-size: 15px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
   cursor: pointer;
-  border-radius: 4px;
-  border: 1px solid var(--border);
+  border-radius: 0px;
+  border: 1px solid var(--border-strong);
   padding: 6px 14px;
   transition: opacity 0.15s, border-color 0.15s;
 }
 
 button:hover {
-  opacity: 0.85;
+  opacity: 0.5;
 }
 
 button:disabled {
@@ -317,12 +333,12 @@ button:disabled {
   input,
   textarea {
     padding: 10px 12px;
-    font-size: 16px; /* prevent iOS auto-zoom */
-    min-height: 42px;
+    font-size: 16px;
+    min-height: 44px;
   }
 
   button {
-    min-height: 40px;
+    min-height: 44px;
     padding: 8px 14px;
   }
 
@@ -394,19 +410,20 @@ button:disabled {
 }
 
 .prose-content a {
-  color: var(--accent);
-  text-decoration: none;
+  color: var(--foreground);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .prose-content a:hover {
-  text-decoration: underline;
+  opacity: 0.5;
 }
 
 .prose-content code {
   font-family: var(--font-mono);
   background: var(--panel);
   padding: 2px 6px;
-  border-radius: 3px;
+  border-radius: 0px;
   font-size: 13px;
   color: var(--foreground);
 }
@@ -414,7 +431,7 @@ button:disabled {
 .prose-content pre {
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 0px;
   padding: 16px;
   overflow-x: auto;
   margin: 16px 0;
@@ -426,6 +443,7 @@ button:disabled {
   font-size: 13px;
   color: var(--foreground);
   word-break: break-all;
+  border-radius: 0;
 }
 
 .prose-content ul {

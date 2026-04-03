@@ -120,12 +120,12 @@ export default function HomePage() {
         <div
           style={{
             maxWidth: 520,
-            fontSize: 14,
-            lineHeight: 1.9,
+            fontSize: 16,
+            lineHeight: 1.5,
             textAlign: "center",
           }}
         >
-          <p style={{ margin: "0 0 0", color: "var(--foreground)", fontWeight: 500 }}>
+          <p style={{ margin: "0 0 0", color: "var(--foreground)", fontWeight: 400 }}>
             Onchain data is complex.
           </p>
           <div style={{ width: 2, height: 28, borderLeft: "2px dotted var(--muted)", margin: "14px auto" }} />
@@ -158,8 +158,8 @@ export default function HomePage() {
             <div style={{ color: "var(--muted)", marginBottom: 12 }}>{icon}</div>
             <h2
               style={{
-                fontSize: 15,
-                fontWeight: 600,
+                fontSize: 16,
+                fontWeight: 400,
                 color: "var(--foreground)",
                 margin: "0 0 8px",
               }}
@@ -168,7 +168,7 @@ export default function HomePage() {
             </h2>
             <p
               style={{
-                fontSize: 13,
+                fontSize: 14,
                 color: "var(--muted)",
                 lineHeight: 1.6,
                 margin: "0 0 20px",
@@ -183,13 +183,15 @@ export default function HomePage() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: 6,
-                fontSize: 13,
-                color: "var(--accent)",
+                fontSize: 12,
+                color: "#ffffff",
                 textDecoration: "none",
-                fontWeight: 500,
+                fontFamily: "var(--font-mono)",
+                textTransform: "uppercase",
+                letterSpacing: "1.4px",
               }}
             >
-              Open →
+              OPEN →
             </Link>
           </div>
         ))}

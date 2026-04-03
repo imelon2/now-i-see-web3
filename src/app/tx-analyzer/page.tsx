@@ -194,7 +194,7 @@ function TxAnalyzerContent() {
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {/* Page header */}
           <div>
-            <h1 style={{ fontSize: "2em", fontWeight: 700, margin: "0 0 6px" }}>
+            <h1 style={{ fontSize: "1.5em", fontWeight: 400, margin: "0 0 6px" }}>
               Transaction Analyzer
             </h1>
             <p style={{ color: "var(--muted)", fontSize: 14, margin: 0 }}>
@@ -213,9 +213,9 @@ function TxAnalyzerContent() {
                 style={{
                   display: "block",
                   fontSize: 12,
-                  color: "var(--muted)",
+                  color: "rgba(255,255,255,0.7)",
                   marginBottom: 6,
-                  fontWeight: 600,
+                  fontWeight: 400,
                 }}
               >
                 Transaction Hash
@@ -239,10 +239,10 @@ function TxAnalyzerContent() {
                   onClick={handleSearch}
                   disabled={loading}
                   style={{
-                    background: loading ? "var(--muted)" : "var(--accent)",
-                    color: "#000",
+                    background: loading ? "rgba(255,255,255,0.3)" : "#ffffff",
+                    color: "#1f2228",
                     border: "none",
-                    fontWeight: 600,
+                    fontWeight: 400,
                     minWidth: 90,
                     transition: "background 0.15s",
                   }}
@@ -255,7 +255,7 @@ function TxAnalyzerContent() {
                   style={{
                     marginTop: 8,
                     padding: "8px 12px",
-                    borderRadius: 4,
+                    borderRadius: 0,
                     background: "rgba(248,81,73,0.1)",
                     border: "1px solid rgba(248,81,73,0.25)",
                     display: "flex",
@@ -298,9 +298,9 @@ function TxAnalyzerContent() {
               </p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 16px", alignItems: "center" }}>
                 <span style={{ color: "var(--muted)", fontSize: 13 }}>Try an example:</span>
-                <a href="/tx-analyzer?hash=0x6c4a761a25a3deeaecbaea8aa1774271cd8c11c774e25a309bbae62d99b982ff" style={{ color: "var(--accent)", fontSize: 13, textDecoration: "none" }}>Example TX #1 →</a>
-                <a href="/tx-analyzer?hash=0x1416a84f25468f558199cb562939f1e8db305cb5ed2e6e1e0c1a0f8e0fd92b58" style={{ color: "var(--accent)", fontSize: 13, textDecoration: "none" }}>Example TX #2 →</a>
-                <a href="/docs/tx-analyzer" style={{ color: "var(--muted)", fontSize: 13, textDecoration: "none", marginLeft: "auto" }}>Full Guide →</a>
+                <a href="/tx-analyzer?hash=0x6c4a761a25a3deeaecbaea8aa1774271cd8c11c774e25a309bbae62d99b982ff" style={{ color: "#ffffff", fontSize: 13, textDecoration: "none" }}>Example TX #1 →</a>
+                <a href="/tx-analyzer?hash=0x1416a84f25468f558199cb562939f1e8db305cb5ed2e6e1e0c1a0f8e0fd92b58" style={{ color: "#ffffff", fontSize: 13, textDecoration: "none" }}>Example TX #2 →</a>
+                <a href="/docs/tx-analyzer" style={{ color: "#ffffff", fontSize: 13, textDecoration: "none", marginLeft: "auto" }}>Full Guide →</a>
               </div>
             </div>
           </DetailsToggle>
@@ -358,12 +358,12 @@ function TxAnalyzerContent() {
                     <button
                       onClick={handleSimulate}
                       style={{
-                        background: "var(--error)",
-                        color: "#fff",
-                        border: "none",
-                        fontWeight: 600,
+                        background: "rgba(248, 81, 73, 0.15)",
+                        color: "var(--error)",
+                        border: "1px solid rgba(248, 81, 73, 0.3)",
+                        fontWeight: 400,
                         padding: "10px 20px",
-                        borderRadius: 6,
+                        borderRadius: 0,
                         fontSize: 14,
                         cursor: "pointer",
                         width: "100%",
@@ -398,6 +398,9 @@ function TxAnalyzerContent() {
                           </span>
                         </div>
                       )}
+                      <div style={{
+                        background: "rgba(248, 81, 73, 0.02)",
+                      }}>
                       {simRawData ? (
                         <ErrorDecoderPanel
                           errorData={simRawData}
@@ -418,7 +421,7 @@ function TxAnalyzerContent() {
                               style={{
                                 background: "var(--background)",
                                 border: "1px solid var(--border)",
-                                borderRadius: 4,
+                                borderRadius: 0,
                                 padding: "8px 12px",
                               }}
                             >
@@ -430,6 +433,7 @@ function TxAnalyzerContent() {
                           </div>
                         </div>
                       )}
+                      </div>
                     </div>
                   )}
                 </>
