@@ -1,4 +1,4 @@
-import { toFunctionSelector } from "viem";
+import { toFunctionSelector, toEventSelector } from "viem";
 
 // ─── Solidity Type Validation ─────────────────────────────────────────────────
 
@@ -141,15 +141,15 @@ export interface ValidationResult {
 }
 
 /** Validate a full signature string and return canonical form */
-export function validateSignature(sig: string): ValidationResult {
+export function validateSignature(sig: string, kind: "function" | "event" = "function"): ValidationResult {
   const trimmed = sig.trim();
   if (!trimmed) {
-    return { valid: false, error: "Please enter a function signature." };
+    return { valid: false, error: `Please enter ${kind === "event" ? "an event" : "a function"} signature.` };
   }
 
   const parsed = parseSignature(trimmed);
   if (!parsed) {
-    return { valid: false, error: "Invalid format. Expected: functionName(type1,type2,...)" };
+    return { valid: false, error: `Invalid format. Expected: ${kind === "event" ? "EventName" : "functionName"}(type1,type2,...)` };
   }
 
   // Validate each parameter type
@@ -173,6 +173,14 @@ export function validateSignature(sig: string): ValidationResult {
  */
 export function generateSelector(signature: string): string {
   return toFunctionSelector(signature);
+}
+
+/**
+ * Generate a 32-byte event topic hash from a canonical signature.
+ * Returns the topic as "0x..." hex string (66 chars).
+ */
+export function generateEventSelector(signature: string): string {
+  return toEventSelector(signature);
 }
 
 /** Build a canonical signature from function name + parameter type list */

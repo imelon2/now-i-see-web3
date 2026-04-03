@@ -52,6 +52,15 @@ const TOOL_LINKS = [
       </svg>
     ),
   },
+  {
+    href: "/event-topic",
+    label: "Event Topic",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M8 2L4 8h3v6l4-6H8V2Z" />
+      </svg>
+    ),
+  },
 ];
 
 const DOCS_LINKS = [
@@ -204,8 +213,8 @@ function NavGroups({ pathname, onNavigate }: { pathname: string; onNavigate?: ()
         <NavLink key={href} href={href} label={label} icon={icon} pathname={pathname} onNavigate={onNavigate} indented />
       ))}
 
-      {/* Tool */}
-      <div style={sectionLabelStyle}>Tool</div>
+      {/* Calculator */}
+      <div style={sectionLabelStyle}>Calculator</div>
       {TOOL_LINKS.map(({ href, label, icon }) => (
         <NavLink key={href} href={href} label={label} icon={icon} pathname={pathname} onNavigate={onNavigate} indented />
       ))}

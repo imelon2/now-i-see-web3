@@ -41,6 +41,22 @@ export default function PrivacyPage() {
           and is not used to personally identify you.
         </p>
 
+        <h2>Third-Party Advertising (Google AdSense)</h2>
+        <p>
+          We use Google AdSense to display advertisements on our website. Google AdSense may use cookies and web
+          beacons to serve ads based on your prior visits to this or other websites. Google&apos;s use of advertising
+          cookies enables it and its partners to serve ads based on your browsing patterns. You may opt out of
+          personalized advertising by visiting{" "}
+          <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">
+            Google Ads Settings
+          </a>
+          . For more information about how Google uses data when you use our site, please visit{" "}
+          <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">
+            Google&apos;s Privacy &amp; Terms
+          </a>
+          .
+        </p>
+
         <h2>Children&apos;s Privacy</h2>
         <p>
           Now I See Web3 is intended for use by developers and does not knowingly collect any personal information
