@@ -49,7 +49,13 @@ export const metadata: Metadata = {
       "On-chain data analyzer for Web3 developers — decode calldata, inspect transactions, and debug Solidity errors.",
     images: ["/og-image.png"],
   },
-  icons: { icon: "/favicon.svg" },
+  icons: {
+    icon: [
+      { url: "/favicon.png", type: "image/png", sizes: "192x192" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/favicon.png",
+  },
 };
 
 const jsonLdWebSite = {
