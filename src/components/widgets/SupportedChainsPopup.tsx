@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { supportedChains } from "@/lib/chains/chainList";
+import { supportedChains as defaultSupportedChains } from "@/lib/chains/chainList";
 import { useUserChains, type UserChainData } from "@/hooks/useUserChains";
+import type { Chain } from "viem";
 
 type Tab = "chains" | "add";
 
@@ -243,12 +244,12 @@ function AddChainForm({
   );
 }
 
-function Modal({ onClose }: { onClose: () => void }) {
+function Modal({ onClose, chains }: { onClose: () => void; chains: readonly Chain[] }) {
   const [query, setQuery] = useState("");
   const [activeTab, setActiveTab] = useState<Tab>("chains");
   const { userChains, addChain, removeChain } = useUserChains();
 
-  const filteredSupported = supportedChains.filter((chain) =>
+  const filteredSupported = chains.filter((chain) =>
     chain.name.toLowerCase().includes(query.toLowerCase())
   );
 
@@ -256,7 +257,7 @@ function Modal({ onClose }: { onClose: () => void }) {
     chain.name.toLowerCase().includes(query.toLowerCase())
   );
 
-  const totalChains = supportedChains.length + userChains.length;
+  const totalChains = chains.length + userChains.length;
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -525,10 +526,10 @@ function Modal({ onClose }: { onClose: () => void }) {
   );
 }
 
-export function SupportedChainsPopup() {
+export function SupportedChainsPopup({ chains = defaultSupportedChains }: { chains?: readonly Chain[] } = {}) {
   const [open, setOpen] = useState(false);
   const { userChains } = useUserChains();
-  const totalChains = supportedChains.length + userChains.length;
+  const totalChains = chains.length + userChains.length;
 
   return (
     <>
@@ -564,7 +565,7 @@ export function SupportedChainsPopup() {
         Supported Chains ({totalChains})
       </button>
 
-      {open && <Modal onClose={() => setOpen(false)} />}
+      {open && <Modal onClose={() => setOpen(false)} chains={chains} />}
     </>
   );
 }

@@ -40,7 +40,7 @@ function TxAnalyzerContent() {
   const hashFromUrl = searchParams.get("hash") ?? "";
 
   const { viemChains: userViemChains } = useUserChains();
-  const { status, result, error, search, reset } = useTxSearch(userViemChains);
+  const { status, result, error, search, reset } = useTxSearch({ extraChains: userViemChains });
   const totalChains = supportedChains.length + userViemChains.length;
   const [inputHash, setInputHash] = useState(hashFromUrl);
   const [validationError, setValidationError] = useState("");

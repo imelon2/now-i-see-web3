@@ -8,6 +8,7 @@ import { multiRace } from "@/lib/utils/multiRace";
 import { decodeCalldataAll, decodeLogAll } from "@/lib/utils/decoder";
 import { isValidHex } from "@/lib/utils/hex";
 import type { Chain } from "viem";
+import type { TransactionReceipt } from "viem";
 import type { TxInfo, DecodedCalldata, DecodedEvent } from "@/types";
 
 export interface SearchResult {
@@ -15,12 +16,14 @@ export interface SearchResult {
   decodedCalldataVariants: DecodedCalldata[];
   rawLogs: Log[];
   decodedEventVariants: (DecodedEvent[] | null)[];
+  receipt: TransactionReceipt | null;
   chain: Chain;
 }
 
 export type SearchStatus = "idle" | "searching" | "found" | "not-found" | "error";
 
-export function useTxSearch(extraChains: Chain[] = []) {
+export function useTxSearch(opts: { chains?: readonly Chain[]; extraChains?: Chain[] } = {}) {
+  const { chains: baseChains, extraChains = [] } = opts;
   const [status, setStatus] = useState<SearchStatus>("idle");
   const [result, setResult] = useState<SearchResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -41,8 +44,8 @@ export function useTxSearch(extraChains: Chain[] = []) {
     try {
       const txHash = trimmed as `0x${string}`;
 
-      // Query all supported chains + user chains in parallel
-      const allChains = [...supportedChains, ...extraChains];
+      // Query base chains (or all supported) + extra user chains in parallel
+      const allChains = [...(baseChains ?? supportedChains), ...extraChains];
       const promises = allChains.map((chain) => {
         const client = createClient(chain);
         return client
@@ -118,7 +121,7 @@ export function useTxSearch(extraChains: Chain[] = []) {
         )
       );
 
-      setResult({ txInfo, decodedCalldataVariants, rawLogs, decodedEventVariants, chain: client.chain! });
+      setResult({ txInfo, decodedCalldataVariants, rawLogs, decodedEventVariants, receipt, chain: client.chain! });
       setStatus("found");
     } catch (err) {
       setError(
@@ -126,7 +129,7 @@ export function useTxSearch(extraChains: Chain[] = []) {
       );
       setStatus("error");
     }
-  }, [extraChains]);
+  }, [baseChains, extraChains]);
 
   const reset = useCallback(() => {
     setStatus("idle");

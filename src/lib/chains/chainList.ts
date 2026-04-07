@@ -1,4 +1,4 @@
-import { defineChain } from "viem";
+import { defineChain, type Chain } from "viem";
 import {
   mainnet,
   sepolia,
@@ -41,6 +41,19 @@ const dkargo = defineChain({
     public: { http: ["https://mainnet-rpc.dkargo.io"] },
   },
 });
+
+export const crossMessageChains = [
+  sepolia,
+  optimismSepolia,
+] as const;
+
+export type CrossMessageChain = (typeof crossMessageChains)[number];
+
+/** Find the L1 chain paired with a given L2 chain via sourceId */
+export function getL1Chain(l2Chain: Chain): Chain | undefined {
+  if (!("sourceId" in l2Chain) || typeof l2Chain.sourceId !== "number") return undefined;
+  return crossMessageChains.find((c) => c.id === l2Chain.sourceId);
+}
 
 export const supportedChains = [
   mainnet,
