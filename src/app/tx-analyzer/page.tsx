@@ -40,7 +40,7 @@ function TxAnalyzerContent() {
   const hashFromUrl = searchParams.get("hash") ?? "";
 
   const { viemChains: userViemChains } = useUserChains();
-  const { status, result, error, search, reset } = useTxSearch(userViemChains);
+  const { status, result, error, search, reset } = useTxSearch({ extraChains: userViemChains });
   const totalChains = supportedChains.length + userViemChains.length;
   const [inputHash, setInputHash] = useState(hashFromUrl);
   const [validationError, setValidationError] = useState("");
@@ -213,7 +213,7 @@ function TxAnalyzerContent() {
                 style={{
                   display: "block",
                   fontSize: 12,
-                  color: "rgba(255,255,255,0.7)",
+                  color: "var(--muted)",
                   marginBottom: 6,
                   fontWeight: 400,
                 }}
@@ -239,9 +239,9 @@ function TxAnalyzerContent() {
                   onClick={handleSearch}
                   disabled={loading}
                   style={{
-                    background: loading ? "rgba(255,255,255,0.3)" : "#ffffff",
-                    color: "#1f2228",
-                    border: "none",
+                    background: loading ? "var(--border)" : "var(--foreground)",
+                    color: "var(--background)",
+                    border: "1px solid var(--border)",
                     fontWeight: 400,
                     minWidth: 90,
                     transition: "background 0.15s",
@@ -255,7 +255,7 @@ function TxAnalyzerContent() {
                   style={{
                     marginTop: 8,
                     padding: "8px 12px",
-                    borderRadius: 0,
+                    borderRadius: 12,
                     background: "rgba(248,81,73,0.1)",
                     border: "1px solid rgba(248,81,73,0.25)",
                     display: "flex",
@@ -298,9 +298,9 @@ function TxAnalyzerContent() {
               </p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 16px", alignItems: "center" }}>
                 <span style={{ color: "var(--muted)", fontSize: 13 }}>Try an example:</span>
-                <a href="/tx-analyzer?hash=0x6c4a761a25a3deeaecbaea8aa1774271cd8c11c774e25a309bbae62d99b982ff" style={{ color: "#ffffff", fontSize: 13, textDecoration: "none" }}>Example TX #1 →</a>
-                <a href="/tx-analyzer?hash=0x1416a84f25468f558199cb562939f1e8db305cb5ed2e6e1e0c1a0f8e0fd92b58" style={{ color: "#ffffff", fontSize: 13, textDecoration: "none" }}>Example TX #2 →</a>
-                <a href="/docs/tx-analyzer" style={{ color: "#ffffff", fontSize: 13, textDecoration: "none", marginLeft: "auto" }}>Full Guide →</a>
+                <a href="/tx-analyzer?hash=0x6c4a761a25a3deeaecbaea8aa1774271cd8c11c774e25a309bbae62d99b982ff" style={{ color: "var(--foreground)", fontSize: 13, textDecoration: "none" }}>Example TX #1 →</a>
+                <a href="/tx-analyzer?hash=0x1416a84f25468f558199cb562939f1e8db305cb5ed2e6e1e0c1a0f8e0fd92b58" style={{ color: "var(--foreground)", fontSize: 13, textDecoration: "none" }}>Example TX #2 →</a>
+                <a href="/docs/tx-analyzer" style={{ color: "var(--foreground)", fontSize: 13, textDecoration: "none", marginLeft: "auto" }}>Full Guide →</a>
               </div>
             </div>
           </DetailsToggle>
@@ -363,7 +363,7 @@ function TxAnalyzerContent() {
                         border: "1px solid rgba(248, 81, 73, 0.3)",
                         fontWeight: 400,
                         padding: "10px 20px",
-                        borderRadius: 0,
+                        borderRadius: 9999,
                         fontSize: 14,
                         cursor: "pointer",
                         width: "100%",
@@ -385,7 +385,7 @@ function TxAnalyzerContent() {
                         <div
                           style={{
                             padding: "8px 12px",
-                            borderRadius: 4,
+                            borderRadius: 12,
                             background: "rgba(210,153,34,0.1)",
                             border: "1px solid rgba(210,153,34,0.3)",
                             display: "flex",
@@ -421,7 +421,7 @@ function TxAnalyzerContent() {
                               style={{
                                 background: "var(--background)",
                                 border: "1px solid var(--border)",
-                                borderRadius: 0,
+                                borderRadius: 12,
                                 padding: "8px 12px",
                               }}
                             >

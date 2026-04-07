@@ -70,7 +70,11 @@ const TOOLS = [
 
 export default function HomePage() {
   return (
-    <main style={{ padding: "48px 24px 64px" }}>
+    <main style={{ padding: "158px 24px 64px", position: "relative" }}>
+      {/* ── Background gradient ── */}
+      <div className="fixed inset-0 -z-10" style={{ background: "var(--background)" }}>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_560px_at_50%_200px,#2a2a2a,transparent)]" />
+      </div>
       {/* ── Hero ── */}
       <section
         style={{
@@ -84,7 +88,7 @@ export default function HomePage() {
         <h1
           style={{
             fontFamily: "var(--font-pixel)",
-            color: "#ffffff",
+            color: "var(--foreground)",
             fontSize: 30,
             lineHeight: 1.8,
             margin: 0,
@@ -184,11 +188,8 @@ export default function HomePage() {
                 alignItems: "center",
                 gap: 6,
                 fontSize: 12,
-                color: "#ffffff",
+                color: "var(--foreground)",
                 textDecoration: "none",
-                fontFamily: "var(--font-mono)",
-                textTransform: "uppercase",
-                letterSpacing: "1.4px",
               }}
             >
               OPEN →

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatedEyes } from "./AnimatedEyes";
+import { MiniNavbar } from "./mini-navbar";
 
 const ANALYZER_LINKS = [
   {
@@ -13,6 +14,20 @@ const ANALYZER_LINKS = [
       <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="6.5" cy="6.5" r="4.5" />
         <line x1="10.5" y1="10.5" x2="14" y2="14" />
+      </svg>
+    ),
+  },
+  {
+    href: "/cross-message",
+    label: "Cross Message",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="1,4 6,4 8,2 10,4 15,4" />
+        <polyline points="1,12 6,12 8,14 10,12 15,12" />
+        <line x1="4" y1="4" x2="4" y2="8" />
+        <polyline points="2,6 4,8 6,6" />
+        <line x1="12" y1="8" x2="12" y2="12" />
+        <polyline points="10,10 12,8 14,10" />
       </svg>
     ),
   },
@@ -148,11 +163,8 @@ const dividerStyle: React.CSSProperties = {
 const sectionLabelStyle: React.CSSProperties = {
   padding: "6px 16px 2px",
   fontSize: 11,
-  fontWeight: 600,
-  letterSpacing: "0.08em",
+  fontWeight: 500,
   color: "var(--muted)",
-  textTransform: "uppercase",
-  fontFamily: "var(--font-mono)",
 };
 
 function NavLink({
@@ -179,10 +191,11 @@ function NavLink({
         display: "flex",
         alignItems: "center",
         gap: 8,
-        padding: "10px 16px",
-        paddingLeft: indented ? 24 : 14,
-        borderLeft: isActive ? "2px solid var(--accent)" : "2px solid transparent",
-        background: isActive ? "rgba(255,255,255,0.05)" : "transparent",
+        padding: "7px 10px",
+        marginInline: 6,
+        paddingLeft: indented ? 18 : 10,
+        borderRadius: 9999,
+        background: isActive ? "var(--border)" : "transparent",
         color: isActive ? "var(--foreground)" : "var(--muted)",
         textDecoration: "none",
         fontSize: 14,
@@ -226,11 +239,6 @@ function NavGroups({ pathname, onNavigate }: { pathname: string; onNavigate?: ()
         <NavLink key={href} href={href} label={label} icon={icon} pathname={pathname} onNavigate={onNavigate} indented />
       ))}
 
-      {/* Divider + Info links */}
-      <div style={dividerStyle} />
-      {INFO_LINKS.map(({ href, label, icon }) => (
-        <NavLink key={href} href={href} label={label} icon={icon} pathname={pathname} onNavigate={onNavigate} />
-      ))}
     </>
   );
 }
@@ -264,7 +272,7 @@ function BrandMark() {
     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
       <AnimatedEyes size={28} />
       <div>
-        <div style={{ fontFamily: "var(--font-pixel)", color: "#ffffff", fontSize: 14, lineHeight: 1.6 }}>
+        <div style={{ fontFamily: "var(--font-pixel)", color: "var(--foreground)", fontSize: 14, lineHeight: 1.6 }}>
           Now I See Web3
         </div>
         <div style={{ fontSize: 7, fontFamily: "var(--font-pixel)", color: "var(--muted)", marginTop: 8, letterSpacing: "0.01em" }}>
@@ -275,9 +283,46 @@ function BrandMark() {
   );
 }
 
+const ALL_NAV_LINKS = [
+  ...ANALYZER_LINKS,
+  ...DECODER_LINKS,
+  ...TOOL_LINKS,
+];
+
+function TopHeaderLink({ href, label, pathname }: { href: string; label: string; pathname: string }) {
+  const isActive = pathname === href;
+  return (
+    <Link
+      href={href}
+      style={{
+        padding: "5px 14px",
+        borderRadius: 9999,
+        background: isActive ? "var(--border)" : "transparent",
+        color: isActive ? "var(--foreground)" : "var(--muted)",
+        textDecoration: "none",
+        fontSize: 13,
+        fontWeight: 400,
+        whiteSpace: "nowrap",
+      }}
+    >
+      {label}
+    </Link>
+  );
+}
+
 export function NavBar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const isHome = pathname === "/";
+
+  if (isHome) {
+    return (
+      <>
+        <MiniNavbar />
+        <style>{`.layout-content { margin-left: 0; }`}</style>
+      </>
+    );
+  }
 
   return (
     <>
@@ -300,7 +345,7 @@ export function NavBar() {
       <div className="nav-mobile-bar">
         <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }}>
           <AnimatedEyes size={18} />
-          <span style={{ fontFamily: "var(--font-pixel)", color: "#ffffff", fontSize: 8 }}>
+          <span style={{ fontFamily: "var(--font-pixel)", color: "var(--foreground)", fontSize: 8 }}>
             Now I See Web3
           </span>
         </Link>

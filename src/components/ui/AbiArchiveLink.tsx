@@ -14,7 +14,7 @@ export function AbiArchiveLink() {
         color: "var(--muted)",
         fontSize: 12,
         padding: "4px 10px",
-        borderRadius: 0,
+        borderRadius: 9999,
         textDecoration: "none",
       }}
     >
