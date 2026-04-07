@@ -34,7 +34,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
         borderBottom: "1px solid var(--border)",
       }}
     >
-      <div style={{ color: "rgba(255,255,255,0.7)", fontSize: 12, marginBottom: 4, fontWeight: 400 }}>
+      <div style={{ color: "var(--muted)", fontSize: 12, marginBottom: 4, fontWeight: 400 }}>
         {label}
       </div>
       <div style={{ wordBreak: "break-all" }}>{children}</div>

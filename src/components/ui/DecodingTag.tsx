@@ -14,7 +14,7 @@ export function DecodingTag({ tagId }: Props) {
         padding: "2px 8px",
         fontSize: 11,
         fontWeight: 600,
-        borderRadius: 0,
+        borderRadius: 9999,
         background: config.bg,
         color: config.color,
         border: `1px solid ${config.border}`,

@@ -24,9 +24,10 @@ function ChainItem({
   return (
     <div
       style={{
-        padding: "8px 10px",
+        padding: "10px 12px",
         background: "var(--background)",
-        borderRadius: 0,
+        border: "1px solid var(--border)",
+        borderRadius: 12,
         fontSize: 13,
       }}
     >
@@ -166,13 +167,13 @@ function AddChainForm({
             disabled={fetching}
             style={{
               background: fetching ? "var(--muted)" : "var(--accent)",
-              color: "#000",
+              color: "var(--background)",
               border: "none",
               fontWeight: 600,
               fontSize: 12,
               padding: "0 12px",
               cursor: fetching ? "default" : "pointer",
-              borderRadius: 0,
+              borderRadius: 9999,
               whiteSpace: "nowrap",
             }}
           >
@@ -229,13 +230,13 @@ function AddChainForm({
         onClick={handleAdd}
         style={{
           background: "var(--accent)",
-          color: "#000",
+          color: "var(--background)",
           border: "none",
           fontWeight: 600,
           fontSize: 13,
           padding: "8px 0",
           cursor: "pointer",
-          borderRadius: 0,
+          borderRadius: 9999,
         }}
       >
         Add Chain
@@ -277,8 +278,8 @@ function Modal({ onClose, chains }: { onClose: () => void; chains: readonly Chai
     padding: "8px 0",
     background: "transparent",
     border: "none",
-    borderBottom: active ? "2px solid #ffffff" : "2px solid transparent",
-    color: active ? "#ffffff" : "var(--muted)",
+    borderBottom: active ? "2px solid var(--foreground)" : "2px solid transparent",
+    color: active ? "var(--foreground)" : "var(--muted)",
     fontWeight: active ? (600 as const) : (400 as const),
     fontSize: 13,
     cursor: "pointer" as const,
@@ -307,7 +308,7 @@ function Modal({ onClose, chains }: { onClose: () => void; chains: readonly Chai
           zIndex: 901,
           background: "var(--panel-header)",
           border: "1px solid var(--border)",
-          borderRadius: 0,
+          borderRadius: 12,
           width: "min(420px, calc(100vw - 32px))",
           maxHeight: "80vh",
           display: "flex",
@@ -353,10 +354,10 @@ function Modal({ onClose, chains }: { onClose: () => void; chains: readonly Chai
             <span
               style={{
                 fontSize: 11,
-                color: "#ffffff",
-                background: "rgba(255,255,255,0.05)",
-                border: "1px solid rgba(255,255,255,0.2)",
-                borderRadius: 0,
+                color: "var(--foreground)",
+                background: "var(--panel)",
+                border: "1px solid var(--border)",
+                borderRadius: 9999,
                 padding: "1px 8px",
               }}
             >
@@ -443,8 +444,6 @@ function Modal({ onClose, chains }: { onClose: () => void; chains: readonly Chai
                       color: "var(--muted)",
                       fontWeight: 600,
                       padding: "8px 0 4px",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.5px",
                     }}
                   >
                     Supported Chains ({filteredSupported.length})
@@ -478,8 +477,6 @@ function Modal({ onClose, chains }: { onClose: () => void; chains: readonly Chai
                       color: "var(--muted)",
                       fontWeight: 600,
                       padding: "12px 0 4px",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.5px",
                     }}
                   >
                     User Defined Chains ({filteredUser.length})
@@ -545,7 +542,7 @@ export function SupportedChainsPopup({ chains = defaultSupportedChains }: { chai
           display: "inline-flex",
           alignItems: "center",
           gap: 5,
-          borderRadius: 0,
+          borderRadius: 9999,
         }}
       >
         <svg

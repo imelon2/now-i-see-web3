@@ -31,7 +31,7 @@ export function ErrorDisplay({ kind = "generic", message }: ErrorDisplayProps) {
       style={{
         background: "rgba(248,81,73,0.06)",
         border: "1px solid rgba(248,81,73,0.3)",
-        borderRadius: 0,
+        borderRadius: 12,
         padding: "12px 16px",
       }}
     >

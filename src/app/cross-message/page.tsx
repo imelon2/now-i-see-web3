@@ -226,7 +226,7 @@ function WithdrawalProcessPanel({
                     }}
                   >
                     {state.done
-                      ? PHASE_ICONS.check("#0d1117")
+                      ? PHASE_ICONS.check("#ffffff")
                       : PHASE_ICONS[key](state.color)}
                   </div>
                   <span style={{
@@ -499,7 +499,7 @@ function CrossMessageContent() {
               style={{
                 display: "block",
                 fontSize: 12,
-                color: "rgba(255,255,255,0.7)",
+                color: "var(--muted)",
                 marginBottom: 6,
                 fontWeight: 400,
               }}
@@ -525,9 +525,9 @@ function CrossMessageContent() {
                 onClick={handleSearch}
                 disabled={loading}
                 style={{
-                  background: loading ? "rgba(255,255,255,0.3)" : "#ffffff",
-                  color: "#1f2228",
-                  border: "none",
+                  background: loading ? "var(--border)" : "var(--foreground)",
+                  color: "var(--background)",
+                  border: "1px solid var(--border)",
                   fontWeight: 400,
                   minWidth: 90,
                   transition: "background 0.15s",
@@ -541,7 +541,7 @@ function CrossMessageContent() {
                 style={{
                   marginTop: 8,
                   padding: "8px 12px",
-                  borderRadius: 0,
+                  borderRadius: 12,
                   background: "rgba(248,81,73,0.1)",
                   border: "1px solid rgba(248,81,73,0.25)",
                   display: "flex",

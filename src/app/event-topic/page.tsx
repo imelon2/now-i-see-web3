@@ -65,7 +65,7 @@ function TabButton({
         fontSize: 13,
         fontWeight: 400,
         border: "none",
-        borderBottom: active ? "2px solid #ffffff" : "2px solid transparent",
+        borderBottom: active ? "1px solid var(--foreground)" : "1px solid transparent",
         background: "transparent",
         color: active ? "var(--foreground)" : "var(--muted)",
         cursor: "pointer",
@@ -138,7 +138,7 @@ function ParamRow({
             <span
               style={{
                 fontSize: 13,
-                color: "#ffffff",
+                color: "var(--foreground)",
                 fontWeight: 400,
                 fontFamily: "var(--font-mono)",
               }}
@@ -150,7 +150,7 @@ function ParamRow({
               placeholder="[]"
               value={param.tupleArrayNotation}
               onChange={(e) => onChange({ ...param, tupleArrayNotation: e.target.value })}
-              style={{ width: 56, textAlign: "center", fontSize: 13, fontFamily: "var(--font-mono)" }}
+              style={{ width: 64, textAlign: "center", fontSize: 13, fontFamily: "var(--font-mono)", padding: "2px 5px", borderRadius: 12 }}
               title="Array notation for tuple: [], [5], [][], etc."
             />
           </>
@@ -172,9 +172,9 @@ function ParamRow({
             fontSize: 11,
             fontWeight: 400,
             border: "1px solid var(--border)",
-            borderRadius: 0,
-            background: param.isTuple ? "rgba(255,255,255,0.1)" : "transparent",
-            color: param.isTuple ? "#ffffff" : "var(--muted)",
+            borderRadius: 9999,
+            background: param.isTuple ? "var(--border)" : "transparent",
+            color: param.isTuple ? "var(--foreground)" : "var(--muted)",
             cursor: "pointer",
             transition: "background 0.15s, color 0.15s",
           }}
@@ -193,7 +193,7 @@ function ParamRow({
             background: "transparent",
             color: "var(--muted)",
             cursor: "pointer",
-            borderRadius: 4,
+            borderRadius: 9999,
             transition: "color 0.15s",
           }}
           onMouseEnter={(e) => (e.currentTarget.style.color = "var(--error)")}
@@ -229,10 +229,10 @@ function ParamRow({
               onClick={addComponent}
               style={{
                 fontSize: 12,
-                color: "#ffffff",
+                color: "var(--foreground)",
                 background: "transparent",
                 border: "1px solid var(--border)",
-                borderRadius: 0,
+                borderRadius: 9999,
                 padding: "4px 10px",
                 cursor: "pointer",
                 transition: "background 0.15s",
@@ -244,10 +244,10 @@ function ParamRow({
               onClick={addTupleComponent}
               style={{
                 fontSize: 12,
-                color: "#ffffff",
+                color: "var(--foreground)",
                 background: "transparent",
                 border: "1px solid var(--border)",
-                borderRadius: 0,
+                borderRadius: 9999,
                 padding: "4px 10px",
                 cursor: "pointer",
                 transition: "background 0.15s",
@@ -387,7 +387,7 @@ export default function EventSelectorPage() {
                   style={{
                     display: "block",
                     fontSize: 12,
-                    color: "rgba(255,255,255,0.7)",
+                    color: "var(--muted)",
                     marginBottom: 6,
                     fontWeight: 400,
                   }}
@@ -418,7 +418,7 @@ export default function EventSelectorPage() {
                     style={{
                       display: "block",
                       fontSize: 12,
-                      color: "rgba(255,255,255,0.7)",
+                      color: "var(--muted)",
                       marginBottom: 6,
                       fontWeight: 400,
                     }}
@@ -445,7 +445,7 @@ export default function EventSelectorPage() {
                     style={{
                       display: "block",
                       fontSize: 12,
-                      color: "rgba(255,255,255,0.7)",
+                      color: "var(--muted)",
                       marginBottom: 8,
                       fontWeight: 400,
                     }}
@@ -473,10 +473,10 @@ export default function EventSelectorPage() {
                       onClick={() => setParams([...params, createParam()])}
                       style={{
                         fontSize: 13,
-                        color: "#ffffff",
+                        color: "var(--foreground)",
                         background: "transparent",
                         border: "1px solid var(--border)",
-                        borderRadius: 0,
+                        borderRadius: 9999,
                         padding: "6px 14px",
                         cursor: "pointer",
                         transition: "background 0.15s",
@@ -488,10 +488,10 @@ export default function EventSelectorPage() {
                       onClick={() => setParams([...params, createTupleParam()])}
                       style={{
                         fontSize: 13,
-                        color: "#ffffff",
+                        color: "var(--foreground)",
                         background: "transparent",
                         border: "1px solid var(--border)",
-                        borderRadius: 0,
+                        borderRadius: 9999,
                         padding: "6px 14px",
                         cursor: "pointer",
                         transition: "background 0.15s",
@@ -510,7 +510,7 @@ export default function EventSelectorPage() {
                 style={{
                   marginTop: 10,
                   padding: "8px 12px",
-                  borderRadius: 4,
+                  borderRadius: 12,
                   background: "rgba(248,81,73,0.1)",
                   border: "1px solid rgba(248,81,73,0.25)",
                   display: "flex",
@@ -541,7 +541,7 @@ export default function EventSelectorPage() {
               <div
                 style={{
                   fontSize: 12,
-                  color: "rgba(255,255,255,0.7)",
+                  color: "var(--muted)",
                   marginBottom: 6,
                   fontWeight: 400,
                 }}
@@ -571,7 +571,7 @@ export default function EventSelectorPage() {
               <div
                 style={{
                   fontSize: 12,
-                  color: "rgba(255,255,255,0.7)",
+                  color: "var(--muted)",
                   marginBottom: 6,
                   fontWeight: 400,
                 }}
@@ -583,7 +583,7 @@ export default function EventSelectorPage() {
                   style={{
                     fontSize: 16,
                     fontWeight: 400,
-                    color: computed.selector ? "#ffffff" : "var(--muted)",
+                    color: computed.selector ? "var(--foreground)" : "var(--muted)",
                     fontFamily: "var(--font-mono)",
                     letterSpacing: "0.02em",
                     transition: "color 0.15s",

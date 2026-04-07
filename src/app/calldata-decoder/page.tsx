@@ -79,7 +79,7 @@ export default function CalldataDecoderPage() {
                 style={{
                   display: "block",
                   fontSize: 12,
-                  color: "rgba(255,255,255,0.7)",
+                  color: "var(--muted)",
                   marginBottom: 6,
                   fontWeight: 400,
                 }}
@@ -99,7 +99,7 @@ export default function CalldataDecoderPage() {
                   style={{
                     marginTop: 8,
                     padding: "8px 12px",
-                    borderRadius: 0,
+                    borderRadius: 12,
                     background: "rgba(248,81,73,0.1)",
                     border: "1px solid rgba(248,81,73,0.25)",
                     display: "flex",
@@ -123,9 +123,9 @@ export default function CalldataDecoderPage() {
                   onClick={handleDecode}
                   disabled={status === "decoding" || !!validationError}
                   style={{
-                    background: status === "decoding" ? "rgba(255,255,255,0.3)" : "#ffffff",
-                    color: "#1f2228",
-                    border: "none",
+                    background: status === "decoding" ? "var(--border)" : "var(--foreground)",
+                    color: "var(--background)",
+                    border: "1px solid var(--border)",
                     fontWeight: 400,
                     minWidth: 90,
                     transition: "background 0.15s",
@@ -155,7 +155,7 @@ export default function CalldataDecoderPage() {
                 with <code style={{ fontSize: 12 }}>0x</code> (minimum 4 bytes / 10 characters) into the input
                 above and press <strong style={{ color: "var(--foreground)" }}>Decode</strong>.
               </p>
-              <a href="/docs/calldata-decoder" style={{ color: "#ffffff", fontSize: 13, textDecoration: "none" }}>Full Guide →</a>
+              <a href="/docs/calldata-decoder" style={{ color: "var(--foreground)", fontSize: 13, textDecoration: "none" }}>Full Guide →</a>
             </div>
           </DetailsToggle>
 
