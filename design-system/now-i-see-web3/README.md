@@ -1,6 +1,6 @@
-# xAI Inspired Design System
+# Ollama Inspired Design System
 
-[DESIGN.md](https://github.com/VoltAgent/awesome-design-md/blob/main/design-md/x.ai/DESIGN.md) extracted from the public [xai](https://x.ai/) website. This is not the official design system. Colors, fonts, and spacing may not be 100% accurate. But it's a good starting point for building something similar.
+[DESIGN.md](https://github.com/VoltAgent/awesome-design-md/blob/main/design-md/ollama/DESIGN.md) extracted from the public [Ollama](https://ollama.com/) website. This is not the official design system. Colors, fonts, and spacing may not be 100% accurate. But it's a good starting point for building something similar.
 
 ## Files
 
@@ -11,14 +11,14 @@
 | `preview-dark.html` | Interactive design token catalog (dark) |
 
 
-Use [DESIGN.md](https://github.com/VoltAgent/awesome-design-md/blob/main/design-md/x.ai/DESIGN.md) to use as a reference for AI agents (Claude, Cursor, Stitch) to generate UI that looks like the xAI design language.
+Use [DESIGN.md](https://github.com/VoltAgent/awesome-design-md/blob/main/design-md/ollama/DESIGN.md) to use as a reference for AI agents (Claude, Cursor, Stitch) to generate UI that looks like the Ollama design language.
 
 ## Preview
 
 A sample landing page built with DESIGN.md. It shows the actual colors, typography, buttons, cards, spacing, and elevation, all in one page.
 
 ### Dark Mode
-![xAI Design System — Dark Mode](https://pub-2e4ecbcbc9b24e7b93f1a6ab5b2bc71f.r2.dev/designs/x.ai/preview-dark-screenshot.png)
+![Ollama Design System — Dark Mode](https://pub-2e4ecbcbc9b24e7b93f1a6ab5b2bc71f.r2.dev/designs/ollama/preview-dark-screenshot.png)
 
 ### Light Mode
-![xAI Design System — Light Mode](https://pub-2e4ecbcbc9b24e7b93f1a6ab5b2bc71f.r2.dev/designs/x.ai/preview-screenshot.png)
+![Ollama Design System — Light Mode](https://pub-2e4ecbcbc9b24e7b93f1a6ab5b2bc71f.r2.dev/designs/ollama/preview-screenshot.png)

@@ -42,8 +42,12 @@ const dkargo = defineChain({
   },
 });
 
+/**
+ * L2 allowlist for OP Stack withdrawal (cross message) detection.
+ * Only transactions on these chains are eligible for the Withdrawal UI.
+ */
 export const crossMessageChains = [
-  sepolia,
+  optimism,
   optimismSepolia,
 ] as const;
 
@@ -52,7 +56,7 @@ export type CrossMessageChain = (typeof crossMessageChains)[number];
 /** Find the L1 chain paired with a given L2 chain via sourceId */
 export function getL1Chain(l2Chain: Chain): Chain | undefined {
   if (!("sourceId" in l2Chain) || typeof l2Chain.sourceId !== "number") return undefined;
-  return crossMessageChains.find((c) => c.id === l2Chain.sourceId);
+  return supportedChains.find((c) => c.id === l2Chain.sourceId);
 }
 
 export const supportedChains = [

@@ -238,6 +238,10 @@ button:disabled {
   animation: px-dust-r 0.55s ease-in-out infinite;
 }
 
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 @keyframes px-bounce {
   0%   { transform: translateY(0px)   scaleX(1.15) scaleY(0.82); }
   8%   { transform: translateY(-2px)  scaleX(1)    scaleY(1); }

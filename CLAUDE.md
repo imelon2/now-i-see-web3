@@ -15,29 +15,6 @@ The brand uses an all-grayscale palette with no warm/cold hues.
 | Brand name | `#ffffff` | "Now I See Web3" (white, high contrast on dark bg) |
 | Subtitle | `var(--muted)` = `#8b949e` | "on-chain data analyzer" |
 
-#### AnimatedEyes Pixel Art (5-level gray scale)
-| Level | Color | Role |
-|-------|-------|------|
-| 1 — Dark | `#383838` | Outline, ground shadow |
-| 2 — Medium-dark | `#555555` | Pupil |
-| 3 — Medium | `#888888` | Iris |
-| 4 — Light | `#c8c8c8` | Sclera (white of eye) |
-| 5 — Near-white | `#e0e0e0` | Highlight/shine |
-| Dust | `#909090` | Dust particle effect |
-
-#### App Theme Colors (from `src/app/globals.css`)
-| Variable | Value | Usage |
-|----------|-------|-------|
-| `--background` | `#0d1117` | Page background |
-| `--foreground` | `#e6edf3` | Body text |
-| `--muted` | `#8b949e` | Secondary text |
-| `--border` | `#30363d` | Borders |
-| `--panel` | `#161b22` | Panel background |
-| `--panel-header` | `#21262d` | Panel header, NavBar sidebar |
-| `--accent` | `#58a6ff` | Active nav, focus rings |
-| `--success` | `#3fb950` | Success states |
-| `--error` | `#f85149` | Error states |
-| `--warning` | `#d29922` | Warning states |
 
 ### Brand Do's and Don'ts
 - **Do** use `#ffffff` or `var(--foreground)` for the brand name

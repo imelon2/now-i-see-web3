@@ -17,20 +17,6 @@ const ANALYZER_LINKS = [
       </svg>
     ),
   },
-  {
-    href: "/cross-message",
-    label: "Cross Message",
-    icon: (
-      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="1,4 6,4 8,2 10,4 15,4" />
-        <polyline points="1,12 6,12 8,14 10,12 15,12" />
-        <line x1="4" y1="4" x2="4" y2="8" />
-        <polyline points="2,6 4,8 6,6" />
-        <line x1="12" y1="8" x2="12" y2="12" />
-        <polyline points="10,10 12,8 14,10" />
-      </svg>
-    ),
-  },
 ];
 
 const DECODER_LINKS = [

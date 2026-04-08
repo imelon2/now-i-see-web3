@@ -1,257 +1,267 @@
-# Design System: xAI
+# Design System Inspiration of Ollama
 
 ## 1. Visual Theme & Atmosphere
 
-xAI's website is a masterclass in dark-first, monospace-driven brutalist minimalism -- a design system that feels like it was built by engineers who understand that restraint is the ultimate form of sophistication. The entire experience is anchored to an almost-black background (`#1f2228`) with pure white text (`#ffffff`), creating a high-contrast, terminal-inspired aesthetic that signals deep technical credibility. There are no gradients, no decorative illustrations, no color accents competing for attention. This is a site that communicates through absence.
+Ollama's interface is radical minimalism taken to its logical conclusion — a pure-white void where content floats without decoration, shadow, or color. The design philosophy mirrors the product itself: strip away everything unnecessary until only the essential tool remains. This is the digital equivalent of a Dieter Rams object — every pixel earns its place, and the absence of design IS the design.
 
-The typographic system is split between two carefully chosen typefaces. `GeistMono` (Vercel's monospace font) handles display-level headlines at an extraordinary 320px with weight 300, and also serves as the button typeface in uppercase with tracked-out letter-spacing (1.4px). `universalSans` handles all body and secondary heading text with a clean, geometric sans-serif voice. The monospace-as-display-font choice is the defining aesthetic decision -- it positions xAI not as a consumer product but as infrastructure, as something built by people who live in terminals.
+The entire page exists in pure grayscale. There is zero chromatic color in the interface — no brand blue, no accent green, no semantic red. The only colors that exist are shades between pure black (`#000000`) and pure white (`#ffffff`), creating a monochrome environment that lets the user's mental model of "open models" remain uncolored by brand opinion. The Ollama llama mascot, rendered in simple black line art, is the only illustration — and even it's monochrome.
 
-The spacing system operates on an 8px base grid with values concentrated at the small end (4px, 8px, 24px, 48px), reflecting a dense, information-focused layout philosophy. Border radius is minimal -- the site barely rounds anything, maintaining sharp, architectural edges. There are no decorative shadows, no gradients, no layered elevation. Depth is communicated purely through contrast and whitespace.
+What makes Ollama distinctive is the combination of SF Pro Rounded (Apple's rounded system font) with an exclusively pill-shaped geometry (9999px radius on everything interactive). The rounded letterforms + rounded buttons + rounded containers create a cohesive "softness language" that makes a developer CLI tool feel approachable and friendly rather than intimidating. This is minimalism with warmth — not cold Swiss-style grid minimalism, but the kind where the edges are literally softened.
 
 **Key Characteristics:**
-- Pure dark theme: `#1f2228` background with `#ffffff` text -- no gray middle ground
-- GeistMono at extreme display sizes (320px, weight 300) -- monospace as luxury
-- Uppercase monospace buttons with 1.4px letter-spacing -- technical, commanding
-- universalSans for body text at 16px/1.5 and headings at 30px/1.2 -- clean contrast
-- Zero decorative elements: no shadows, no gradients, no colored accents
-- 8px spacing grid with a sparse, deliberate scale
-- Heroicons SVG icon system -- minimal, functional
-- Tailwind CSS with arbitrary values -- utility-first engineering approach
+- Pure white canvas with zero chromatic color — completely grayscale
+- SF Pro Rounded headlines creating a distinctively Apple-like softness
+- Binary border-radius system: 12px (containers) or 9999px (everything interactive)
+- Zero shadows — depth comes exclusively from background color shifts and borders
+- Pill-shaped geometry on all interactive elements (buttons, tabs, inputs, tags)
+- The Ollama llama as the sole illustration — black line art, no color
+- Extreme content restraint — the homepage is short, focused, and uncluttered
 
 ## 2. Color Palette & Roles
 
 ### Primary
-- **Pure White** (`#ffffff`): The singular text color, link color, and all foreground elements. In xAI's system, white is not a background -- it is the voice.
-- **Dark Background** (`#1f2228`): The canvas. A warm near-black with a subtle blue undertone (not pure black, not neutral gray). This specific hue prevents the harsh eye strain of `#000000` while maintaining deep darkness.
+- **Pure Black** (`#000000`): Primary headlines, primary links, and the darkest text. The only "color" that demands attention.
+- **Near Black** (`#262626`): Button text on light surfaces, secondary headline weight.
+- **Darkest Surface** (`#090909`): The darkest possible surface — barely distinguishable from pure black, used for footer or dark containers.
 
-### Interactive
-- **White Default** (`#ffffff`): Link and interactive element color in default state.
-- **White Muted** (`rgba(255, 255, 255, 0.5)`): Hover state for links -- a deliberate dimming rather than brightening, which is unusual and distinctive.
-- **White Subtle** (`rgba(255, 255, 255, 0.2)`): Borders, dividers, and subtle surface treatments.
-- **Ring Blue** (`rgb(59, 130, 246) / 0.5`): Tailwind's default focus ring color (`--tw-ring-color`), used for keyboard accessibility focus states.
+### Surface & Background
+- **Pure White** (`#ffffff`): The primary page background — not off-white, not cream, pure white. Button surfaces for secondary actions.
+- **Snow** (`#fafafa`): The subtlest possible surface distinction from white — used for section backgrounds and barely-elevated containers.
+- **Light Gray** (`#e5e5e5`): Button backgrounds, borders, and the primary containment color. The workhorse neutral.
 
-### Surface & Borders
-- **Surface Elevated** (`rgba(255, 255, 255, 0.05)`): Subtle card backgrounds and hover surfaces -- barely visible lift.
-- **Surface Hover** (`rgba(255, 255, 255, 0.08)`): Slightly more visible hover state for interactive containers.
-- **Border Default** (`rgba(255, 255, 255, 0.1)`): Standard border for cards, dividers, and containers.
-- **Border Strong** (`rgba(255, 255, 255, 0.2)`): Emphasized borders for active states and button outlines.
+### Neutrals & Text
+- **Stone** (`#737373`): Secondary body text, footer links, and de-emphasized content. The primary "muted" tone.
+- **Mid Gray** (`#525252`): Emphasized secondary text, slightly darker than Stone.
+- **Silver** (`#a3a3a3`): Tertiary text, placeholders, and deeply de-emphasized metadata.
+- **Button Text Dark** (`#404040`): Specific to white-surface button text.
 
-### Functional
-- **Text Primary** (`#ffffff`): All headings, body text, labels.
-- **Text Secondary** (`rgba(255, 255, 255, 0.7)`): Descriptions, captions, supporting text.
-- **Text Tertiary** (`rgba(255, 255, 255, 0.5)`): Muted labels, placeholder text, timestamps.
-- **Text Quaternary** (`rgba(255, 255, 255, 0.3)`): Disabled text, very subtle annotations.
+### Semantic & Accent
+- **Ring Blue** (`#3b82f6` at 50%): The ONLY non-gray color in the entire system — Tailwind's default focus ring, used exclusively for keyboard accessibility. Never visible in normal interaction flow.
+- **Border Light** (`#d4d4d4`): A slightly darker gray for white-surface button borders.
+
+### Gradient System
+- **None.** Ollama uses absolutely no gradients. Visual separation comes from flat color blocks and single-pixel borders. This is a deliberate, almost philosophical design choice.
 
 ## 3. Typography Rules
 
 ### Font Family
-- **Display / Buttons**: `GeistMono`, with fallback: `ui-monospace, SFMono-Regular, Roboto Mono, Menlo, Monaco, Liberation Mono, DejaVu Sans Mono, Courier New`
-- **Body / Headings**: `universalSans`, with fallback: `universalSans Fallback`
+- **Display**: `SF Pro Rounded`, with fallbacks: `system-ui, -apple-system, system-ui`
+- **Body / UI**: `ui-sans-serif`, with fallbacks: `system-ui, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji`
+- **Monospace**: `ui-monospace`, with fallbacks: `SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New`
+
+*Note: SF Pro Rounded is Apple's system font — it renders with rounded terminals on macOS/iOS and falls back to the system sans-serif on other platforms.*
 
 ### Hierarchy
 
-| Role | Font | Size | Weight | Line Height | Letter Spacing | Transform | Notes |
-|------|------|------|--------|-------------|----------------|-----------|-------|
-| Display Hero | GeistMono | 320px (20rem) | 300 | 1.50 | normal | none | Extreme scale, monospace luxury |
-| Section Heading | universalSans | 30px (1.88rem) | 400 | 1.20 (tight) | normal | none | Clean sans-serif contrast |
-| Body | universalSans | 16px (1rem) | 400 | 1.50 | normal | none | Standard reading text |
-| Button | GeistMono | 14px (0.88rem) | 400 | 1.43 | 1.4px | uppercase | Tracked monospace, commanding |
-| Label / Caption | universalSans | 14px (0.88rem) | 400 | 1.50 | normal | none | Supporting text |
-| Small / Meta | universalSans | 12px (0.75rem) | 400 | 1.50 | normal | none | Timestamps, footnotes |
+| Role | Font | Size | Weight | Line Height | Letter Spacing | Notes |
+|------|------|------|--------|-------------|----------------|-------|
+| Display / Hero | SF Pro Rounded | 48px (3rem) | 500 | 1.00 (tight) | normal | Maximum impact, rounded letterforms |
+| Section Heading | SF Pro Rounded | 36px (2.25rem) | 500 | 1.11 (tight) | normal | Feature section titles |
+| Sub-heading | SF Pro Rounded / ui-sans-serif | 30px (1.88rem) | 400–500 | 1.20 (tight) | normal | Card headings, feature names |
+| Card Title | ui-sans-serif | 24px (1.5rem) | 400 | 1.33 | normal | Medium emphasis headings |
+| Body Large | ui-sans-serif | 18px (1.13rem) | 400–500 | 1.56 | normal | Hero descriptions, button text |
+| Body / Link | ui-sans-serif | 16px (1rem) | 400–500 | 1.50 | normal | Standard body text, navigation |
+| Caption | ui-sans-serif | 14px (0.88rem) | 400 | 1.43 | normal | Metadata, descriptions |
+| Small | ui-sans-serif | 12px (0.75rem) | 400 | 1.33 | normal | Smallest sans-serif text |
+| Code Body | ui-monospace | 16px (1rem) | 400 | 1.50 | normal | Inline code, commands |
+| Code Caption | ui-monospace | 14px (0.88rem) | 400 | 1.43 | normal | Code snippets, secondary |
+| Code Small | ui-monospace | 12px (0.75rem) | 400–700 | 1.63 | normal | Tags, labels |
 
 ### Principles
-- **Monospace as display**: GeistMono at 320px is not a gimmick -- it is the brand statement. The fixed-width characters at extreme scale create a rhythmic, architectural quality that no proportional font can achieve.
-- **Light weight at scale**: Weight 300 for the 320px headline prevents the monospace from feeling heavy or brutish at extreme sizes. It reads as precise, not overwhelming.
-- **Uppercase buttons**: All button text is uppercase GeistMono with 1.4px letter-spacing. This creates a distinctly technical, almost command-line aesthetic for interactive elements.
-- **Sans-serif for reading**: universalSans at 16px/1.5 provides excellent readability for body content, creating a clean contrast against the monospace display elements.
-- **Two-font clarity**: The system uses exactly two typefaces with clear roles -- monospace for impact and interaction, sans-serif for information and reading. No overlap, no ambiguity.
+- **Rounded display, standard body**: SF Pro Rounded carries display headlines with its distinctive rounded terminals, while the standard system sans handles all body text. The rounded font IS the brand expression.
+- **Weight restraint**: Only two weights matter — 400 (regular) for body and 500 (medium) for headings. No bold, no light, no black weight. This extreme restraint reinforces the minimal philosophy.
+- **Tight display, comfortable body**: Headlines compress to 1.0 line-height, while body text relaxes to 1.43–1.56. The contrast creates clear hierarchy without needing weight contrast.
+- **Monospace for developer identity**: Code blocks and terminal commands appear throughout as primary content, using the system monospace stack.
 
 ## 4. Component Stylings
 
 ### Buttons
 
-**Primary (White on Dark)**
-- Background: `#ffffff`
-- Text: `#1f2228`
-- Padding: 12px 24px
-- Radius: 0px (sharp corners)
-- Font: GeistMono 14px weight 400, uppercase, letter-spacing 1.4px
-- Hover: `rgba(255, 255, 255, 0.9)` background
-- Use: Primary CTA ("TRY GROK", "GET STARTED")
+**Gray Pill (Primary)**
+- Background: Light Gray (`#e5e5e5`)
+- Text: Near Black (`#262626`)
+- Padding: 10px 24px
+- Border: thin solid Light Gray (`1px solid #e5e5e5`)
+- Radius: pill-shaped (9999px)
+- The primary action button — understated, grayscale, always pill-shaped
 
-**Ghost / Outlined**
-- Background: transparent
-- Text: `#ffffff`
-- Padding: 12px 24px
-- Radius: 0px
-- Border: `1px solid rgba(255, 255, 255, 0.2)`
-- Font: GeistMono 14px weight 400, uppercase, letter-spacing 1.4px
-- Hover: `rgba(255, 255, 255, 0.05)` background
-- Use: Secondary actions ("LEARN MORE", "VIEW API")
+**White Pill (Secondary)**
+- Background: Pure White (`#ffffff`)
+- Text: Button Text Dark (`#404040`)
+- Padding: 10px 24px
+- Border: thin solid Border Light (`1px solid #d4d4d4`)
+- Radius: pill-shaped (9999px)
+- Secondary action — visually lighter than Gray Pill
 
-**Text Link**
-- Background: none
-- Text: `#ffffff`
-- Font: universalSans 16px weight 400
-- Hover: `rgba(255, 255, 255, 0.5)` -- dims on hover
-- Use: Inline links, navigation items
+**Black Pill (CTA)**
+- Background: Pure Black (`#000000`)
+- Text: Pure White (`#ffffff`)
+- Radius: pill-shaped (9999px)
+- Inferred from "Create account" and "Explore" buttons
+- Maximum emphasis — black on white
 
 ### Cards & Containers
-- Background: `rgba(255, 255, 255, 0.03)` or transparent
-- Border: `1px solid rgba(255, 255, 255, 0.1)`
-- Radius: 0px (sharp) or 4px (subtle)
-- Shadow: none -- xAI does not use box shadows
-- Hover: border shifts to `rgba(255, 255, 255, 0.2)`
-
-### Navigation
-- Dark background matching page (`#1f2228`)
-- Brand logotype: white text, left-aligned
-- Links: universalSans 14px weight 400, `#ffffff` text
-- Hover: `rgba(255, 255, 255, 0.5)` text color
-- CTA: white primary button, right-aligned
-- Mobile: hamburger toggle
-
-### Badges / Tags
-**Monospace Tag**
-- Background: transparent
-- Text: `#ffffff`
-- Padding: 4px 8px
-- Border: `1px solid rgba(255, 255, 255, 0.2)`
-- Radius: 0px
-- Font: GeistMono 12px uppercase, letter-spacing 1px
+- Background: Pure White or Snow (`#fafafa`)
+- Border: thin solid Light Gray (`1px solid #e5e5e5`) when needed
+- Radius: comfortably rounded (12px) — the ONLY non-pill radius in the system
+- Shadow: **none** — zero shadows on any element
+- Hover: likely subtle background shift or border darkening
 
 ### Inputs & Forms
-- Background: transparent or `rgba(255, 255, 255, 0.05)`
-- Border: `1px solid rgba(255, 255, 255, 0.2)`
-- Radius: 0px
-- Focus: ring with `rgb(59, 130, 246) / 0.5`
-- Text: `#ffffff`
-- Placeholder: `rgba(255, 255, 255, 0.3)`
-- Label: `rgba(255, 255, 255, 0.7)`, universalSans 14px
+- Background: Pure White
+- Border: `1px solid #e5e5e5`
+- Radius: pill-shaped (9999px) — search inputs and form fields are pill-shaped
+- Focus: Ring Blue (`#3b82f6` at 50%) ring
+- Placeholder: Silver (`#a3a3a3`)
+
+### Navigation
+- Clean horizontal nav with minimal elements
+- Logo: Ollama llama icon + wordmark in black
+- Links: "Models", "Docs", "Pricing" in black at 16px, weight 400
+- Search bar: pill-shaped with placeholder text
+- Right side: "Sign in" link + "Download" black pill CTA
+- No borders, no background — transparent nav on white page
+
+### Image Treatment
+- The Ollama llama mascot is the only illustration — black line art on white
+- Code screenshots/terminal outputs shown in bordered containers (12px radius)
+- Integration logos displayed as simple icons in a grid
+- No photographs, no gradients, no decorative imagery
+
+### Distinctive Components
+
+**Tab Pills**
+- Pill-shaped tab selectors (e.g., "Coding" | "OpenClaw")
+- Active: Light Gray bg; Inactive: transparent
+- All pill-shaped (9999px)
+
+**Model Tags**
+- Small pill-shaped tags (e.g., "ollama", "launch", "claude")
+- Light Gray background, dark text
+- The primary way to browse models
+
+**Terminal Command Block**
+- Monospace code showing `ollama run` commands
+- Minimal styling — just a bordered 12px-radius container
+- Copy button integrated
+
+**Integration Grid**
+- Grid of integration logos (Codex, Claude Code, OpenCode, LangChain, etc.)
+- Each in a bordered pill or card with icon + name
+- Tabbed by category (Coding, Documents & RAG, Automation, Chat)
 
 ## 5. Layout Principles
 
 ### Spacing System
 - Base unit: 8px
-- Scale: 4px, 8px, 24px, 48px
-- The scale is deliberately sparse -- xAI avoids granular spacing distinctions, preferring large jumps that create clear visual hierarchy through whitespace alone
+- Scale: 4px, 6px, 8px, 9px, 10px, 12px, 14px, 16px, 20px, 24px, 32px, 40px, 48px, 88px, 112px
+- Button padding: 10px 24px (consistent across all buttons)
+- Card internal padding: approximately 24–32px
+- Section vertical spacing: very generous (88px–112px)
 
 ### Grid & Container
-- Max content width: approximately 1200px
-- Hero: full-viewport height with massive centered monospace headline
-- Feature sections: simple vertical stacking with generous section padding (48px-96px)
-- Two-column layouts for feature descriptions at desktop
-- Full-width dark sections maintain the single dark background throughout
+- Max container width: approximately 1024–1280px, centered
+- Hero: centered single-column with llama illustration
+- Feature sections: 2-column layout (text left, code right)
+- Integration grid: responsive multi-column
+- Footer: clean single-row
 
 ### Whitespace Philosophy
-- **Extreme generosity**: xAI uses vast amounts of whitespace. The 320px headline with 48px+ surrounding padding creates a sense of emptiness that is itself a design statement -- the content is so important it needs room to breathe.
-- **Vertical rhythm over horizontal density**: Content stacks vertically with large gaps between sections rather than packing horizontally. This creates a scroll-driven experience that feels deliberate and cinematic.
-- **No visual noise**: The absence of decorative elements, borders between sections, and color variety means whitespace is the primary structural tool.
-
-### Breakpoints
-- 2000px, 1536px, 1280px, 1024px, 1000px, 768px, 640px
-- Tailwind responsive modifiers drive breakpoint behavior
+- **Emptiness as luxury**: The page is remarkably short and sparse — no feature section overstays its welcome. Each concept gets minimal but sufficient space.
+- **Content density is low by design**: Where other AI companies pack feature after feature, Ollama presents three ideas (run models, use with apps, integrations) and stops.
+- **The white space IS the brand**: Pure white space with zero decoration communicates "this tool gets out of your way."
 
 ### Border Radius Scale
-- Sharp (0px): Primary treatment for buttons, cards, inputs -- the default
-- Subtle (4px): Occasional softening on secondary containers
-- The near-zero radius philosophy is core to the brand's brutalist identity
+- Comfortably rounded (12px): The sole container radius — code blocks, cards, panels
+- Pill-shaped (9999px): Everything interactive — buttons, tabs, inputs, tags, badges
+
+*This binary system is extreme and distinctive. There is no 4px, no 8px, no gradient of roundness. Elements are either containers (12px) or interactive (pill).*
 
 ## 6. Depth & Elevation
 
 | Level | Treatment | Use |
 |-------|-----------|-----|
-| Flat (Level 0) | No shadow, no border | Page background, body content |
-| Surface (Level 1) | `rgba(255,255,255,0.03)` background | Subtle card surfaces |
-| Bordered (Level 2) | `1px solid rgba(255,255,255,0.1)` border | Cards, containers, dividers |
-| Active (Level 3) | `1px solid rgba(255,255,255,0.2)` border | Hover states, active elements |
-| Focus (Accessibility) | `ring` with `rgb(59,130,246)/0.5` | Keyboard focus indicator |
+| Flat (Level 0) | No shadow, no border | Page background, most content |
+| Bordered (Level 1) | `1px solid #e5e5e5` | Cards, code blocks, buttons |
 
-**Elevation Philosophy**: xAI rejects the conventional shadow-based elevation system entirely. There are no box-shadows anywhere on the site. Instead, depth is communicated through three mechanisms: (1) opacity-based borders that brighten on interaction, creating a sense of elements "activating" rather than lifting; (2) extremely subtle background opacity shifts (`0.03` to `0.08`) that create barely-perceptible surface differentiation; and (3) the massive scale contrast between the 320px display type and 16px body text, which creates typographic depth. This is elevation through contrast and opacity, not through simulated light and shadow.
+**Shadow Philosophy**: Ollama uses **zero shadows**. This is not an oversight — it's a deliberate design decision. Every other major AI product site uses at least subtle shadows. Ollama's flat, shadowless approach creates a paper-like experience where elements are distinguished purely by background color and single-pixel borders. Depth is communicated through **content hierarchy and typography weight**, not visual layering.
 
 ## 7. Do's and Don'ts
 
 ### Do
-- Use `#1f2228` as the universal background -- never pure black `#000000`
-- Use GeistMono for all display headlines and button text -- monospace IS the brand
-- Apply uppercase + 1.4px letter-spacing to all button labels
-- Use weight 300 for the massive display headline (320px)
-- Keep borders at `rgba(255, 255, 255, 0.1)` -- barely visible, not absent
-- Dim interactive elements on hover to `rgba(255, 255, 255, 0.5)` -- the reverse of convention
-- Maintain sharp corners (0px radius) as the default -- brutalist precision
-- Use universalSans for all body and reading text at 16px/1.5
+- Use pure white (`#ffffff`) as the page background — never off-white or cream
+- Use pill-shaped (9999px) radius on all interactive elements — buttons, tabs, inputs, tags
+- Use 12px radius on all non-interactive containers — code blocks, cards, panels
+- Keep the palette strictly grayscale — no chromatic colors except the blue focus ring
+- Use SF Pro Rounded at weight 500 for display headings — the rounded terminals are the brand expression
+- Maintain zero shadows — depth comes from borders and background shifts only
+- Keep content density low — each section should present one clear idea
+- Use monospace for terminal commands and code — it's primary content, not decoration
+- Keep all buttons at 10px 24px padding with pill shape — consistency is absolute
 
 ### Don't
-- Don't use box-shadows -- xAI has zero shadow elevation
-- Don't introduce color accents beyond white and the dark background -- the monochromatic palette is sacred
-- Don't use large border-radius (8px+, pill shapes) -- the sharp edge is intentional
-- Don't use bold weights (600-700) for headlines -- weight 300-400 only
-- Don't brighten elements on hover -- xAI dims to `0.5` opacity instead
-- Don't add decorative gradients, illustrations, or color blocks
-- Don't use proportional fonts for buttons -- GeistMono uppercase is mandatory
-- Don't use colored status indicators unless absolutely necessary -- keep everything in the white/dark spectrum
+- Don't introduce any chromatic color — no brand blue, no accent green, no warm tones
+- Don't use border-radius between 12px and 9999px — the system is binary
+- Don't add shadows to any element — the flat aesthetic is intentional
+- Don't use font weights above 500 — no bold, no black weight
+- Don't add decorative illustrations beyond the llama mascot
+- Don't use gradients anywhere — flat blocks and borders only
+- Don't overcomplicate the layout — two columns maximum, no complex grids
+- Don't use borders heavier than 1px — containment is always the lightest possible touch
+- Don't add hover animations or transitions — interactions should feel instant and direct
 
 ## 8. Responsive Behavior
 
 ### Breakpoints
 | Name | Width | Key Changes |
 |------|-------|-------------|
-| Mobile | <640px | Single column, hero headline scales dramatically down |
-| Small Tablet | 640-768px | Slight increase in padding |
-| Tablet | 768-1024px | Two-column layouts begin, heading sizes increase |
-| Desktop | 1024-1280px | Full layout, generous whitespace |
-| Large | 1280-1536px | Wider containers, more breathing room |
-| Extra Large | 1536-2000px | Maximum content width, centered |
-| Ultra | >2000px | Content stays centered, extreme margins |
+| Mobile | <640px | Single column, stacked everything, hamburger nav |
+| Small Tablet | 640–768px | Minor adjustments to spacing |
+| Tablet | 768–850px | 2-column layouts begin |
+| Desktop | 850–1024px | Standard layout, expanded features |
+| Large Desktop | 1024–1280px | Maximum content width |
 
 ### Touch Targets
-- Buttons use 12px 24px padding for comfortable touch
-- Navigation links spaced with 24px gaps
-- Minimum tap target: 44px height
-- Mobile: full-width buttons for easy thumb reach
+- All buttons are pill-shaped with generous padding (10px 24px)
+- Navigation links at comfortable 16px size
+- Minimum touch area easily exceeds 44x44px
 
 ### Collapsing Strategy
-- Hero: 320px monospace headline scales down dramatically (to ~48px-64px on mobile)
-- Navigation: horizontal links collapse to hamburger menu
-- Feature sections: two-column to single-column stacking
-- Section padding: 96px -> 48px -> 24px across breakpoints
-- Massive display type is the first thing to resize -- it must remain impactful but not overflow
+- **Navigation**: Collapses to hamburger menu on mobile
+- **Feature sections**: 2-column → stacked single column
+- **Hero text**: 48px → 36px → 30px progressive scaling
+- **Integration grid**: Multi-column → 2-column → single column
+- **Code blocks**: Horizontal scroll maintained
 
 ### Image Behavior
-- Minimal imagery -- the site relies on typography and whitespace
-- Any product screenshots maintain sharp corners
-- Full-width media scales proportionally with viewport
+- Llama mascot scales proportionally
+- Code blocks maintain monospace formatting
+- Integration icons reflow to fewer columns
+- No art direction changes
 
 ## 9. Agent Prompt Guide
 
 ### Quick Color Reference
-- Background: Dark (`#1f2228`)
-- Text Primary: White (`#ffffff`)
-- Text Secondary: White 70% (`rgba(255, 255, 255, 0.7)`)
-- Text Muted: White 50% (`rgba(255, 255, 255, 0.5)`)
-- Text Disabled: White 30% (`rgba(255, 255, 255, 0.3)`)
-- Border Default: White 10% (`rgba(255, 255, 255, 0.1)`)
-- Border Strong: White 20% (`rgba(255, 255, 255, 0.2)`)
-- Surface Subtle: White 3% (`rgba(255, 255, 255, 0.03)`)
-- Surface Hover: White 8% (`rgba(255, 255, 255, 0.08)`)
-- Focus Ring: Blue (`rgb(59, 130, 246)` at 50% opacity)
-- Button Primary BG: White (`#ffffff`), text Dark (`#1f2228`)
+- Primary Text: "Pure Black (#000000)"
+- Page Background: "Pure White (#ffffff)"
+- Secondary Text: "Stone (#737373)"
+- Button Background: "Light Gray (#e5e5e5)"
+- Borders: "Light Gray (#e5e5e5)"
+- Muted Text: "Silver (#a3a3a3)"
+- Dark Text: "Near Black (#262626)"
+- Subtle Surface: "Snow (#fafafa)"
 
 ### Example Component Prompts
-- "Create a hero section on #1f2228 background. Headline in GeistMono at 72px weight 300, color #ffffff, centered. Subtitle in universalSans 18px weight 400, rgba(255,255,255,0.7), max-width 600px centered. Two buttons: primary (white bg, #1f2228 text, 0px radius, GeistMono 14px uppercase, 1.4px letter-spacing, 12px 24px padding) and ghost (transparent bg, 1px solid rgba(255,255,255,0.2), white text, same font treatment)."
-- "Design a card: transparent or rgba(255,255,255,0.03) background, 1px solid rgba(255,255,255,0.1) border, 0px radius, 24px padding. No shadow. Title in universalSans 22px weight 400, #ffffff. Body in universalSans 16px weight 400, rgba(255,255,255,0.7), line-height 1.5. Hover: border changes to rgba(255,255,255,0.2)."
-- "Build navigation: #1f2228 background, full-width. Brand text left (GeistMono 14px uppercase). Links in universalSans 14px #ffffff with hover to rgba(255,255,255,0.5). White primary button right-aligned (GeistMono 14px uppercase, 1.4px letter-spacing)."
-- "Create a form: dark background #1f2228. Label in universalSans 14px rgba(255,255,255,0.7). Input with transparent bg, 1px solid rgba(255,255,255,0.2) border, 0px radius, white text 16px universalSans. Focus: blue ring rgb(59,130,246)/0.5. Placeholder: rgba(255,255,255,0.3)."
-- "Design a monospace tag/badge: transparent bg, 1px solid rgba(255,255,255,0.2), 0px radius, GeistMono 12px uppercase, 1px letter-spacing, white text, 4px 8px padding."
+- "Create a hero section on pure white (#ffffff) with an illustration centered above a headline at 48px SF Pro Rounded weight 500, line-height 1.0. Use Pure Black (#000000) text. Below, add a black pill-shaped CTA button (9999px radius, 10px 24px padding) and a gray pill button."
+- "Design a code block with a 12px border-radius, 1px solid Light Gray (#e5e5e5) border on white background. Use ui-monospace at 16px for the terminal command. No shadow."
+- "Build a tab bar with pill-shaped tabs (9999px radius). Active tab: Light Gray (#e5e5e5) background, Near Black (#262626) text. Inactive: transparent background, Stone (#737373) text."
+- "Create an integration card grid. Each card is a bordered pill (9999px radius) or a 12px-radius card with 1px solid #e5e5e5 border. Icon + name inside. Grid of 4 columns on desktop."
+- "Design a navigation bar: transparent background, no border. Ollama logo on the left, 3 text links (Pure Black, 16px, weight 400), pill search input in the center, 'Sign in' text link and black pill 'Download' button on the right."
 
 ### Iteration Guide
-1. Always start with `#1f2228` background -- never use pure black or gray backgrounds
-2. GeistMono for display and buttons, universalSans for everything else -- never mix these roles
-3. All buttons must be GeistMono uppercase with 1.4px letter-spacing -- this is non-negotiable
-4. No shadows, ever -- depth comes from border opacity and background opacity only
-5. Borders are always white with low opacity (0.1 default, 0.2 for emphasis)
-6. Hover behavior dims to 0.5 opacity rather than brightening -- the reverse of most systems
-7. Sharp corners (0px) by default -- only use 4px for specific secondary containers
-8. Body text at 16px universalSans with 1.5 line-height for comfortable reading
-9. Generous section padding (48px-96px) -- let content breathe in the darkness
-10. The monochromatic white-on-dark palette is absolute -- resist adding color unless critical for function
+1. Focus on ONE component at a time
+2. Keep all values grayscale — "Stone (#737373)" not "use a light color"
+3. Always specify pill (9999px) or container (12px) radius — nothing in between
+4. Shadows are always zero — never add them
+5. Weight is always 400 or 500 — never bold
+6. If something feels too decorated, remove it — less is always more for Ollama
