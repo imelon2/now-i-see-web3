@@ -46,7 +46,7 @@ export function TxResultTabs({
       { key: "events", label: "Events" },
     ];
     if (isReverted) list.push({ key: "revert", label: "Revert" });
-    if (isWithdrawal) list.push({ key: "withdrawal", label: "Cross Message" });
+    if (isWithdrawal) list.push({ key: "withdrawal", label: "Cross Message", aura: true });
     return list;
   }, [isReverted, isWithdrawal]);
 

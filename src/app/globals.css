@@ -163,6 +163,24 @@ button:disabled {
   margin: 0 auto;
 }
 
+@keyframes tab-aura-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 12px rgba(255, 255, 255, 0.12),
+      0 0 24px rgba(255, 255, 255, 0.06);
+  }
+  50% {
+    box-shadow:
+      0 0 13px rgba(255, 255, 255, 0.13),
+      0 0 26px rgba(255, 255, 255, 0.065);
+  }
+}
+
+.tab-aura {
+  animation: tab-aura-pulse 2.4s ease-in-out infinite;
+  isolation: isolate;
+}
+
 /* ── NavBar: Top Header (homepage) ── */
 
 .nav-top-header {

@@ -7,6 +7,8 @@ export interface TabItem<K extends string = string> {
   key: K;
   label: string;
   icon?: (active: boolean) => React.ReactNode;
+  /** When true, adds a subtle pulsing glow around the tab button. */
+  aura?: boolean;
 }
 
 export interface TabPanel<K extends string = string> {
@@ -94,6 +96,7 @@ export function Tabs<K extends string = string>({
               tabIndex={isActive ? 0 : -1}
               onClick={() => onChange(item.key)}
               onKeyDown={(e) => handleKeyDown(e, i)}
+              className={item.aura ? "tab-aura" : undefined}
               style={{
                 position: "relative",
                 overflow: "hidden",
