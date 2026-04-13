@@ -103,6 +103,11 @@ export function useTxSearch(opts: { chains?: readonly Chain[]; extraChains?: Cha
         nonce: tx.nonce,
         type: tx.type,
         input: tx.input,
+        // OP Stack L2 deposit transactions (type 126) include sourceHash and mint
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        sourceHash: (tx as any).sourceHash ?? undefined,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        mint: (tx as any).mint ?? undefined,
       };
 
       // Decode calldata variants if input exists

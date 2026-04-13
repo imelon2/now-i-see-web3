@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { Chain, TransactionReceipt } from "viem";
 import type { GetWithdrawalStatusReturnType } from "viem/op-stack";
 import { Tabs, type TabItem, type TabPanel } from "@/components/ui/Tabs";
@@ -13,7 +13,13 @@ import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { WithdrawalDetailsTabs } from "@/components/widgets/withdrawal/WithdrawalDetailsTabs";
 import type { UseRevertSimulationResult } from "@/hooks/useRevertSimulation";
 import type { SearchResult } from "@/hooks/useTxSearch";
-import type { WithdrawalTxOrigin } from "@/lib/opstack/withdrawal";
+import type {
+  DepositTxMatch,
+  WithdrawalTxOrigin,
+} from "@/lib/opstack/withdrawal";
+import type { DepositDerivation, DepositOpaque } from "@/hooks/useDepositStatus";
+import { OpaqueDataPanel } from "@/components/widgets/deposit/OpaqueDataPanel";
+import { L2HashDerivationPanel } from "@/components/widgets/deposit/L2HashDerivationPanel";
 
 type TabKey = "overview" | "events" | "revert" | "withdrawal";
 
@@ -21,6 +27,14 @@ export interface TxResultTabsProps {
   result: SearchResult;
   isReverted: boolean;
   isWithdrawal: boolean;
+  isDeposit: boolean;
+  isReceivedDeposit: boolean;
+  isCrossMessage: boolean;
+  depositMatch: DepositTxMatch | null;
+  depositOpaque: DepositOpaque | null;
+  depositDerivation: DepositDerivation | null;
+  receivedDepositOpaque: DepositOpaque | null;
+  receivedDepositDerivation: DepositDerivation | null;
   withdrawalSource: WithdrawalTxOrigin | null;
   withdrawalStatus: GetWithdrawalStatusReturnType | null;
   withdrawalLoading: boolean;
@@ -33,6 +47,14 @@ export function TxResultTabs({
   result,
   isReverted,
   isWithdrawal,
+  isDeposit,
+  isReceivedDeposit,
+  isCrossMessage,
+  depositMatch,
+  depositOpaque,
+  depositDerivation,
+  receivedDepositOpaque,
+  receivedDepositDerivation,
   withdrawalSource,
   withdrawalStatus,
   withdrawalLoading,
@@ -46,9 +68,9 @@ export function TxResultTabs({
       { key: "events", label: "Events" },
     ];
     if (isReverted) list.push({ key: "revert", label: "Revert" });
-    if (isWithdrawal) list.push({ key: "withdrawal", label: "Cross Message", aura: true });
+    if (isCrossMessage) list.push({ key: "withdrawal", label: "Cross Message", aura: true });
     return list;
-  }, [isReverted, isWithdrawal]);
+  }, [isReverted, isCrossMessage]);
 
   const [active, setActive] = useState<TabKey>("overview");
 
@@ -161,28 +183,45 @@ export function TxResultTabs({
     </div>
   );
 
-  // Cross Message tab content is only populated when entered via the L2
-  // Initiate path. Prove / Finalize entries keep the tab present but show
-  // nothing (per current scope; details come in a follow-up).
-  const withdrawalPanel =
-    withdrawalSource === "initiate" ? (
-      withdrawalLoading ? (
-        <LoadingSpinner message="Loading withdrawal status…" />
-      ) : withdrawalStatus ? (
-        <WithdrawalDetailsTabs
-          receipt={receipt}
-          chain={chain}
-          withdrawalStatus={withdrawalStatus}
-        />
-      ) : null
-    ) : null;
+  // Cross Message tab content.
+  //  - Withdrawal (initiate): full details panel.
+  //  - Withdrawal (prove/finalize): tab present but empty (scope: follow-up).
+  //  - Deposit: placeholder — target L2 + portal address, details TBD.
+  let crossMessagePanel: ReactNode = null;
+  if (isWithdrawal) {
+    crossMessagePanel =
+      withdrawalSource === "initiate" ? (
+        withdrawalLoading ? (
+          <LoadingSpinner message="Loading withdrawal status…" />
+        ) : withdrawalStatus ? (
+          <WithdrawalDetailsTabs
+            receipt={receipt}
+            chain={chain}
+            withdrawalStatus={withdrawalStatus}
+          />
+        ) : null
+      ) : null;
+  } else if (isDeposit && depositMatch) {
+    crossMessagePanel = (
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <L2HashDerivationPanel derivation={depositDerivation} />
+        <OpaqueDataPanel opaque={depositOpaque} />
+      </div>
+    );
+  } else if (isReceivedDeposit) {
+    crossMessagePanel = (
+      <div style={{ textAlign: "center", padding: "40px 20px", color: "var(--muted)", fontSize: 13 }}>
+        Coming soon — deposit detail view is under construction.
+      </div>
+    );
+  }
 
   const panels: TabPanel<TabKey>[] = [
     { key: "overview", content: overviewPanel },
     { key: "events", content: eventsPanel },
   ];
   if (isReverted) panels.push({ key: "revert", content: revertPanel });
-  if (isWithdrawal) panels.push({ key: "withdrawal", content: withdrawalPanel });
+  if (isCrossMessage) panels.push({ key: "withdrawal", content: crossMessagePanel });
 
   return (
     <Tabs<TabKey>
@@ -194,3 +233,4 @@ export function TxResultTabs({
     />
   );
 }
+

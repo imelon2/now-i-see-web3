@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 export const PHASE_ICONS = {
   initiate: (color: string) => (
     <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -61,25 +59,3 @@ export function StatusDescIcon({ icon, color }: { icon: "info" | "action" | "che
   );
 }
 
-export function InfoDot({ tip }: { tip: string }) {
-  const [show, setShow] = useState(false);
-  return (
-    <div
-      style={{ position: "relative", marginLeft: 5.2, marginBottom: -4, cursor: "help", zIndex: 2, width: 8, height: 8 }}
-      onMouseEnter={() => setShow(true)}
-      onMouseLeave={() => setShow(false)}
-    >
-      <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#0369a1", boxShadow: show ? "0 0 4px rgba(3,105,161,0.5)" : "none", transition: "box-shadow 0.15s" }} />
-      {show && (
-        <div style={{
-          position: "absolute", left: 12, top: -6,
-          background: "color-mix(in srgb, #394950 5%, var(--panel))", border: "1px solid color-mix(in srgb, #7dd3fc 20%, var(--border))",
-          padding: "4px 10px", fontSize: 11, color: "var(--foreground)",
-          whiteSpace: "nowrap", zIndex: 10,
-        }}>
-          {tip}
-        </div>
-      )}
-    </div>
-  );
-}

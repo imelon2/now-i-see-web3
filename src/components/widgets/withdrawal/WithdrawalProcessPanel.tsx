@@ -1,7 +1,12 @@
 "use client";
 
 import type { GetWithdrawalStatusReturnType } from "viem/op-stack";
+import type { Chain } from "viem";
+import { useRouter } from "next/navigation";
+import { useGlobalError } from "@/context/GlobalErrorContext";
 import { ErrorDisplay } from "@/components/ui/ErrorDisplay";
+import { OpStackBadge } from "@/components/ui/OpStackBadge";
+import { ProcessPhaseMarker } from "@/components/ui/ProcessPhaseMarker";
 import { STATUS_LABELS, STATUS_PHASE, STATUS_DESCRIPTIONS } from "@/lib/opstack/withdrawal";
 import { PHASE_ICONS, StatusDescIcon } from "./icons";
 
@@ -20,18 +25,37 @@ export function WithdrawalProcessPanel({
   timeToFinalize,
   statusLoading,
   statusError,
+  onLookupProveTx,
+  onLookupInitiateTx,
+  txOrigin,
+  l1Chain,
+  l2Chain,
 }: {
   withdrawalStatus: GetWithdrawalStatusReturnType | null;
   timeToProve: { seconds: number } | null;
   timeToFinalize: { seconds: number } | null;
   statusLoading: boolean;
   statusError: string | null;
+  onLookupProveTx?: () => Promise<void>;
+  onLookupInitiateTx?: () => Promise<void>;
+  txOrigin?: "initiate" | "prove" | "finalize";
+  l1Chain?: Chain | null;
+  l2Chain?: Chain | null;
 }) {
+  const { showError } = useGlobalError();
+
   if (statusLoading) {
     return (
       <div className="panel">
-        <div className="panel-header">
-          <span>Withdrawal Process</span>
+        <div className="panel-header" style={{ display: "flex", alignItems: "center", justifyContent: "flex-start", gap: 8 }}>
+          <OpStackBadge />
+          <span>Withdrawal</span>
+          {txOrigin && (
+            <>
+              <span>|</span>
+              <span>{txOrigin.charAt(0).toUpperCase() + txOrigin.slice(1)} Transaction</span>
+            </>
+          )}
         </div>
         <div className="panel-body" style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "24px 0", gap: 8 }}>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--muted)" strokeWidth="1.6" style={{ animation: "spin 1s linear infinite" }}>
@@ -46,8 +70,15 @@ export function WithdrawalProcessPanel({
   if (statusError) {
     return (
       <div className="panel">
-        <div className="panel-header">
-          <span>Withdrawal Process</span>
+        <div className="panel-header" style={{ display: "flex", alignItems: "center", justifyContent: "flex-start", gap: 8 }}>
+          <OpStackBadge />
+          <span>Withdrawal</span>
+          {txOrigin && (
+            <>
+              <span>|</span>
+              <span>{txOrigin.charAt(0).toUpperCase() + txOrigin.slice(1)} Transaction</span>
+            </>
+          )}
         </div>
         <div className="panel-body">
           <ErrorDisplay kind="rpc" message={statusError} />
@@ -82,7 +113,16 @@ export function WithdrawalProcessPanel({
   return (
     <div className="panel">
       <div className="panel-header" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <span>Withdrawal Process</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <OpStackBadge />
+          <span>Withdrawal</span>
+          {txOrigin && (
+            <>
+              <span>|</span>
+              <span>{txOrigin.charAt(0).toUpperCase() + txOrigin.slice(1)} Transaction</span>
+            </>
+          )}
+        </div>
         <span
           style={{
             fontSize: 11,
@@ -97,7 +137,7 @@ export function WithdrawalProcessPanel({
         </span>
       </div>
       <div className="panel-body" style={{ padding: "20px 16px" }}>
-        <div style={{ display: "flex", alignItems: "flex-start", gap: 0, marginBottom: 20 }}>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 0, marginBottom: 30, justifyContent: "center", maxWidth: 640, marginLeft: "auto", marginRight: "auto" }}>
           {phases.map(({ label, key, phase }, i) => {
             const state = getPhaseState(phase);
             const segmentTimer = phase === 0 ? timeToProve : timeToFinalize;
@@ -109,40 +149,25 @@ export function WithdrawalProcessPanel({
 
             return (
               <div key={label} style={{ display: "flex", alignItems: "center", flex: i < phases.length - 1 ? 1 : undefined }}>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, minWidth: 56 }}>
-                  <div
-                    style={{
-                      width: 32,
-                      height: 32,
-                      borderRadius: "50%",
-                      border: `2px solid ${state.color}`,
-                      background: state.done ? state.color : "transparent",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      opacity: state.done || state.active ? 1 : 0.4,
-                      boxShadow: state.active ? `0 0 0 4px color-mix(in srgb, ${state.color} 15%, transparent)` : "none",
-                      transition: "all 0.3s ease",
-                    }}
-                  >
-                    {state.done
-                      ? PHASE_ICONS.check("#ffffff")
-                      : PHASE_ICONS[key](state.color)}
-                  </div>
-                  <span style={{
-                    fontSize: 11,
-                    fontWeight: state.active ? 600 : 400,
-                    color: state.color,
-                    opacity: state.done || state.active ? 1 : 0.4,
-                    whiteSpace: "nowrap",
-                  }}>
-                    {label}
-                  </span>
-                </div>
+                <ProcessPhaseMarker
+                  label={label}
+                  subLabel={
+                    key === "initiate"
+                      ? l2Chain ? `${l2Chain.name} (${l2Chain.id})` : undefined
+                      : l1Chain ? `${l1Chain.name} (${l1Chain.id})` : undefined
+                  }
+                  state={state}
+                  icon={PHASE_ICONS[key](state.color)}
+                  doneIcon={PHASE_ICONS.check("#ffffff")}
+                  minWidth={56}
+                  onClickNavigate={key === "prove" ? onLookupProveTx : key === "initiate" ? onLookupInitiateTx : undefined}
+                  onError={showError}
+                />
                 {i < phases.length - 1 && (
                   <div
                     style={{
                       flex: 1,
+                      minWidth: 120,
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
@@ -153,36 +178,41 @@ export function WithdrawalProcessPanel({
                       gap: 0,
                     }}
                   >
-                    {timerActive && (
-                      <span style={{
-                        fontSize: 10,
-                        fontFamily: "var(--font-mono)",
-                        color: "var(--warning)",
-                        marginBottom: 4,
-                        marginTop: -14,
-                        letterSpacing: "0.02em",
-                      }}>
-                        {formatTime(segmentTimer.seconds)}
-                      </span>
-                    )}
-                    <div
-                      style={{
-                        width: "100%",
-                        height: 2,
-                        background: "var(--border)",
-                        position: "relative",
-                        overflow: "hidden",
-                      }}
-                    >
-                      <div style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        height: "100%",
-                        width: connectorFilled ? "100%" : "0%",
-                        background: timerActive ? "var(--warning)" : "var(--success)",
-                        transition: "width 0.5s ease, background 0.3s ease",
-                      }} />
+                    <span style={{
+                      fontSize: 10,
+                      fontFamily: "var(--font-mono)",
+                      color: "var(--warning)",
+                      marginBottom: 4,
+                      marginTop: -14,
+                      letterSpacing: "0.02em",
+                      visibility: timerActive ? "visible" : "hidden",
+                      whiteSpace: "nowrap",
+                    }}>
+                      {timerActive ? formatTime(segmentTimer.seconds) : "\u00A0"}
+                    </span>
+                    <div style={{ display: "flex", alignItems: "center", width: "100%", gap: 0 }}>
+                      <div
+                        style={{
+                          flex: 1,
+                          height: 2,
+                          background: "var(--border)",
+                          position: "relative",
+                          overflow: "hidden",
+                        }}
+                      >
+                        <div style={{
+                          position: "absolute",
+                          top: 0,
+                          left: 0,
+                          height: "100%",
+                          width: connectorFilled ? "100%" : "0%",
+                          background: timerActive ? "var(--warning)" : "var(--success)",
+                          transition: "width 0.5s ease, background 0.3s ease",
+                        }} />
+                      </div>
+                      <svg width="8" height="10" viewBox="0 0 8 10" fill={connectorFilled ? (timerActive ? "var(--warning)" : "var(--success)") : "var(--border)"} style={{ flexShrink: 0, marginLeft: -1, transition: "fill 0.3s ease" }}>
+                        <path d="M0 0 L8 5 L0 10 Z" />
+                      </svg>
                     </div>
                   </div>
                 )}
@@ -213,3 +243,4 @@ export function WithdrawalProcessPanel({
     </div>
   );
 }
+

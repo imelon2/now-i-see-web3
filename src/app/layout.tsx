@@ -3,6 +3,7 @@ import { Inter, IBM_Plex_Mono, Press_Start_2P } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { NavBar } from "@/components/ui/NavBar";
+import { Providers } from "@/components/Providers";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 const ibmPlexMono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono", display: "swap" });
@@ -52,7 +53,6 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png", sizes: "192x192" },
-      { url: "/favicon.svg", type: "image/svg+xml" },
     ],
     apple: "/favicon.png",
   },
@@ -115,14 +115,16 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
-        <div className="layout-root">
-          <NavBar />
-          <div className="layout-content">
-            <div className="layout-content-inner">
-              {children}
+        <Providers>
+          <div className="layout-root">
+            <NavBar />
+            <div className="layout-content">
+              <div className="layout-content-inner">
+                {children}
+              </div>
             </div>
           </div>
-        </div>
+        </Providers>
       </body>
     </html>
   );

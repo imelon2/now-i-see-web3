@@ -15,7 +15,7 @@ const tags: Record<string, DecodingTagConfig> = {
     border: "rgba(139,148,158,0.3)",
   },
   "optimism-format": {
-    label: "Optimism Format",
+    label: "OP Stack",
     color: "#ff0420",
     bg: "rgba(255,4,32,0.12)",
     border: "rgba(255,4,32,0.3)",
@@ -25,3 +25,4 @@ const tags: Record<string, DecodingTagConfig> = {
 export function getDecodingTag(id: string): DecodingTagConfig | null {
   return tags[id] ?? null;
 }
+

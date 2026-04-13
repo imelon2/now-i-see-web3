@@ -25,6 +25,10 @@ export interface TxInfo {
   nonce: number;
   type: string;
   input: string;
+  /** Present only on OP Stack L2 deposit transactions (type 126). */
+  sourceHash?: `0x${string}`;
+  /** ETH minted on L2 — present only on OP Stack deposit transactions (type 126). */
+  mint?: bigint;
 }
 
 // ─── Decoded Calldata ──────────────────────────────────────────────────────────

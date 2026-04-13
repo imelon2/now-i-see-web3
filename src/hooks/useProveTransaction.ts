@@ -46,16 +46,16 @@ export function useProveTransaction({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const lookup = useCallback(async () => {
-    if (!receipt || !l2Chain || !withdrawalStatus) return;
-    if (!PROVE_STATUSES.includes(withdrawalStatus)) return;
+  const lookup = useCallback(async (): Promise<`0x${string}` | null> => {
+    if (!receipt || !l2Chain || !withdrawalStatus) return null;
+    if (!PROVE_STATUSES.includes(withdrawalStatus)) return null;
 
     const l1Chain = getL1Chain(l2Chain);
-    if (!l1Chain) return;
+    if (!l1Chain) return null;
 
     const portalContracts = (l2Chain as unknown as { contracts?: { portal?: Record<number, { address: `0x${string}` }> } }).contracts?.portal;
     const portalAddress = portalContracts?.[l1Chain.id]?.address;
-    if (!portalAddress) return;
+    if (!portalAddress) return null;
 
     setLoading(true);
     setError(null);
@@ -68,7 +68,7 @@ export function useProveTransaction({
       const withdrawals = getWithdrawals({ logs: receipt.logs });
       if (withdrawals.length === 0) {
         setError("No withdrawal data found in the receipt.");
-        return;
+        return null;
       }
       const { withdrawalHash } = withdrawals[0];
 
@@ -82,7 +82,7 @@ export function useProveTransaction({
 
       if (numProofSubmitters === BigInt(0)) {
         setError("This withdrawal has not been proved yet.");
-        return;
+        return null;
       }
 
       // Step 2b: Get the latest proof submitter
@@ -95,7 +95,7 @@ export function useProveTransaction({
 
       if (!proofSubmitter) {
         setError("Failed to retrieve proof submitter address.");
-        return;
+        return null;
       }
 
       // Step 2c: Get prove timestamp
@@ -108,7 +108,7 @@ export function useProveTransaction({
 
       if (proveTimestamp === BigInt(0)) {
         setError("provenWithdrawals was called but no record was found.");
-        return;
+        return null;
       }
 
       // Step 3: Find block number by proveTimestamp
@@ -139,7 +139,7 @@ export function useProveTransaction({
 
       if (logs.length === 0) {
         setError("WithdrawalProven event not found.");
-        return;
+        return null;
       }
 
       // When multiple proofs exist, pick the log closest to proveTimestamp block
@@ -156,8 +156,10 @@ export function useProveTransaction({
           });
 
       setProveTxHash(targetLog.transactionHash);
+      return targetLog.transactionHash ?? null;
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to look up prove transaction.");
+      return null;
     } finally {
       setLoading(false);
     }

@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useTxSearch } from "@/hooks/useTxSearch";
 import { useUserChains } from "@/hooks/useUserChains";
 import { isValidHex } from "@/lib/utils/hex";
-import { supportedChains } from "@/lib/chains/chainList";
+import { supportedChains, getL1Chain } from "@/lib/chains/chainList";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { ErrorDisplay } from "@/components/ui/ErrorDisplay";
 import { SupportedChainsPopup } from "@/components/widgets/SupportedChainsPopup";
@@ -13,15 +13,24 @@ import { AbiArchiveLink } from "@/components/ui/AbiArchiveLink";
 import { DetailsToggle } from "@/components/ui/DetailsToggle";
 import {
   computeWithdrawalHash,
+  detectOpStackDepositTx,
   detectOpStackFinalizeTx,
   detectOpStackProveTx,
   isOpStackWithdrawalTx,
   parseProveTxCalldata,
+  parseProveTxCalldataFull,
+  parseFinalizeCalldata,
   type WithdrawalTxOrigin,
 } from "@/lib/opstack/withdrawal";
+import { detectReceivedDepositTx } from "@/lib/opstack/receivedDeposit";
 import { useWithdrawalStatus } from "@/hooks/useWithdrawalStatus";
+import { useDepositStatus } from "@/hooks/useDepositStatus";
+import { useReceivedDepositLookup } from "@/hooks/useReceivedDepositLookup";
+import { useProveTransaction } from "@/hooks/useProveTransaction";
+import { useInitiateTxLookup } from "@/hooks/useInitiateTxLookup";
 import { useRevertSimulation } from "@/hooks/useRevertSimulation";
 import { WithdrawalProcessPanel } from "@/components/widgets/withdrawal/WithdrawalProcessPanel";
+import { DepositProcessPanel } from "@/components/widgets/deposit/DepositProcessPanel";
 import { TxResultTabs } from "@/components/widgets/TxResultTabs";
 
 function TxAnalyzerContent() {
@@ -40,6 +49,14 @@ function TxAnalyzerContent() {
   const isInitiateTx = isOpStackWithdrawalTx(result?.txInfo, result?.chain ?? null);
   const proveDetect = detectOpStackProveTx(result?.txInfo, result?.chain ?? null);
   const finalizeDetect = detectOpStackFinalizeTx(result?.txInfo, result?.chain ?? null);
+  const depositDetect = detectOpStackDepositTx(
+    result?.receipt?.logs,
+    result?.chain ?? null,
+  );
+  const receivedDepositDetect = detectReceivedDepositTx(
+    result?.txInfo,
+    result?.chain ?? null,
+  );
 
   const withdrawalSource: WithdrawalTxOrigin | null = isInitiateTx
     ? "initiate"
@@ -49,6 +66,9 @@ function TxAnalyzerContent() {
         ? "finalize"
         : null;
   const isWithdrawal = withdrawalSource !== null;
+  const isDeposit = !isWithdrawal && depositDetect !== null;
+  const isReceivedDeposit = !isWithdrawal && !isDeposit && receivedDepositDetect !== null;
+  const isCrossMessage = isWithdrawal || isDeposit || isReceivedDeposit;
   const isReverted = result?.txInfo.status === "reverted" && result?.txInfo.to !== null;
 
   // For prove tx: decode calldata → withdrawal hash (memo by tx hash).
@@ -57,6 +77,16 @@ function TxAnalyzerContent() {
       ? parseProveTxCalldata(result.txInfo.input)
       : null;
   const proveWithdrawalHash = proveTuple ? computeWithdrawalHash(proveTuple) : null;
+
+  // For prove/finalize → initiate reverse lookup
+  const proveCalldataFull =
+    proveDetect && result?.txInfo.input
+      ? parseProveTxCalldataFull(result.txInfo.input)
+      : null;
+  const finalizeTuple =
+    finalizeDetect && result?.txInfo.input
+      ? parseFinalizeCalldata(result.txInfo.input)
+      : null;
 
   const {
     status: withdrawalStatus,
@@ -84,6 +114,35 @@ function TxAnalyzerContent() {
           ? { source: "finalize", enabled: true }
           : { source: null, enabled: false },
   );
+
+  const proveTx = useProveTransaction({
+    receipt: result?.receipt ?? null,
+    l2Chain: result?.chain ?? null,
+    withdrawalStatus,
+  });
+
+  const initiateTx = useInitiateTxLookup({
+    withdrawalTx: proveCalldataFull?.tx ?? finalizeTuple ?? null,
+    l2UpperBlockHash: proveCalldataFull?.latestBlockhash ?? null,
+    l2Chain: proveDetect?.l2Chain ?? finalizeDetect?.l2Chain ?? null,
+    enabled: withdrawalSource === "prove" || withdrawalSource === "finalize",
+  });
+
+  const deposit = useDepositStatus({
+    receipt: result?.receipt ?? null,
+    l1Chain: result?.chain ?? null,
+    l2Chain: depositDetect?.l2Chain ?? null,
+    portalAddress: depositDetect?.portalAddress ?? null,
+    enabled: isDeposit,
+  });
+
+  const receivedDeposit = useReceivedDepositLookup({
+    sourceHash: (result?.txInfo.sourceHash as `0x${string}`) ?? null,
+    l2BlockNumber: result?.txInfo.blockNumber ?? null,
+    l2Chain: receivedDepositDetect?.l2Chain ?? null,
+    l1Chain: receivedDepositDetect?.l1Chain ?? null,
+    enabled: isReceivedDeposit,
+  });
 
   const sim = useRevertSimulation({
     txInfo: result?.txInfo ?? null,
@@ -284,7 +343,55 @@ function TxAnalyzerContent() {
                 timeToFinalize={timeToFinalize}
                 statusLoading={withdrawalLoading}
                 statusError={withdrawalError}
+                txOrigin={withdrawalSource ?? undefined}
+                onLookupProveTx={withdrawalSource === "initiate" ? async () => {
+                  const hash = await proveTx.lookup();
+                  if (hash) router.push(`/tx-analyzer?hash=${hash}`);
+                  else throw new Error(proveTx.error ?? "Prove transaction not found.");
+                } : undefined}
+                onLookupInitiateTx={(withdrawalSource === "prove" || withdrawalSource === "finalize") ? async () => {
+                  const hash = await initiateTx.lookup();
+                  if (hash) router.push(`/tx-analyzer?hash=${hash}`);
+                  else throw new Error(initiateTx.error ?? "Initiate transaction not found in the expected L2 block range. Details: Only initiate transactions within the last ~7 days can be found.");
+                } : undefined}
+                l1Chain={
+                  withdrawalSource === "initiate"
+                    ? (result?.chain ? getL1Chain(result.chain) ?? null : null)
+                    : result?.chain ?? null
+                }
+                l2Chain={
+                  withdrawalSource === "initiate"
+                    ? result?.chain ?? null
+                    : proveDetect?.l2Chain ?? finalizeDetect?.l2Chain ?? null
+                }
               />
+            )}
+
+            {isDeposit && (
+                <DepositProcessPanel
+                  status={deposit.status}
+                  l2Hash={deposit.l2Hash}
+                  error={deposit.error}
+                  l1Chain={result.chain}
+                  l2Chain={depositDetect?.l2Chain ?? null}
+                  portalAddress={depositDetect?.portalAddress ?? null}
+                  mint={deposit.mint}
+                  relayDurationSeconds={deposit.relayDurationSeconds}
+                />
+            )}
+
+            {isReceivedDeposit && (
+                <DepositProcessPanel
+                  status="received"
+                  l2Hash={result.txInfo.hash as `0x${string}`}
+                  error={receivedDeposit.error}
+                  l1Chain={receivedDepositDetect?.l1Chain ?? null}
+                  l2Chain={receivedDepositDetect?.l2Chain ?? null}
+                  portalAddress={receivedDeposit.portalAddress}
+                  mint={result.txInfo.mint ?? null}
+                  relayDurationSeconds={receivedDeposit.relayDurationSeconds}
+                  onLookupL1Tx={receivedDeposit.lookup}
+                />
             )}
 
             {isReverted && (
@@ -315,6 +422,14 @@ function TxAnalyzerContent() {
               result={result}
               isReverted={!!isReverted}
               isWithdrawal={isWithdrawal}
+              isDeposit={isDeposit}
+              isReceivedDeposit={isReceivedDeposit}
+              isCrossMessage={isCrossMessage}
+              depositMatch={depositDetect}
+              depositOpaque={deposit.opaque}
+              depositDerivation={deposit.derivation}
+              receivedDepositOpaque={receivedDeposit.opaque}
+              receivedDepositDerivation={receivedDeposit.derivation}
               withdrawalSource={withdrawalSource}
               withdrawalStatus={withdrawalStatus}
               withdrawalLoading={withdrawalLoading}
