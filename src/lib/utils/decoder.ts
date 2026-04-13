@@ -9,12 +9,12 @@ import { fetchAbiBySelector } from "./abiArchive";
 import { extractSelector } from "./hex";
 
 /** Recursively expands tuple types to their component types (e.g. tuple[] → (address,uint256,...)[])  */
-interface AbiInputLike {
+export interface AbiInputLike {
   type: string;
   components?: readonly AbiInputLike[];
 }
 
-function expandType(input: AbiInputLike): string {
+export function expandType(input: AbiInputLike): string {
   if (input.type === "tuple" || input.type.startsWith("tuple[")) {
     const inner = (input.components ?? []).map(expandType).join(",");
     const suffix = input.type.slice("tuple".length); // "", "[]", "[5]", etc.

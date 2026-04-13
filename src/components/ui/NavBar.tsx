@@ -54,6 +54,17 @@ const TOOL_LINKS = [
     ),
   },
   {
+    href: "/search-function-selector",
+    label: "Search Selector",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="6.5" cy="6.5" r="4" />
+        <line x1="9.5" y1="9.5" x2="13" y2="13" />
+        <text x="4.5" y="9" fontSize="7" fontWeight="700" fill="currentColor" stroke="none" fontFamily="monospace">#</text>
+      </svg>
+    ),
+  },
+  {
     href: "/event-topic",
     label: "Event Topic",
     icon: (
