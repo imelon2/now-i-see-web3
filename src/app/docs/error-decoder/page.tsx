@@ -18,8 +18,9 @@ export default function ErrorDecoderGuidePage() {
     <main>
       <div className="prose-content">
         <h1>Error Decoder Guide</h1>
+        <p style={{ fontSize: 13, color: "var(--muted)", margin: "-8px 0 16px" }}>Last updated: April 2026</p>
 
-        <h2>What Are Solidity Errors?</h2>
+        <h2>Why does a Solidity transaction revert?</h2>
         <p>
           When a Solidity smart contract transaction fails, the EVM reverts the state changes and returns encoded
           revert data. This revert data contains information about why the transaction failed, but like calldata, it
@@ -37,7 +38,7 @@ export default function ErrorDecoderGuidePage() {
           effectively.
         </p>
 
-        <h2>Solidity Error Types</h2>
+        <h2>What types of Solidity errors exist?</h2>
         <p>
           Solidity supports three categories of errors, each with a different encoding format:
         </p>
@@ -60,7 +61,7 @@ export default function ErrorDecoderGuidePage() {
           </li>
         </ul>
 
-        <h2>Common Panic Codes</h2>
+        <h2>What do Solidity Panic error codes mean?</h2>
         <p>
           When you encounter a <code>Panic(uint256)</code> error, the numeric code tells you what went wrong:
         </p>
@@ -75,7 +76,7 @@ export default function ErrorDecoderGuidePage() {
           <li><code>0x51</code> — Called an uninitialized internal function</li>
         </ul>
 
-        <h2>How to Use the Error Decoder</h2>
+        <h2>How do I decode Solidity revert data?</h2>
         <p>Follow these steps to decode any Solidity revert error:</p>
         <ul>
           <li>

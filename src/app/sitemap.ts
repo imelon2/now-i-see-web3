@@ -1,0 +1,25 @@
+import type { MetadataRoute } from "next";
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  const base = "https://nowiseeweb3.xyz";
+  const now = new Date().toISOString();
+
+  return [
+    { url: base, lastModified: now, changeFrequency: "weekly", priority: 1.0 },
+    { url: `${base}/tx-analyzer`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${base}/calldata-decoder`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/error-decoder`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/function-selector`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/event-topic`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/search-function-selector`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${base}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${base}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${base}/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${base}/contact`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${base}/docs`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${base}/docs/calldata-decoder`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${base}/docs/error-decoder`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${base}/docs/tx-analyzer`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${base}/docs/special-format-decoder`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+  ];
+}

@@ -18,8 +18,9 @@ export default function CalldataDecoderGuidePage() {
     <main>
       <div className="prose-content">
         <h1>Calldata Decoder Guide</h1>
+        <p style={{ fontSize: 13, color: "var(--muted)", margin: "-8px 0 16px" }}>Last updated: April 2026</p>
 
-        <h2>What Is Calldata?</h2>
+        <h2>What is Ethereum calldata and how is it encoded?</h2>
         <p>
           Calldata is the raw input data sent with an Ethereum transaction when a user or contract calls a function
           on another smart contract. Every smart contract call on the EVM (Ethereum Virtual Machine) encodes the
@@ -38,7 +39,7 @@ export default function CalldataDecoderGuidePage() {
           that this is a <code>transfer(address,uint256)</code> call sending tokens to a specific address.
         </p>
 
-        <h2>ABI Encoding Basics</h2>
+        <h2>How does Ethereum ABI encoding work?</h2>
         <p>
           The Ethereum ABI (Application Binary Interface) specification defines how function calls and their
           parameters are encoded. Every ABI-encoded calldata follows the same structure:
@@ -62,7 +63,7 @@ export default function CalldataDecoderGuidePage() {
           then decodes the remaining bytes according to the matched function signature.
         </p>
 
-        <h2>How to Use the Calldata Decoder</h2>
+        <h2>How do I decode raw calldata hex?</h2>
         <p>Follow these steps to decode any Ethereum calldata:</p>
         <ul>
           <li>
@@ -128,7 +129,7 @@ export default function CalldataDecoderGuidePage() {
 
         <AdSenseAd />
 
-        <h2>Common Use Cases</h2>
+        <h2>When should I use a calldata decoder?</h2>
         <p>The Calldata Decoder is most useful when you need to:</p>
         <ul>
           <li>

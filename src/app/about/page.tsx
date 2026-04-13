@@ -162,7 +162,7 @@ export default function AboutPage() {
           improving the tools, please open an issue or submit a pull request.
         </p>
         <p>
-          The project is maintained by{" "}
+          The project is created and maintained by{" "}
           <a
             href="https://github.com/imelon2"
             target="_blank"
@@ -170,7 +170,11 @@ export default function AboutPage() {
           >
             choi.eth
           </a>
-          , a Web3 developer focused on making Ethereum development more accessible.
+          , a blockchain developer specializing in EVM infrastructure and smart contract tooling. With hands-on
+          experience building on Ethereum, Arbitrum, Optimism, and other OP Stack chains, choi.eth has worked
+          extensively with ABI encoding, cross-chain messaging, and L2 withdrawal/deposit flows. Now I See Web3
+          was born from the daily frustration of manually decoding hex data during development and debugging —
+          a problem every EVM developer faces but few tools solve well.
         </p>
 
         <AdSenseAd />

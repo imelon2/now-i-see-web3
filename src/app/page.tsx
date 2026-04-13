@@ -197,6 +197,64 @@ export default function HomePage() {
           </div>
         ))}
       </section>
+
+      {/* ── SEO Content Section ── */}
+      <section
+        style={{
+          maxWidth: 640,
+          margin: "56px auto 0",
+          fontSize: 14,
+          lineHeight: 1.8,
+          color: "var(--muted)",
+        }}
+      >
+        <h2 style={{ fontSize: 18, fontWeight: 400, color: "var(--foreground)", marginBottom: 16 }}>
+          On-Chain Developer Tools for EVM Blockchains
+        </h2>
+        <p>
+          Now I See Web3 is a free, open-source suite of on-chain data analysis tools built for Ethereum and
+          EVM-compatible blockchain developers. Every tool on this platform is designed to solve a specific pain
+          point in the developer workflow: inspecting transactions, decoding calldata, understanding revert errors,
+          and looking up function selectors.
+        </p>
+        <p>
+          When you interact with smart contracts on Ethereum, Arbitrum, Optimism, Base, or any EVM chain, the
+          underlying data is ABI-encoded into compact hexadecimal strings. These raw bytes are designed for the
+          EVM to process, not for humans to read. Now I See Web3 bridges that gap by converting opaque hex data
+          into structured, human-readable output.
+        </p>
+        <p>
+          The <strong style={{ color: "var(--foreground)" }}>Transaction Analyzer</strong> searches a transaction
+          hash across 14+ EVM chains simultaneously, returning decoded calldata, event logs, gas usage, and
+          cross-message status for OP Stack withdrawals and deposits. The{" "}
+          <strong style={{ color: "var(--foreground)" }}>Calldata Decoder</strong> takes raw calldata hex and
+          identifies the function being called along with all its parameters. The{" "}
+          <strong style={{ color: "var(--foreground)" }}>Error Decoder</strong> translates Solidity revert data
+          into readable error messages, supporting standard Error(string), Panic(uint256), and custom error types.
+        </p>
+        <p>
+          For developers who need to work with function selectors directly, the{" "}
+          <strong style={{ color: "var(--foreground)" }}>Function Selector Generator</strong> computes 4-byte
+          selectors from Solidity signatures, and the{" "}
+          <strong style={{ color: "var(--foreground)" }}>Search Function Selector</strong> performs reverse lookups
+          to find all known functions matching a given selector from our ABI archive. The{" "}
+          <strong style={{ color: "var(--foreground)" }}>Event Topic Hash Generator</strong> calculates 32-byte
+          keccak256 topic hashes for Solidity event signatures.
+        </p>
+        <p>
+          All tools are completely free with no wallet connection, no API keys, and no account required. The
+          project is open-source and available on{" "}
+          <a
+            href="https://github.com/imelon2/now-i-see-web3"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "var(--foreground)", textDecoration: "underline" }}
+          >
+            GitHub
+          </a>. Whether you are debugging a failed transaction, auditing a smart contract interaction, or learning
+          how ABI encoding works, Now I See Web3 gives you instant visibility into what is happening on-chain.
+        </p>
+      </section>
     </main>
   );
 }

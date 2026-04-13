@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, IBM_Plex_Mono, Press_Start_2P } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -9,10 +9,18 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swa
 const ibmPlexMono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono", display: "swap" });
 const pressStart2P = Press_Start_2P({ subsets: ["latin"], weight: "400", variable: "--font-pixel", display: "swap" });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
   title: {
     default: "Now I See Web3",
     template: "%s | Now I See Web3",
+  },
+  alternates: {
+    canonical: "https://nowiseeweb3.xyz",
   },
   description:
     "On-chain data analyzer for Web3 developers — decode calldata, inspect transactions, and debug Solidity errors.",
@@ -61,21 +69,45 @@ export const metadata: Metadata = {
 const jsonLdWebSite = {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": "https://nowiseeweb3.xyz/#website",
   name: "Now I See Web3",
   url: "https://nowiseeweb3.xyz",
   description:
     "On-chain data analyzer for Web3 developers — decode calldata, inspect transactions, and debug Solidity errors.",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: "https://nowiseeweb3.xyz/search-function-selector/{search_term_string}",
+    },
+    "query-input": "required name=search_term_string",
+  },
+};
+
+const jsonLdOrg = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://nowiseeweb3.xyz/#organization",
+  name: "Now I See Web3",
+  url: "https://nowiseeweb3.xyz",
+  logo: {
+    "@type": "ImageObject",
+    url: "https://nowiseeweb3.xyz/favicon.png",
+  },
+  sameAs: ["https://github.com/imelon2"],
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
+  "@id": "https://nowiseeweb3.xyz/#app",
   name: "Now I See Web3",
   url: "https://nowiseeweb3.xyz",
   applicationCategory: "DeveloperApplication",
   operatingSystem: "Any",
   description:
     "On-chain data analyzer for Web3 developers — decode calldata, inspect transactions, and debug Solidity errors.",
+  publisher: { "@id": "https://nowiseeweb3.xyz/#organization" },
   author: {
     "@type": "Person",
     name: "choi.eth",
@@ -83,7 +115,7 @@ const jsonLd = {
   },
   offers: {
     "@type": "Offer",
-    price: "0",
+    price: 0,
     priceCurrency: "USD",
   },
 };
@@ -103,6 +135,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite).replace(/<\//g, "<\\/") }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrg).replace(/<\//g, "<\\/") }}
         />
         <script
           type="application/ld+json"

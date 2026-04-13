@@ -6,6 +6,28 @@ import { SelectorResultCard } from "@/components/ui/SelectorResultCard";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { DetailsToggle } from "@/components/ui/DetailsToggle";
 
+// Pre-render pages for commonly searched EVM function selectors
+export function generateStaticParams() {
+  return [
+    { selector: "0xa9059cbb" }, // transfer(address,uint256)
+    { selector: "0x095ea7b3" }, // approve(address,uint256)
+    { selector: "0x23b872dd" }, // transferFrom(address,address,uint256)
+    { selector: "0x70a08231" }, // balanceOf(address)
+    { selector: "0xdd62ed3e" }, // allowance(address,address)
+    { selector: "0x18160ddd" }, // totalSupply()
+    { selector: "0x313ce567" }, // decimals()
+    { selector: "0x06fdde03" }, // name()
+    { selector: "0x95d89b41" }, // symbol()
+    { selector: "0x40c10f19" }, // mint(address,uint256)
+    { selector: "0x42966c68" }, // burn(uint256)
+    { selector: "0x3ccfd60b" }, // withdraw()
+    { selector: "0xd0e30db0" }, // deposit()
+    { selector: "0x715018a6" }, // renounceOwnership()
+    { selector: "0xf2fde38b" }, // transferOwnership(address)
+    { selector: "0x8da5cb5b" }, // owner()
+  ];
+}
+
 type Props = {
   params: Promise<{ selector: string }>;
 };

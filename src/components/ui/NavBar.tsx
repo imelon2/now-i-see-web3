@@ -144,6 +144,16 @@ const INFO_LINKS = [
     ),
   },
   {
+    href: "/terms",
+    label: "Terms",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 2h6l4 4v10H4V2" />
+        <polyline points="10,2 10,6 14,6" />
+      </svg>
+    ),
+  },
+  {
     href: "/privacy",
     label: "Privacy",
     icon: (

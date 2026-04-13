@@ -1,0 +1,23 @@
+# Now I See Web3
+> Free, open-source on-chain data analyzer for Ethereum and EVM developers. Decode calldata, inspect transactions, debug Solidity errors, and look up function selectors.
+
+## Tools
+- Transaction Analyzer: https://nowiseeweb3.xyz/tx-analyzer
+- Calldata Decoder: https://nowiseeweb3.xyz/calldata-decoder
+- Error Decoder: https://nowiseeweb3.xyz/error-decoder
+- Function Selector Generator: https://nowiseeweb3.xyz/function-selector
+- Event Topic Hash Generator: https://nowiseeweb3.xyz/event-topic
+- Search Function Selector: https://nowiseeweb3.xyz/search-function-selector
+
+## Docs
+- Calldata Decoder Guide: https://nowiseeweb3.xyz/docs/calldata-decoder
+- Error Decoder Guide: https://nowiseeweb3.xyz/docs/error-decoder
+- Transaction Analyzer Guide: https://nowiseeweb3.xyz/docs/tx-analyzer
+- Special Format Decoder Guide: https://nowiseeweb3.xyz/docs/special-format-decoder
+
+## About
+- About: https://nowiseeweb3.xyz/about
+- Contact: https://nowiseeweb3.xyz/contact
+- Privacy Policy: https://nowiseeweb3.xyz/privacy
+- Terms of Use: https://nowiseeweb3.xyz/terms
+- Source Code: https://github.com/imelon2/now-i-see-web3

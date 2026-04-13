@@ -18,8 +18,9 @@ export default function TxAnalyzerGuidePage() {
     <main>
       <div className="prose-content">
         <h1>Transaction Analyzer Guide</h1>
+        <p style={{ fontSize: 13, color: "var(--muted)", margin: "-8px 0 16px" }}>Last updated: April 2026</p>
 
-        <h2>What Does the Transaction Analyzer Do?</h2>
+        <h2>What does the Transaction Analyzer do?</h2>
         <p>
           The Transaction Analyzer is a tool that takes an Ethereum transaction hash and retrieves the complete
           details of that transaction from the blockchain. Unlike a typical block explorer, the Transaction Analyzer
@@ -33,7 +34,7 @@ export default function TxAnalyzerGuidePage() {
           explorers for each network.
         </p>
 
-        <h2>Supported Networks</h2>
+        <h2>Which EVM networks are supported?</h2>
         <p>
           The Transaction Analyzer supports a wide range of EVM-compatible networks. When you submit a transaction
           hash, the tool queries all supported networks in parallel and returns results from the first network where
@@ -58,7 +59,7 @@ export default function TxAnalyzerGuidePage() {
           .
         </p>
 
-        <h2>How to Search a Transaction</h2>
+        <h2>How do I search for a transaction?</h2>
         <p>
           Using the Transaction Analyzer is straightforward. Follow these steps:
         </p>

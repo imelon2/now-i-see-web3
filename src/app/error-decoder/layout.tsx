@@ -35,17 +35,14 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
+  "@id": "https://nowiseeweb3.xyz/error-decoder#app",
   name: "Error Decoder",
   url: "https://nowiseeweb3.xyz/error-decoder",
   applicationCategory: "DeveloperApplication",
   operatingSystem: "Any",
   description:
     "Decode Solidity revert data into human-readable error messages. Supports Error(string), Panic(uint256), and custom errors.",
-  isPartOf: {
-    "@type": "SoftwareApplication",
-    name: "Now I See Web3",
-    url: "https://nowiseeweb3.xyz",
-  },
+  isPartOf: { "@id": "https://nowiseeweb3.xyz/#app" },
   author: {
     "@type": "Person",
     name: "choi.eth",
@@ -53,9 +50,18 @@ const jsonLd = {
   },
   offers: {
     "@type": "Offer",
-    price: "0",
+    price: 0,
     priceCurrency: "USD",
   },
+};
+
+const breadcrumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://nowiseeweb3.xyz" },
+    { "@type": "ListItem", position: 2, name: "Error Decoder", item: "https://nowiseeweb3.xyz/error-decoder" },
+  ],
 };
 
 export default function ErrorDecoderLayout({
@@ -68,6 +74,10 @@ export default function ErrorDecoderLayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/<\//g, "<\\/") }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb).replace(/<\//g, "<\\/") }}
       />
       {children}
     </>

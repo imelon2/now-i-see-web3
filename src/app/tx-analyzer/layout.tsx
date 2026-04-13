@@ -35,17 +35,14 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
+  "@id": "https://nowiseeweb3.xyz/tx-analyzer#app",
   name: "Transaction Analyzer",
   url: "https://nowiseeweb3.xyz/tx-analyzer",
   applicationCategory: "DeveloperApplication",
   operatingSystem: "Any",
   description:
     "Inspect Ethereum transactions across multiple chains. View decoded calldata, event logs, and full transaction details.",
-  isPartOf: {
-    "@type": "SoftwareApplication",
-    name: "Now I See Web3",
-    url: "https://nowiseeweb3.xyz",
-  },
+  isPartOf: { "@id": "https://nowiseeweb3.xyz/#app" },
   author: {
     "@type": "Person",
     name: "choi.eth",
@@ -53,9 +50,18 @@ const jsonLd = {
   },
   offers: {
     "@type": "Offer",
-    price: "0",
+    price: 0,
     priceCurrency: "USD",
   },
+};
+
+const breadcrumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://nowiseeweb3.xyz" },
+    { "@type": "ListItem", position: 2, name: "Transaction Analyzer", item: "https://nowiseeweb3.xyz/tx-analyzer" },
+  ],
 };
 
 export default function TxAnalyzerLayout({
@@ -68,6 +74,10 @@ export default function TxAnalyzerLayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/<\//g, "<\\/") }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb).replace(/<\//g, "<\\/") }}
       />
       {children}
     </>
