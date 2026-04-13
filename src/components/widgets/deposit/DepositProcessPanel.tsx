@@ -26,7 +26,7 @@ function useReceivedHref(
   l2Hash: `0x${string}` | null,
 ): string | undefined {
   if (status === "received" && l2Hash) {
-    return `/tx-analyzer?hash=${l2Hash}`;
+    return `/tx-analyzer/${l2Hash}`;
   }
   return undefined;
 }
@@ -132,7 +132,7 @@ export function DepositProcessPanel({
   const handleDepositedClick = onLookupL1Tx
     ? async () => {
         const hash = await onLookupL1Tx();
-        if (hash) router.push(`/tx-analyzer?hash=${hash}`);
+        if (hash) router.push(`/tx-analyzer/${hash}`);
       }
     : undefined;
 

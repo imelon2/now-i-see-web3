@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const matches = extractMatches(abiItems ?? []);
   const functionNames = matches.map((m) => m.functionName).join(", ");
 
-  const title = `${display} — Function Selector Lookup`;
+  const title = `${display} Function Selector`;
   const description = matches.length > 0
     ? `Function selector ${display} matches: ${functionNames}. View full signatures, parameters, and ABI details.`
     : `Look up function selector ${display}. Find matching Solidity function names, parameters, and ABI details.`;
@@ -58,26 +58,30 @@ export default async function SelectorResultPage({ params }: Props) {
 
   if (!normalized) {
     return (
-      <div style={{ maxWidth: 720, margin: "0 auto" }}>
-        <Link
-          href="/search-function-selector"
-          style={{ fontSize: 13, color: "var(--muted)", textDecoration: "none", marginBottom: 16, display: "inline-block" }}
-        >
-          &larr; Back to search
-        </Link>
-        <div className="panel">
-          <div className="panel-header" style={{ color: "var(--error)" }}>
-            Invalid Selector
+      <main style={{ padding: 20 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <div>
+            <Link
+              href="/search-function-selector"
+              style={{ fontSize: 13, color: "var(--muted)", textDecoration: "none" }}
+            >
+              &larr; Back to search
+            </Link>
           </div>
-          <div className="panel-body">
-            <p style={{ fontSize: 14, color: "var(--muted)" }}>
-              <code style={{ fontFamily: "var(--font-mono)" }}>{selector}</code> is not a valid
-              4-byte function selector. Expected format:{" "}
-              <code style={{ fontFamily: "var(--font-mono)" }}>0xNNNNNNNN</code> (8 hex characters).
-            </p>
+          <div className="panel">
+            <div className="panel-header">
+              <span style={{ color: "var(--error)" }}>Invalid Selector</span>
+            </div>
+            <div className="panel-body">
+              <p style={{ fontSize: 14, color: "var(--muted)", margin: 0 }}>
+                <code style={{ fontFamily: "var(--font-mono)", fontSize: 12 }}>{selector}</code> is not a valid
+                4-byte function selector. Expected format:{" "}
+                <code style={{ fontFamily: "var(--font-mono)", fontSize: 12 }}>0xNNNNNNNN</code> (8 hex characters).
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      </main>
     );
   }
 
@@ -112,72 +116,60 @@ export default async function SelectorResultPage({ params }: Props) {
   };
 
   return (
-    <div style={{ maxWidth: 720, margin: "0 auto" }}>
+    <main style={{ padding: 20 }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/<\//g, "<\\/") }}
       />
 
-      <Link
-        href="/search-function-selector"
-        style={{ fontSize: 13, color: "var(--muted)", textDecoration: "none", marginBottom: 16, display: "inline-block" }}
-      >
-        &larr; Back to search
-      </Link>
-
-      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-        <h1
-          style={{
-            fontSize: 22,
-            fontWeight: 600,
-            color: "var(--foreground)",
-            fontFamily: "var(--font-mono)",
-          }}
-        >
-          {normalized}
-        </h1>
-        <CopyButton text={normalized} size="sm" />
-      </div>
-      <p style={{ fontSize: 14, color: "var(--muted)", marginBottom: 24 }}>
-        {matches.length > 0
-          ? `Found ${matches.length} matching function${matches.length > 1 ? "s" : ""}`
-          : "No matching functions found"}
-      </p>
-
-      {matches.length === 0 ? (
-        <div className="panel">
-          <div className="panel-body">
-            <p style={{ fontSize: 14, color: "var(--muted)" }}>
-              No known functions match selector{" "}
-              <code style={{ fontFamily: "var(--font-mono)" }}>{normalized}</code>.
-              The function may not be in the ABI archive yet.
-            </p>
-          </div>
-        </div>
-      ) : (
-        matches.map((match, i) => (
-          <SelectorResultCard key={i} match={match} index={i} />
-        ))
-      )}
-
-      <div style={{ marginTop: 24 }}>
-        <DetailsToggle summary="About function selectors">
-          <div
-            style={{
-              fontSize: 14,
-              lineHeight: 1.7,
-              color: "var(--muted)",
-              display: "flex",
-              flexDirection: "column",
-              gap: 10,
-            }}
+      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        {/* Back link + Page header */}
+        <div>
+          <Link
+            href="/search-function-selector"
+            style={{ fontSize: 13, color: "var(--muted)", textDecoration: "none", display: "inline-block", marginBottom: 8 }}
           >
-            <p>
+            &larr; Back to search
+          </Link>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <h1 style={{ fontSize: "1.5em", fontWeight: 400, margin: "0 0 6px", fontFamily: "var(--font-mono)" }}>
+              {normalized} Function Selector
+            </h1>
+            <CopyButton text={normalized} size="sm" />
+          </div>
+          <p style={{ color: "var(--muted)", fontSize: 14, margin: 0 }}>
+            {matches.length > 0
+              ? `Found ${matches.length} matching function${matches.length > 1 ? "s" : ""}`
+              : "No matching functions found"}
+          </p>
+        </div>
+
+        {/* Results */}
+        {matches.length === 0 ? (
+          <div className="panel">
+            <div className="panel-body">
+              <p style={{ fontSize: 14, color: "var(--muted)", margin: 0 }}>
+                No known functions match selector{" "}
+                <code style={{ fontFamily: "var(--font-mono)", fontSize: 12 }}>{normalized}</code>.
+                The function may not be in the ABI archive yet.
+              </p>
+            </div>
+          </div>
+        ) : (
+          matches.map((match, i) => (
+            <SelectorResultCard key={i} match={match} index={i} />
+          ))
+        )}
+
+        {/* About */}
+        <DetailsToggle summary="About function selectors">
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <p style={{ color: "var(--muted)", fontSize: 14, margin: 0, lineHeight: 1.7 }}>
               A <strong style={{ color: "var(--foreground)" }}>function selector</strong> is the
               first 4 bytes of the keccak256 hash of a function&apos;s canonical signature.
               Multiple functions can share the same selector (hash collision).
             </p>
-            <p>
+            <p style={{ color: "var(--muted)", fontSize: 14, margin: 0, lineHeight: 1.7 }}>
               This page shows all known functions from the{" "}
               <a
                 href="https://github.com/imelon2/abi-archive-trie"
@@ -187,11 +179,11 @@ export default async function SelectorResultPage({ params }: Props) {
               >
                 ABI Archive
               </a>{" "}
-              that match selector <code style={{ fontFamily: "var(--font-mono)" }}>{normalized}</code>.
+              that match selector <code style={{ fontFamily: "var(--font-mono)", fontSize: 12 }}>{normalized}</code>.
             </p>
           </div>
         </DetailsToggle>
       </div>
-    </div>
+    </main>
   );
 }

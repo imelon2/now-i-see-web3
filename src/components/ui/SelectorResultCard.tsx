@@ -5,16 +5,9 @@ import type { SelectorMatch } from "@/lib/utils/selectorSearch";
 
 const labelStyle: React.CSSProperties = {
   fontSize: 12,
-  fontWeight: 500,
   color: "var(--muted)",
-  marginBottom: 4,
-};
-
-const codeStyle: React.CSSProperties = {
-  fontFamily: "var(--font-mono)",
-  fontSize: 13,
-  color: "var(--foreground)",
-  wordBreak: "break-all",
+  marginBottom: 6,
+  fontWeight: 400,
 };
 
 const badgeStyle = (mutability: string): React.CSSProperties => ({
@@ -22,7 +15,7 @@ const badgeStyle = (mutability: string): React.CSSProperties => ({
   padding: "2px 8px",
   borderRadius: 9999,
   fontSize: 12,
-  fontWeight: 500,
+  fontWeight: 400,
   border: "1px solid var(--border)",
   color:
     mutability === "view" || mutability === "pure"
@@ -38,7 +31,7 @@ export function SelectorResultCard({
   index: number;
 }) {
   return (
-    <div className="panel" style={{ marginBottom: 12 }}>
+    <div className="panel">
       <div className="panel-header">
         <span style={{ fontFamily: "var(--font-mono)" }}>
           {index + 1}. {match.functionName}
@@ -49,51 +42,59 @@ export function SelectorResultCard({
         {/* Signature */}
         <div>
           <div style={labelStyle}>Signature</div>
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <code style={codeStyle}>{match.signature}</code>
+          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+            <code
+              style={{
+                fontSize: 14,
+                color: "var(--foreground)",
+                fontFamily: "var(--font-mono)",
+              }}
+            >
+              {match.signature}
+            </code>
           </div>
         </div>
 
         {/* Inputs */}
-        <div>
+        <div style={{ paddingTop: 12, borderTop: "1px solid var(--border)" }}>
           <div style={labelStyle}>Inputs</div>
           {match.inputs.length === 0 ? (
-            <span style={{ fontSize: 13, color: "var(--muted)" }}>No inputs</span>
+            <span style={{ fontSize: 13, color: "var(--muted)", fontStyle: "italic" }}>No inputs</span>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
               {match.inputs.map((input, i) => (
-                <div key={i} style={codeStyle}>
+                <code key={i} style={{ fontSize: 13, fontFamily: "var(--font-mono)" }}>
                   <span style={{ color: "var(--muted)" }}>{input.type}</span>
                   {input.name && (
-                    <span style={{ marginLeft: 6 }}>{input.name}</span>
+                    <span style={{ color: "var(--foreground)", marginLeft: 6 }}>{input.name}</span>
                   )}
-                </div>
+                </code>
               ))}
             </div>
           )}
         </div>
 
         {/* Outputs */}
-        <div>
+        <div style={{ paddingTop: 12, borderTop: "1px solid var(--border)" }}>
           <div style={labelStyle}>Outputs</div>
           {match.outputs.length === 0 ? (
-            <span style={{ fontSize: 13, color: "var(--muted)" }}>No outputs</span>
+            <span style={{ fontSize: 13, color: "var(--muted)", fontStyle: "italic" }}>No outputs</span>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
               {match.outputs.map((output, i) => (
-                <div key={i} style={codeStyle}>
+                <code key={i} style={{ fontSize: 13, fontFamily: "var(--font-mono)" }}>
                   <span style={{ color: "var(--muted)" }}>{output.type}</span>
                   {output.name && (
-                    <span style={{ marginLeft: 6 }}>{output.name}</span>
+                    <span style={{ color: "var(--foreground)", marginLeft: 6 }}>{output.name}</span>
                   )}
-                </div>
+                </code>
               ))}
             </div>
           )}
         </div>
 
         {/* State Mutability */}
-        <div>
+        <div style={{ paddingTop: 12, borderTop: "1px solid var(--border)" }}>
           <div style={labelStyle}>State Mutability</div>
           <span style={badgeStyle(match.stateMutability)}>
             {match.stateMutability}
